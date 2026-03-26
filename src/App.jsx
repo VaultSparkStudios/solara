@@ -281,11 +281,11 @@ function genMons(){
     ...[[65,42],[67,44],[70,40],[72,43]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Scorpion",c:"#8a4020",hp:30,mhp:30,atk:4,def:3,str:3,xp:12,drops:[{i:"coins",c:0.5,a:[1,20]}],rsp:10000,id:Math.random(),at:0,dead:false,agro:true,lvl:3})),
     ...[[68,48],[70,50],[72,46]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Desert Wolf",c:"#b09050",hp:50,mhp:50,atk:6,def:4,str:5,xp:22,drops:[{i:"bones",c:1},{i:"coins",c:0.7,a:[8,50]},{i:"herb",c:0.08}],rsp:14000,id:Math.random(),at:0,dead:false,agro:true,lvl:5})),
     ...[[20,3],[25,2],[30,4]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Skeleton",c:"#c8c0b0",hp:63,mhp:63,atk:7,def:5,str:6,xp:28,drops:[{i:"bones",c:1},{i:"coins",c:0.8,a:[10,60]},{i:"iron_helm",c:0.05},{i:"fire_rune",c:0.2,a:[2,8]}],rsp:15000,id:Math.random(),at:0,dead:false,agro:true,lvl:6})),
-    ...[[35,2],[38,3]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Dark Wizard",c:"#3030a0",hp:45,mhp:45,atk:9,def:3,str:8,xp:25,drops:[{i:"coins",c:0.7,a:[15,70]},{i:"nature_rune",c:0.15,a:[2,5]},{i:"air_rune",c:0.4,a:[5,15]},{i:"death_rune",c:0.08,a:[1,3]}],rsp:16000,id:Math.random(),at:0,dead:false,agro:true,lvl:7})),
+    ...[[35,2],[38,3]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Dark Wizard",c:"#3030a0",hp:45,mhp:45,atk:9,def:3,str:8,xp:25,drops:[{i:"coins",c:0.7,a:[15,70]},{i:"nature_rune",c:0.15,a:[2,5]},{i:"air_rune",c:0.4,a:[5,15]},{i:"death_rune",c:0.08,a:[1,3]}],rsp:16000,id:Math.random(),at:0,dead:false,agro:true,lvl:7,atkType:"magic"})),
     ...[[27,57],[29,60],[31,57],[33,62]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Zombie",c:"#607850",hp:55,mhp:55,atk:6,def:4,str:5,xp:22,drops:[{i:"bones",c:1},{i:"coins",c:0.6,a:[5,30]},{i:"iron_sword",c:0.05},{i:"nature_rune",c:0.1,a:[1,3]}],rsp:12000,id:Math.random(),at:0,dead:false,agro:true,lvl:5})),
     ...[[25,40],[27,42],[30,44],[33,40],[35,45]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"White Knight",c:"#d8d8d0",hp:100,mhp:100,atk:10,def:8,str:9,xp:40,drops:[{i:"bones",c:1},{i:"coins",c:0.9,a:[20,100]},{i:"iron_sword",c:0.08},{i:"steel_shield",c:0.02},{i:"bronze_arrow",c:0.3,a:[5,20]}],rsp:18000,id:Math.random(),at:0,dead:false,agro:false,lvl:9})),
     ...[[53,86],[56,88],[59,86],[62,88],[60,84]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Jogre",c:"#5a7a3a",hp:138,mhp:138,atk:12,def:7,str:11,xp:58,drops:[{i:"jogre_bone",c:1},{i:"coins",c:0.8,a:[10,60]},{i:"herb",c:0.15},{i:"steel_arrow",c:0.25,a:[5,15]}],rsp:20000,id:Math.random(),at:0,dead:false,agro:true,lvl:11})),
-    ...[[64,90],[67,87],[65,93]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"TzTok-Jad",c:"#c04010",hp:300,mhp:300,atk:20,def:15,str:18,xp:150,drops:[{i:"coins",c:1,a:[100,300]},{i:"rune_arrow",c:0.5,a:[10,30]},{i:"fire_staff",c:0.02},{i:"ruby",c:0.15}],rsp:60000,id:Math.random(),at:0,dead:false,agro:true,lvl:20})),
+    ...[[64,90],[67,87],[65,93]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"TzTok-Jad",c:"#c04010",hp:300,mhp:300,atk:20,def:15,str:18,xp:150,drops:[{i:"coins",c:1,a:[100,300]},{i:"rune_arrow",c:0.5,a:[10,30]},{i:"fire_staff",c:0.02},{i:"ruby",c:0.15}],rsp:60000,id:Math.random(),at:0,dead:false,agro:true,lvl:20,atkType:"magic"})),
     ...[[40,32],[42,34],[44,32],[46,34]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Hobgoblin",c:"#6a4a20",hp:75,mhp:75,atk:8,def:5,str:7,xp:28,drops:[{i:"bones",c:1},{i:"coins",c:0.8,a:[8,40]},{i:"iron_helm",c:0.04},{i:"bronze_arrow",c:0.3,a:[5,15]}],rsp:10000,id:Math.random(),at:0,dead:false,agro:true,lvl:10})),
     ...[[4,46],[8,48],[5,52],[10,50]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Flesh Crawler",c:"#8a6040",hp:70,mhp:70,atk:9,def:4,str:8,xp:25,drops:[{i:"coins",c:0.6,a:[5,25]},{i:"herb",c:0.12},{i:"nature_rune",c:0.08,a:[1,3]}],rsp:10000,id:Math.random(),at:0,dead:false,agro:true,lvl:10})),
     ...[[62,32],[64,28],[63,34]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Rock Crab",c:"#9a8060",hp:138,mhp:138,atk:7,def:12,str:6,xp:32,drops:[{i:"coins",c:0.5,a:[3,18]}],rsp:12000,id:Math.random(),at:0,dead:false,agro:false,lvl:13})),
@@ -293,7 +293,7 @@ function genMons(){
     ...[[26,52],[29,54],[32,52]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Moss Giant",c:"#4a7a2a",hp:250,mhp:250,atk:13,def:9,str:12,xp:55,drops:[{i:"big_bones",c:1},{i:"coins",c:0.85,a:[20,100]},{i:"nature_rune",c:0.15,a:[2,6]},{i:"steel_shield",c:0.03}],rsp:20000,id:Math.random(),at:0,dead:false,agro:true,lvl:16})),
     ...[[38,64],[41,66],[44,64]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Lesser Demon",c:"#c03a1a",hp:213,mhp:213,atk:14,def:8,str:13,xp:65,drops:[{i:"coins",c:0.8,a:[20,120]},{i:"fire_rune",c:0.3,a:[5,20]},{i:"nature_rune",c:0.1,a:[2,5]},{i:"iron_plate",c:0.04}],rsp:22000,id:Math.random(),at:0,dead:false,agro:true,lvl:15})),
     ...[[15,3],[25,4],[18,2]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Ice Warrior",c:"#80c0e0",hp:288,mhp:288,atk:16,def:14,str:14,xp:80,drops:[{i:"bones",c:1},{i:"coins",c:0.8,a:[25,120]},{i:"steel_helm",c:0.04},{i:"water_rune",c:0.4,a:[5,20]}],rsp:22000,id:Math.random(),at:0,dead:false,agro:true,lvl:18})),
-    ...[[3,55],[11,57],[7,63]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Necromancer",c:"#6030a0",hp:150,mhp:150,atk:15,def:5,str:12,xp:60,drops:[{i:"death_rune",c:0.4,a:[3,10]},{i:"nature_rune",c:0.2,a:[2,6]},{i:"coins",c:0.7,a:[15,70]},{i:"air_rune",c:0.5,a:[5,15]}],rsp:18000,id:Math.random(),at:0,dead:false,agro:true,lvl:14})),
+    ...[[3,55],[11,57],[7,63]].map(([x,y])=>({x,y,ox:x,oy:y,t:"mon",nm:"Necromancer",c:"#6030a0",hp:150,mhp:150,atk:15,def:5,str:12,xp:60,drops:[{i:"death_rune",c:0.4,a:[3,10]},{i:"nature_rune",c:0.2,a:[2,6]},{i:"coins",c:0.7,a:[15,70]},{i:"air_rune",c:0.5,a:[5,15]}],rsp:18000,id:Math.random(),at:0,dead:false,agro:true,lvl:14,atkType:"magic"})),
   ];
 }
 
@@ -967,11 +967,12 @@ export default function DS(){
             if(!arrow){addC("You have no arrows! Equip some to use a bow.");p.act=null;p.cmb=null;return;}
             remI(arrow,1);
             const rl=lvl(p.sk.Ranged);
-            const hitC=p.eagleEye>0?1:(0.32+rl*0.016);
+            const prayRng=(p.activePrayers||[]).reduce((a,id)=>{const pr=PRAYERS.find(x=>x.id===id);return a+(pr?.rngBonus||0);},0);
+            const hitC=p.eagleEye>0?1:(0.32+rl*0.016)*(1+prayRng);
             if(p.eagleEye>0)p.eagleEye--;
             g.fx.push({type:"arrow",sx:p.x,sy:p.y,tx:mon.x,ty:mon.y,color:"#c8a860",life:400,age:0});
             if(Math.random()<hitC){
-              const maxH=Math.max(1,Math.floor(rl*0.55))+1;const hit=Math.floor(Math.random()*maxH)+1;
+              const maxH=Math.max(1,Math.floor(rl*(0.55+prayRng*0.5)))+1;const hit=Math.floor(Math.random()*maxH)+1;
               mon.hp-=hit;addHitSplat(mon.x,mon.y,hit,false);playSound("hit");
               if(mon.hp<=0)doKill();
             }else addHitSplat(mon.x,mon.y,0,false);
@@ -1017,8 +1018,9 @@ export default function DS(){
           const prayDef=(p.activePrayers||[]).reduce((a,id)=>{const pr=PRAYERS.find(x=>x.id===id);return a+(pr?.defBonus||0);},0);
           const block=0.15+dl*(0.018+prayDef*0.002)+db*0.01+prayDef*0.12;
           // Protect prayers (50% damage reduction on matching attack type)
-          const protMelee=(p.activePrayers||[]).some(id=>id==="prot_melee");
-          if(Math.random()>block){let hit=Math.floor(Math.random()*mon.str)+1;if(protMelee)hit=Math.floor(hit*0.5);p.hp-=hit;addHitSplat(p.x,p.y,hit,true);dirtyR.current=true;
+          const monAtkType=mon.atkType||"melee";
+          const protApplies=(monAtkType==="melee"&&(p.activePrayers||[]).some(id=>id==="prot_melee"))||(monAtkType==="ranged"&&(p.activePrayers||[]).some(id=>id==="prot_missiles"))||(monAtkType==="magic"&&(p.activePrayers||[]).some(id=>id==="prot_magic"));
+          if(Math.random()>block){let hit=Math.floor(Math.random()*mon.str)+1;if(protApplies)hit=Math.floor(hit*0.5);p.hp-=hit;addHitSplat(p.x,p.y,hit,true);dirtyR.current=true;
             if(p.hp===1)checkAchievement("survivor");
             if(p.hp<=0){
               const deathX=p.x,deathY=p.y;
