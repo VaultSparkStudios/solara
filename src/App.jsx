@@ -711,6 +711,64 @@ const hasPlayedDailyToday=()=>{try{return localStorage.getItem("solara_last_dail
 const generateDailyRooms=()=>{const rng=mulberry32(hashSeed(getDailySeed()));return Array.from({length:30},(_,i)=>i===29?4:Math.floor(rng()*(DUNGEON_ROOMS.length-1)));};
 const generateShareCard=(playerName,waveReached,faction)=>{const bars=Math.min(5,Math.floor(waveReached/6));const row=Array(5).fill('').map((_,i)=>i<bars?'🔥':'☀️').join('');const fStr=faction?faction.charAt(0).toUpperCase()+faction.slice(1):'No faction';return`☀️ Solara: Sunfall — Day ${getDayNumber()} ${row}\nWave ${waveReached}/30 · ${fStr} · Season ${CURRENT_SEASON}: ${CURRENT_SEASON_NAME}\n\nPlay free → vaultsparkstudios.github.io/solara/\n#SolaraSunfall`;};
 const generateRogueShareCard=(playerName,waveReached,bestWave,relicCount,sunBrightness)=>{const bars=Math.max(1,Math.min(6,Math.floor(waveReached/5)));const row=Array(6).fill('').map((_,i)=>i<bars?'🌒':'⬛').join('');const phase=sunBrightness>80?'Full Dawn':sunBrightness>60?'Amber Warning':sunBrightness>40?'The Twilight':sunBrightness>20?'The Dimming':'The Eclipse';return`🌘 Solara: Sunfall — Roguelite Push\n${playerName||'Adventurer'} · Wave ${waveReached} · Best ${bestWave}\n${row} · Relics ${relicCount} · ${phase} ${Math.round(sunBrightness)}%\n\nEvery death dims the shared sun.\nPlay free → vaultsparkstudios.github.io/solara/\n#SolaraSunfall #Roguelite`;};
+const generateProphecyScrollPNG=(opts)=>{
+  if(typeof document==='undefined')return null;
+  const{playerName,sigil,waveReached=0,faction='neutral',sunBrightness=100,type='daily',dayNumber=1,bestWave=0,relicCount=0}=opts;
+  const W=400,H=580;
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;
+  const ctx=cv.getContext('2d');
+  // Background
+  const bg=ctx.createLinearGradient(0,0,0,H);bg.addColorStop(0,'#1e0a06');bg.addColorStop(0.5,'#0d0403');bg.addColorStop(1,'#160605');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
+  // Borders
+  ctx.strokeStyle='#5a1808';ctx.lineWidth=2;ctx.strokeRect(10,10,W-20,H-20);
+  ctx.strokeStyle='rgba(200,168,78,0.25)';ctx.lineWidth=1;ctx.strokeRect(14,14,W-28,H-28);
+  // Corner accents
+  ctx.strokeStyle='rgba(200,168,78,0.4)';ctx.lineWidth=1.5;
+  [[14,14],[W-14,14],[14,H-14],[W-14,H-14]].forEach(([cx,cy])=>{const sx=cx===14?1:-1,sy=cy===14?1:-1;ctx.beginPath();ctx.moveTo(cx+sx*14,cy);ctx.lineTo(cx,cy);ctx.lineTo(cx,cy+sy*14);ctx.stroke();});
+  // Title
+  ctx.textAlign='center';
+  ctx.fillStyle='#c8a84e';ctx.font='bold 13px "Courier New",monospace';ctx.fillText('SOLARA: SUNFALL',W/2,46);
+  ctx.fillStyle='#7a5090';ctx.font='10px "Courier New",monospace';ctx.fillText(`Season ${CURRENT_SEASON}: ${CURRENT_SEASON_NAME}`,W/2,62);
+  ctx.fillStyle='#5a3030';ctx.font='9px "Courier New",monospace';ctx.fillText(type==='roguelite'?'ROGUELITE PUSH':`DAY ${dayNumber}`,W/2,78);
+  // Sun glow
+  const sunX=W/2,sunY=155,sunR=48,bright=Math.max(0,Math.min(100,sunBrightness));
+  const sunHex=bright>60?'#c8a84e':bright>30?'#c87828':'#7a3010';
+  const grd=ctx.createRadialGradient(sunX,sunY,0,sunX,sunY,sunR);
+  grd.addColorStop(0,sunHex+'99');grd.addColorStop(0.55,sunHex+'22');grd.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle=grd;ctx.beginPath();ctx.arc(sunX,sunY,sunR,0,Math.PI*2);ctx.fill();
+  ctx.strokeStyle=sunHex;ctx.lineWidth=1.5;ctx.beginPath();ctx.arc(sunX,sunY,sunR*0.65,0,Math.PI*2);ctx.stroke();
+  ctx.strokeStyle=sunHex+'55';ctx.lineWidth=1;
+  for(let i=0;i<8;i++){const a=(i/8)*Math.PI*2,r1=sunR*0.78,r2=sunR*1.08;ctx.beginPath();ctx.moveTo(sunX+Math.cos(a)*r1,sunY+Math.sin(a)*r1);ctx.lineTo(sunX+Math.cos(a)*r2,sunY+Math.sin(a)*r2);ctx.stroke();}
+  ctx.fillStyle=sunHex;ctx.font='bold 13px "Courier New",monospace';ctx.fillText(`${Math.round(bright)}%`,sunX,sunY+5);
+  // Player name
+  ctx.fillStyle='#b4a0dc';ctx.font='bold 17px "Courier New",monospace';ctx.fillText((sigil?sigil+' ':'')+(playerName||'Adventurer'),W/2,226);
+  // Wave (large)
+  ctx.fillStyle='#c8a84e';ctx.font='bold 40px "Courier New",monospace';ctx.fillText(`Wave ${waveReached}`,W/2,278);
+  // Sub info
+  if(type==='roguelite'){ctx.fillStyle='#7a5090';ctx.font='10px "Courier New",monospace';ctx.fillText(`Best: ${bestWave} · Relics: ${relicCount}`,W/2,300);}
+  else{ctx.fillStyle='#7a5050';ctx.font='10px "Courier New",monospace';ctx.fillText('of 30 waves',W/2,300);}
+  // Faction badge
+  const fColor=faction==='sunkeeper'?'#f0c040':faction==='eclipser'?'#8060c0':'#666';
+  const fLabel=faction==='sunkeeper'?'[ Sunkeeper ]':faction==='eclipser'?'[ Eclipser ]':'[ Neutral ]';
+  ctx.fillStyle=fColor;ctx.font='11px "Courier New",monospace';ctx.fillText(fLabel,W/2,324);
+  // Divider
+  ctx.strokeStyle='rgba(200,168,78,0.18)';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(70,342);ctx.lineTo(W-70,342);ctx.stroke();
+  // Tagline
+  ctx.fillStyle='#6a5848';ctx.font='italic 10px "Courier New",monospace';ctx.fillText(type==='roguelite'?'The darkness claimed another push.':'Another light joins the archive.',W/2,364);
+  ctx.fillStyle='#5a4030';ctx.font='9px "Courier New",monospace';ctx.fillText('Every death dims the shared sun.',W/2,382);
+  // Footer
+  ctx.fillStyle='#5a3070';ctx.font='9px "Courier New",monospace';ctx.fillText('vaultsparkstudios.github.io/solara/',W/2,H-44);
+  ctx.fillStyle='#3a2050';ctx.font='9px "Courier New",monospace';ctx.fillText('#SolaraSunfall',W/2,H-28);
+  return cv.toDataURL('image/png');
+};
+const shareProphecyScroll=async(dataUrl,type='daily')=>{
+  const fname=`solara-${type}-scroll.png`;
+  if(typeof navigator!=='undefined'&&navigator.canShare){
+    try{const res=await fetch(dataUrl);const blob=await res.blob();const file=new File([blob],fname,{type:'image/png'});if(navigator.canShare({files:[file]})){await navigator.share({files:[file],title:'Solara: Sunfall'});return;}}catch(e){}
+  }
+  const link=document.createElement('a');link.download=fname;link.href=dataUrl;link.click();
+};
 const safeNum=(value,fallback,min=-Infinity,max=Infinity)=>{const n=Number(value);if(!Number.isFinite(n))return fallback;return Math.min(max,Math.max(min,n));};
 const sanitizeText=(value,maxLen,fallback)=>{if(typeof value!=="string")return fallback;const clean=value.replace(/\s+/g," ").trim().slice(0,maxLen);return clean||fallback;};
 const sanitizeItemStack=stack=>{if(!stack||typeof stack!=="object"||typeof stack.i!=="string"||!ITEMS[stack.i])return null;return{i:stack.i,c:Math.max(1,Math.floor(safeNum(stack.c,1,1,999999)))};};
@@ -1093,7 +1151,7 @@ export default function DS(){
         setEchoes(localEchoes.slice(0,12));
         return;
       }
-      const {data}=await supabase.from('player_echoes').select('id,player_name,traveler_sigil,kind,headline,summary,wave_reached,faction,created_at').order('created_at',{ascending:false}).limit(12);
+      const {data}=await supabase.from('player_echoes').select('id,player_name,traveler_sigil,kind,headline,summary,wave_reached,faction,created_at,commend_count,heed_count,mourn_count').order('created_at',{ascending:false}).limit(12);
       const merged=[...(data||[])];
       localEchoes.forEach(e=>{if(!merged.some(x=>x.id===e.id))merged.push(e);});
       merged.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
@@ -1137,6 +1195,13 @@ export default function DS(){
       setTimeout(()=>fetchEchoes(),800);
     }catch(e){}
   },[fetchEchoes,getPlayerFaction,travelerNameDraft,travelerSigilDraft]);
+
+  const reactToEcho=useCallback(async(echoId,reaction)=>{
+    try{const local=JSON.parse(localStorage.getItem("solara_echo_reactions")||"{}");if(local[echoId])return;local[echoId]=reaction;localStorage.setItem("solara_echo_reactions",JSON.stringify(local));}catch(e){}
+    setEchoes(prev=>prev.map(e=>e.id===echoId?{...e,[`${reaction}_count`]:(e[`${reaction}_count`]||0)+1}:e));
+    if(!supabase)return;
+    try{await supabase.rpc('react_to_echo',{p_echo_id:echoId,p_reaction:reaction});}catch(e){}
+  },[]);
 
   const fetchDailyLeaderboard=useCallback(async()=>{
     if(!supabase){return;}
@@ -2565,7 +2630,8 @@ export default function DS(){
   const backendConnected=!!supabase;
   const isFreshAdventurer=!!p&&(p.totalXp||0)<=0&&Object.values(p.quests||{}).every(v=>!v);
   const playedDailyToday=hasPlayedDailyToday();
-  const recentEchoGhosts=echoes.slice(0,3).map((echo,i)=>({id:echo.id||`ghost-${i}`,headline:echo.headline,player:echo.player_name||"Unknown",sigil:echo.traveler_sigil||"??",kind:echo.kind||"echo",offset:i}));
+  const echoReactLocal=(()=>{try{return JSON.parse(localStorage.getItem("solara_echo_reactions")||"{}");}catch(e){return {};}})();
+  const recentEchoGhosts=echoes.slice(0,3).map((echo,i)=>({id:echo.id||`ghost-${i}`,headline:echo.headline,player:echo.player_name||"Unknown",sigil:echo.traveler_sigil||"??",kind:echo.kind||"echo",offset:i,commend:echo.commend_count||0,heed:echo.heed_count||0,mourn:echo.mourn_count||0,reacted:echoReactLocal[echo.id]||null}));
   const objectiveState=(()=>{
     if(!p)return null;
     let target={title:"Open Daily Rites",detail:"The shared-world loop is strongest when you start the daily dungeon.",x:8,y:55,tab:"daily",accent:"#f0c060"};
@@ -3015,6 +3081,10 @@ export default function DS(){
               </div>
               <div style={{fontSize:9,color:"#ddd",marginTop:3,lineHeight:1.45}}>{ghost.headline}</div>
               <div style={{fontSize:7,color:"#8f82a3",marginTop:4}}>{ghost.player} · {ghost.kind}</div>
+              <div onPointerDown={e=>e.stopPropagation()} style={{display:"flex",gap:3,marginTop:5}}>
+                {!ghost.reacted&&<><button onClick={()=>reactToEcho(ghost.id,'commend')} style={{background:"rgba(180,255,80,0.07)",border:"1px solid rgba(180,255,80,0.2)",color:"#b0e060",fontSize:7,padding:"1px 5px",cursor:"pointer",borderRadius:3}}>✦{ghost.commend>0?` ${ghost.commend}`:""}</button><button onClick={()=>reactToEcho(ghost.id,'heed')} style={{background:"rgba(80,160,255,0.07)",border:"1px solid rgba(80,160,255,0.2)",color:"#60a0e0",fontSize:7,padding:"1px 5px",cursor:"pointer",borderRadius:3}}>👁{ghost.heed>0?` ${ghost.heed}`:""}</button><button onClick={()=>reactToEcho(ghost.id,'mourn')} style={{background:"rgba(180,80,200,0.07)",border:"1px solid rgba(180,80,200,0.2)",color:"#b070c0",fontSize:7,padding:"1px 5px",cursor:"pointer",borderRadius:3}}>✝{ghost.mourn>0?` ${ghost.mourn}`:""}</button></>}
+                {ghost.reacted&&<span style={{color:"#7a6a90",fontSize:7}}>You {ghost.reacted}ed this echo.</span>}
+              </div>
             </div>)}
             <div style={{display:"flex",justifyContent:"flex-end",gap:6}}>
               <button onClick={resetGhostPosition} style={{background:"transparent",border:"1px solid rgba(200,168,78,0.16)",color:"#a89276",fontSize:8,padding:"2px 5px",cursor:"pointer",borderRadius:999}} title="Reset ghost card position">⟲</button>
@@ -3226,6 +3296,7 @@ export default function DS(){
                 {dailyRunRef.current.shareCard&&<>
                   <pre style={{fontSize:7,color:"#8a7a5a",background:"rgba(0,0,0,0.4)",padding:4,borderRadius:3,marginBottom:4,whiteSpace:"pre-wrap",wordBreak:"break-word",fontFamily:"'Courier New',monospace"}}>{dailyRunRef.current.shareCard}</pre>
                   <button onClick={async()=>{const t=dailyRunRef.current.shareCard;if(navigator.share){try{await navigator.share({text:t});}catch(e){}}else{try{await navigator.clipboard.writeText(t);addC("📋 Score copied to clipboard!");}catch(e){addC("Copy failed — see above for your score card.");}};}} style={{width:"100%",background:"#1a3010",border:"1px solid #3a6020",color:"#4c0",fontSize:8,padding:"3px 0",cursor:"pointer",borderRadius:3,fontWeight:600}}>📋 Copy &amp; Share</button>
+                  <button onClick={()=>{const p2=gR.current?.p;const run=dailyRunRef.current;const url=generateProphecyScrollPNG({playerName:p2?.playerName||travelerNameDraft,sigil:p2?.travelerSigil||travelerSigilDraft,waveReached:run.deathWave||0,faction:getPlayerFaction(p2),sunBrightness:sunBrightnessRef.current,type:'daily',dayNumber:getDayNumber()});if(url)shareProphecyScroll(url,'daily');}} style={{width:"100%",background:"#101a20",border:"1px solid #206080",color:"#60c0f0",fontSize:8,padding:"3px 0",cursor:"pointer",borderRadius:3,fontWeight:600,marginTop:3}}>📸 Download Scroll</button>
                 </>}
               </div>}
               {/* Phase 4: Roguelite Run */}
@@ -3244,6 +3315,7 @@ export default function DS(){
                     {rogueRunRef.current.shareCard&&<>
                       <pre style={{fontSize:7,color:"#a996c8",background:"rgba(0,0,0,0.28)",padding:4,borderRadius:3,marginTop:4,whiteSpace:"pre-wrap",wordBreak:"break-word",fontFamily:"'Courier New',monospace"}}>{rogueRunRef.current.shareCard}</pre>
                       <button onClick={async()=>{const t=rogueRunRef.current.shareCard;if(navigator.share){try{await navigator.share({text:t});return;}catch(e){}}try{await navigator.clipboard.writeText(t);addC("📋 Roguelite share card copied.");}catch(e){addC("Copy failed — share card shown above.");}}} style={{width:"100%",background:"#241038",border:"1px solid #8060c0",color:"#c8a0ff",fontSize:8,padding:"3px 0",cursor:"pointer",borderRadius:3,fontWeight:600,marginTop:4}}>📋 Copy Roguelite Share</button>
+                      <button onClick={()=>{const p2=gR.current?.p;const run=rogueRunRef.current;const url=generateProphecyScrollPNG({playerName:p2?.playerName||travelerNameDraft,sigil:p2?.travelerSigil||travelerSigilDraft,waveReached:run.deathWave||0,faction:getPlayerFaction(p2),sunBrightness:sunBrightnessRef.current,type:'roguelite',bestWave:p2?.rogueliteStats?.bestWave||0,relicCount:(p2?.rogueliteStats?.relics||[]).length});if(url)shareProphecyScroll(url,'roguelite');}} style={{width:"100%",background:"#180a28",border:"1px solid #604090",color:"#b090e0",fontSize:8,padding:"3px 0",cursor:"pointer",borderRadius:3,fontWeight:600,marginTop:3}}>📸 Download Scroll</button>
                     </>}
                   </div>}
                 </div>:<div style={{background:"rgba(40,10,30,0.5)",border:"1px solid #8060c0",borderRadius:4,padding:"6px 4px",textAlign:"center"}}>
@@ -3761,10 +3833,14 @@ export default function DS(){
                 <div style={{background:"rgba(0,0,0,0.22)",border:"1px solid rgba(200,168,78,0.08)",borderRadius:14,padding:14}}>
                   <div style={{fontSize:10,color:"#f0c060",fontWeight:700,marginBottom:8}}>Recent Echoes</div>
                   <div style={{display:"grid",gap:7}}>
-                    {echoes.slice(0,4).map(e=><div key={e.id} style={{borderBottom:"1px solid rgba(200,168,78,0.06)",paddingBottom:6}}>
+                    {echoes.slice(0,4).map(e=>{const myR=echoReactLocal[e.id];return(<div key={e.id} style={{borderBottom:"1px solid rgba(200,168,78,0.06)",paddingBottom:6}}>
                       <div style={{fontSize:10,color:"#ddd"}}>{e.headline}</div>
                       <div style={{fontSize:8,color:"#7f6e5d",marginTop:2}}>{e.player_name} · {e.traveler_sigil||"no-sigil"} · {e.faction||"neutral"}</div>
-                    </div>)}
+                      <div style={{display:"flex",gap:3,marginTop:4}}>
+                        {!myR&&<><button onClick={()=>reactToEcho(e.id,'commend')} style={{background:"rgba(180,255,80,0.06)",border:"1px solid rgba(180,255,80,0.18)",color:"#a0cc50",fontSize:7,padding:"1px 5px",cursor:"pointer",borderRadius:3}}>✦ Commend{(e.commend_count||0)>0?` ${e.commend_count}`:""}</button><button onClick={()=>reactToEcho(e.id,'heed')} style={{background:"rgba(80,160,255,0.06)",border:"1px solid rgba(80,160,255,0.18)",color:"#5090d0",fontSize:7,padding:"1px 5px",cursor:"pointer",borderRadius:3}}>👁 Heed{(e.heed_count||0)>0?` ${e.heed_count}`:""}</button><button onClick={()=>reactToEcho(e.id,'mourn')} style={{background:"rgba(180,80,200,0.06)",border:"1px solid rgba(180,80,200,0.18)",color:"#9060a0",fontSize:7,padding:"1px 5px",cursor:"pointer",borderRadius:3}}>✝ Mourn{(e.mourn_count||0)>0?` ${e.mourn_count}`:""}</button></>}
+                        {myR&&<span style={{color:"#6f5f7d",fontSize:7}}>You {myR}ed this echo.</span>}
+                      </div>
+                    </div>);})}
                     {echoes.length===0&&<div style={{fontSize:9,color:"#6f6256"}}>No echoes recorded yet. This build will start generating them from deaths and runs.</div>}
                   </div>
                 </div>

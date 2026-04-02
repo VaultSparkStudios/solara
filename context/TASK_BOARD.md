@@ -2,8 +2,8 @@
 
 ## Now — Agent can do immediately
 
-- [SIL] Season chronicle page — public current-season ledger combining top runs, recent graves, echoes, and sun milestones
-- [SIL] Echo response loop — let players `commend` / `heed` / `mourn` echoes so the strongest async stories rise over time
+- [SIL] Layout export/import — encode current layout config as a shareable string; paste to load a friend's layout
+- [SIL] App.jsx pressure release — extract layout-manager constants/helpers as module-level constants without breaking the single-file rule
 
 ## Human Action Required
 
@@ -12,6 +12,7 @@
 - [ ] **Run SQL Block 2 (`graves`)** — execute the SQL in `context/LATEST_HANDOFF.md` to activate Phase 2 grave storage and map persistence
 - [ ] **Run SQL Block 3 (`sun_state`)** — execute the SQL in `context/LATEST_HANDOFF.md` to activate Phase 3 shared sun tracking and death counter RPC
 - [ ] **Run SQL Block 4 (`player_echoes`)** — execute the SQL in `context/LATEST_HANDOFF.md` to activate cross-player async echoes
+- [ ] **Run SQL Block 5 (echo reactions)** — run the ALTER TABLE + `react_to_echo` RPC SQL in `docs/SUPABASE_ACTIVATION_PACK.md` to enable commend/heed/mourn counts
 - [ ] **Post the itch.io listing** — publish the game and devlog entry at itch.io/vaultsparkstudios to open the first real distribution channel
 - [ ] **Deploy the Discord bot** — create the Discord app/token and host `discord-bot/` so the social distribution layer can run
 - [ ] **Submit the Twitch extension** — submit `twitch-extension/` through the Twitch Developer Console to activate the stream-side surface
@@ -21,11 +22,13 @@
 - ✅ [SIL] Overlay layout presets — minimal / explorer / guided HUD layouts for quick interface switching
 - ✅ [SIL] Draggable runtime overlays — let objective/ghost cards be drag-positioned, not only corner-anchored
 - ✅ [UI Comfort] Custom layout slots + manager — named save/load layout profiles with dedicated modal
-- [SIL] Layout export/import — shareable UI layout presets for players
-- [SIL] App.jsx pressure release — extract layout-manager config/helpers while staying under the single-file rule
+- ✅ [SIL] Season chronicle page — public current-season ledger combining top runs, recent graves, echoes, and sun milestones
+- ✅ [SIL] Echo response loop — commend / heed / mourn reactions on echoes; local-first, Supabase-ready; SQL Block 5 in activation pack
+- ✅ [Phase 5b] Prophecy Scroll PNG — canvas-drawn 400×600 image card generated on every death/roguelite run with download/share
+- [SIL] Map-tied echo traces — render ghost echoes as faint spectral markers on the world map near death coordinates
+- [SIL] Prophecy scroll in grave popup — mini scroll thumbnail alongside epitaph when clicking a grave on the world map
 - [Phase 5] Season 1: The Wandering Comet config + launch prep
 - [Phase 5b] Roguelite leaderboard — shared best-wave board parallel to the daily leaderboard
-- [Phase 5b] Prophecy Scroll canvas image generator (image version of share card)
 - [Phase 5b] Season leaderboard + season reset flow
 - [Innovation #9] Player milestone push notifications (grave became Cairn/Shrine)
 - [Innovation #10] Daily Rites historical archive (replay any past day's seed)

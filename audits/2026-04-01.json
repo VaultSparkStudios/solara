@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "1.3",
+  "project": "solara",
+  "date": "2026-04-01",
+  "session": 16,
+  "sessionType": "implementation",
+  "label": null,
+  "calibration": false,
+  "scores": {
+    "devHealth": 9,
+    "creativeAlignment": 10,
+    "momentum": 10,
+    "engagement": 6,
+    "processQuality": 9
+  },
+  "total": 44,
+  "maxScore": 50,
+  "velocity": 1,
+  "protocolVelocity": 2,
+  "durationMinutes": 75,
+  "debt": "→",
+  "rollingAvg3": {
+    "devHealth": 9.7,
+    "creativeAlignment": 10.0,
+    "momentum": 10.0,
+    "engagement": 5.0,
+    "processQuality": 9.7,
+    "total": 44.3
+  },
+  "rollingAvgTotals": { "3": 44.3, "5": 43.4, "10": 42.8, "25": null, "all": 39.1 },
+  "topWin": "Prophecy Scroll PNG exists — every death produces a shareable image card; combined with chronicle page and echo reactions, the game has its first real viral scaffolding",
+  "topGap": "Supabase still not live — viral tools exist but can't form community momentum until backend activates",
+  "intentOutcome": "Achieved",
+  "improvementsShipped": 3,
+  "improvementGroups": {
+    "engagement": ["season chronicle page", "echo response loop (commend/heed/mourn)", "Prophecy Scroll PNG generator"]
+  },
+  "testsTotal": 2,
+  "testsByType": { "build": 1, "smoke": 1 },
+  "testsDelta": 0,
+  "deployStatus": "pending",
+  "ignisFlags": ["intent-achieved", "high-velocity"],
+  "ignisNote": "The Engage gap was structural — no viral surface meant no acquisition signal. Shipping three engagement-targeting features in one session is a pattern to repeat whenever a single category has been stuck for 3+ sessions."
+}

@@ -277,3 +277,23 @@ Append chronological entries.
   - Removed: one-size-fits-all helper overlay presentation
   - Preserved: build and smoke remain green after the layout-manager pass
 - Recommended next move: return to game-facing product work, starting with the season chronicle page and echo response loop
+
+---
+
+### 2026-04-01 — Engagement tooling pass (Session 16)
+
+- Goal: Ship all SIL next-move items plus highest-value unblocked feature
+- What changed:
+  - `public/chronicle.html` (new): Season Chronicle page — sun state, today's top runs, season records, echoes sorted by reactions, shrine count; graceful offline state
+  - `src/App.jsx`: echo response loop — `commend`/`heed`/`mourn` reaction buttons on ghost HUD cards and settings echo panel; local-first localStorage reactions; Supabase RPC-ready; `reactToEcho` callback + optimistic UI
+  - `src/App.jsx`: `fetchEchoes` select updated to include `commend_count`, `heed_count`, `mourn_count`
+  - `src/App.jsx`: `generateProphecyScrollPNG` — canvas 400×580 image card with sun glow, rays, player name/sigil, wave, faction badge; `shareProphecyScroll` — Web Share API with file fallback to direct download
+  - `src/App.jsx`: 📸 Download Scroll button wired into Daily and Roguelite death UI
+  - `docs/SUPABASE_ACTIVATION_PACK.md`: SQL Block 5 added — ALTER TABLE player_echoes + react_to_echo RPC
+  - `context/*`: all context files updated for closeout
+- Files or systems touched: `src/App.jsx`, `public/chronicle.html`, `docs/SUPABASE_ACTIVATION_PACK.md`, `context/*`, `logs/WORK_LOG.md`
+- Risks created or removed:
+  - Removed: no viral sharing surface on death
+  - Removed: no community story surfacing via echo reactions
+  - Preserved: build (606 KB / 175.5 KB gzip) and smoke remain green; App.jsx at 3919 lines (well under 5000)
+- Recommended next move: Layout export/import + App.jsx pressure release (both promoted to Now)

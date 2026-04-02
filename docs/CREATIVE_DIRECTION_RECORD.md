@@ -195,6 +195,28 @@ Agents MUST NOT modify or remove existing entries.
 
 - Category: Assignment
 - Human input: "yes and then push'commit and closeout", "do that", and subsequent "yes" approvals for draggable ghost overlays, presets, custom slots, renaming, and layout-manager follow-up
+
+---
+
+### 2026-04-01 — Complete next moves (Session 16)
+
+- Category: Assignment
+- Human input: "Complete next moves"
+- Area affected: Product — engagement tooling
+- Direction: Deliver the SIL-committed items (Season Chronicle + Echo Response Loop) and any remaining next-move items from the handoff
+- Agent decision: Executed the two SIL items and also shipped Prophecy Scroll PNG as a third "next move" derived from the phase 5b backlog
+- Supersedes prior entry: —
+
+---
+
+### 2026-04-01 — Highest-value feature prioritization (Session 16)
+
+- Category: Direction
+- Human input: "complete highest value" (after SIL items were done)
+- Area affected: Product — viral sharing surface
+- Direction: Prioritize the single highest-value unblocked feature from the backlog
+- Agent decision: Identified Prophecy Scroll PNG as highest-value because it directly targets the Engage gap (2.3/10) with a viral image on every death; shipped over Layout export/import
+- Supersedes prior entry: —
 - Area affected: Runtime layout system, settings UX, repo closeout, git history
 - Previous state: Tracker drag/hide and ghost drag/hide were shipping incrementally, but preset/custom-slot management was still cramped inside the settings column
 - New required direction: Keep extending the overlay/layout control system through presets, named custom slots, and a cleaner management surface, then complete commit/push and Studio OS closeout in the same session

@@ -5,12 +5,12 @@ Append a new entry every closeout. Never delete prior entries.
 
 <!-- rolling-status-start -->
 ## Rolling Status (auto-updated each closeout)
-Sparkline (last 5 totals): ▆▆▆▆▆
-Avgs — 3: 42.7 | 5: 42.6 | 10: 41.3 | 25: — | all: 37.8
-  └ 3-session: Dev 9.3 | Align 10.0 | Momentum 9.7 | Engage 2.3 | Process 10.0
-Velocity trend: →  |  Protocol velocity: →  |  Debt: →
-Momentum runway: N/A — architecture phase; pre-load TASK_BOARD recommended before next implementation sprint  |  Intent rate: 80% (last 5)
-Last session: 2026-03-31 | Session 13 | Total: 43/50 | Velocity: 0 | protocolVelocity: 0
+Sparkline (last 5 totals): ▆▆▆▇▆
+Avgs — 3: 44.3 | 5: 43.4 | 10: 42.8 | 25: — | all: 39.1
+  └ 3-session: Dev 9.7 | Align 10.0 | Momentum 10.0 | Engage 5.0 | Process 9.7
+Velocity trend: →  |  Protocol velocity: ↑  |  Debt: →
+Momentum runway: ~2.0 sessions ⚠ (2 items in Now at velocity 1.0)  |  Intent rate: 80% (last 5)
+Last session: 2026-04-01 | Session 16 | Total: 44/50 | Velocity: 1 | protocolVelocity: 2
 ─────────────────────────────────────────────────────────────────────
 <!-- rolling-status-end -->
 
@@ -532,3 +532,40 @@ Rate 0–10 per category at each closeout:
 
 - [SIL] Layout export/import — shareable UI layout presets for players
 - [SIL] App.jsx pressure release — extract layout-manager config/helpers while staying under the single-file rule
+
+---
+
+## 2026-04-01 — Session 16 | Total: 44/50 | Velocity: 1 | Debt: →
+Avgs — 3: 44.3 | 5: 43.4 | 10: 42.8 | 25: — | all: 39.1
+  └ 3-session: Dev 9.7 | Align 10.0 | Momentum 10.0 | Engage 5.0 | Process 9.7
+
+| Category | Score | vs Last | Notes |
+|---|---|---|---|
+| Dev Health | 9 | ↓ | Build + smoke green; 3919 lines, well under threshold; no debt added |
+| Creative Alignment | 10 | → | Chronicle, echo reactions, and Prophecy Scroll all reinforce the shared-sun async premise and viral loop |
+| Momentum | 10 | → | 3 features shipped: season chronicle page, echo response loop, Prophecy Scroll PNG |
+| Engagement | 6 | ↑ | First session specifically targeting the Engage gap — viral PNG on every death, reaction loop surfaces top stories, chronicle is a player-facing discovery page |
+| Process Quality | 9 | ↓ | SIL header discrepancy (Sessions 14+15 rolling status was stale) fixed this closeout; context files refreshed |
+| **Total** | **44 / 50** | ↓ | |
+
+**IGNIS note:** The Engage gap was structural — no viral surface meant no acquisition signal. Shipping three engagement-targeting features in one session is a pattern to repeat whenever a single category has been stuck for 3+ sessions.
+
+**Top win this session:** Prophecy Scroll PNG exists now — every death produces a shareable image card. Combined with the chronicle page and echo reaction loop, the game has its first real viral scaffolding.
+
+**Top gap this session:** Supabase still not live, so the chronicle, echo counts, and scroll sharing work in the browser but don't form a real community signal yet. The viral tools exist but can't create community momentum until the backend activates.
+
+**Session intent outcome:** Achieved — completed all SIL next-move items (chronicle + echo loop) and shipped the highest-value backlog pick (Prophecy Scroll PNG).
+
+**Brainstorm**
+
+1. **Layout export/import as shareable code** — encode current layout state as a short base64 string players can paste to share UI configs with others. Implementation path: serialize layoutSlots + overlay positions → btoa → clipboard copy; parse on paste in the layout manager modal. Execution probability: High.
+
+2. **Map-tied echo traces** — render ghost echoes as faint spectral markers on the world map near death coordinates so the living map gets richer over time. Implementation path: filter echoes with a known location and render them as semi-transparent ☁ markers during the map draw pass. Execution probability: Medium.
+
+3. **Prophecy scroll in grave popup** — show a small 200×300 scroll thumbnail inside the grave click popup on the world map, generated from the epitaph + wave + faction data. Implementation path: call `generateProphecyScrollPNG` with a `thumbnail: true` flag and render the resulting data URL as an `<img>` tag in the popup. Execution probability: Medium.
+
+4. **Auto-suggest echo sort in chronicle** — in `chronicle.html`, add a toggle between "most reactions" and "most recent" echo order, so players can choose how to browse community stories. Implementation path: add a `<select>` element and re-sort the client-side array on change. Execution probability: High.
+
+5. **Roguelite leaderboard** — a shared all-time best-wave board for roguelite runs, parallel to the daily leaderboard. Implementation path: add a `roguelite_scores` Supabase table + client fetch/render in the Daily tab (mirrors existing daily leaderboard pattern). Execution probability: Medium (requires new SQL block — Carter action).
+
+**Committed to TASK_BOARD:** [SIL] Map-tied echo traces · [SIL] Prophecy scroll in grave popup

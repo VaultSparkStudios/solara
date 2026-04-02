@@ -1,81 +1,71 @@
-Session Intent: Finish the layout-control layer, then commit, push, and close out cleanly
+Session Intent: Complete all outstanding [SIL] next-move items and the highest-value unblocked feature
 
 # Latest Handoff
 
-Last updated: 2026-03-31
+Last updated: 2026-04-01
 
-## Where We Left Off (Session 15)
+## Where We Left Off (Session 16)
 
-- Shipped: 5 improvements across layout control, custom layout persistence, and closeout polish
-- Tests: 2 passing (1 build / 1 smoke / 0 server / 0 client) · delta: 0 this session
+- Shipped: 3 improvements across engagement tooling — season chronicle, echo reactions, viral share PNG
+- Tests: 2 passing (1 build / 1 smoke) · delta: 0 this session
 - Deploy: pending
 
 ## What was completed this session
 
-**Layout manager completion**
+**Season Chronicle Page** (`public/chronicle.html`)
+- Public standalone page combining sun state, today's top runs, season records (all-time best waves), recent echoes sorted by reaction count, and shrine count
+- Queries Supabase REST API directly — graceful offline state when Supabase not configured
+- Follows the same dark/amber visual language as `archive.html`
 
-- Upgraded both the objective tracker and ghost manifestation stack in `src/App.jsx` from fixed helpers into draggable runtime overlays with reset + hide controls
-- Added built-in layout presets (`Guided`, `Minimal`, `Explorer`) in `src/App.jsx` so whole overlay profiles can switch in one action
-- Added three named custom layout slots in `src/App.jsx` with save/load support and persistent overlay positions
-- Added inline renaming plus a dedicated layout manager modal in `src/App.jsx` so saved layouts are manageable without fighting the narrow settings column
-- Verified both `npm run build` and `npm run smoke` pass after the layout-manager pass
+**Echo Response Loop** (`src/App.jsx`)
+- `commend` / `heed` / `mourn` reaction buttons added to both ghost HUD cards and Settings → Recent Echoes panel
+- Local-first: reactions stored in `solara_echo_reactions` localStorage; prevents double-reactions; optimistic UI update via `setEchoes`
+- Supabase-ready: calls `react_to_echo(echo_id, reaction)` RPC when live; counts surface in chronicle and in-game
+- `fetchEchoes` select updated to include `commend_count`, `heed_count`, `mourn_count`
+- SQL Block 5 (`ALTER TABLE player_echoes` + `react_to_echo` RPC) added to `docs/SUPABASE_ACTIVATION_PACK.md`
+
+**Prophecy Scroll PNG** (`src/App.jsx`)
+- `generateProphecyScrollPNG(opts)` — canvas-drawn 400×580 image with sun glow, rays, player name/sigil, wave, faction badge, taglines
+- `shareProphecyScroll(dataUrl, type)` — tries Web Share API with file support, falls back to direct download
+- **📸 Download Scroll** button appears after every Daily and Roguelite death, alongside the existing text copy/share button
+- Build: 606.08 KB / 175.50 KB gzip · smoke passing
 
 ## Root cause
 
-- The UI comfort pass solved single-surface friction, but once overlays became movable and presets became real, the narrow settings column stopped being a good control surface for the growing layout system
-- Result: a dedicated manager layer became the cleanest way to keep customization usable instead of burying it in stacked micro-controls
+The Engage score has been at 2.3/10 (3-session avg) for multiple sessions. The game has strong mechanics but no viral surface. The Prophecy Scroll PNG creates a shareable image on every death; the echo reaction loop surfaces community stories; the chronicle page gives players something to share and discover. These three together form the first real engagement layer.
 
 ## What is mid-flight
 
-- Supabase activation is still manual and still not complete inside this session; all shared-world systems continue to degrade gracefully when the backend is absent
-- New open agent-side priorities:
-  - [SIL] Season chronicle page
-  - [SIL] Echo response loop
+- Supabase activation is still not complete — SQL blocks 1–5 remain unrun; all shared-world systems degrade gracefully offline
+- Now bucket: Layout export/import + App.jsx pressure release (promoted to Now this session)
 
 ## Human Action Required
 
-- [ ] **Complete the Supabase activation pack** — use `docs/SUPABASE_ACTIVATION_PACK.md`, add live env vars/secrets, and run the SQL blocks so the shared-world stack becomes real instead of local-only
 - [ ] **Run SQL Block 1 (`daily_scores`)** — activate Phase 1 leaderboard storage
 - [ ] **Run SQL Block 2 (`graves`)** — activate Phase 2 grave storage and map persistence
 - [ ] **Run SQL Block 3 (`sun_state`)** — activate Phase 3 shared sun tracking and death counter RPC
 - [ ] **Run SQL Block 4 (`player_echoes`)** — activate cross-player async echoes
+- [ ] **Run SQL Block 5 (echo reactions)** — ALTER TABLE player_echoes + react_to_echo RPC; SQL in `docs/SUPABASE_ACTIVATION_PACK.md`
 - [ ] **Post the itch.io listing** — publish the game and devlog entry at itch.io/vaultsparkstudios
 - [ ] **Deploy the Discord bot** — create the Discord app/token and host `discord-bot/`
-- [ ] **Submit the Twitch extension** — submit `twitch-extension/` through the Twitch Developer Console
+- [ ] **Submit the Twitch extension** — submit via Twitch Developer Console
 
 ## What to do next
 
-1. Carter: Complete the backend checklist in `docs/SUPABASE_ACTIVATION_PACK.md`
-2. Agent: Build the season chronicle page combining top runs, graves, echoes, and sun milestones
-3. Agent: Add an echo response loop so the strongest async stories surface naturally
+1. Agent: Layout export/import — encode layout config as a short shareable string (base64); paste-to-load
+2. Agent: App.jsx pressure release — extract layout-manager constants/helpers as module-level constants
+3. Carter: Run SQL Blocks 1–5 from `docs/SUPABASE_ACTIVATION_PACK.md`
 
 ## Constraints
 
-- `src/App.jsx` remains monolithic until 5000 lines
+- `src/App.jsx` remains monolithic until 5000 lines (currently 3919)
 - Never break save migration from `dunescape_save` to `solara_save`
 - Shared-world features must continue to degrade cleanly when Supabase is absent
-- Runtime overlays should stay user-controllable; avoid reintroducing fixed-position helper assumptions
+- Runtime overlays should stay user-controllable
 
-## SQL Block 4 — `player_echoes`
+## SQL Block 5 — Echo Reactions (player_echoes ALTER + RPC)
 
-```sql
-create table if not exists player_echoes (
-  id bigint generated always as identity primary key,
-  player_name text not null,
-  traveler_sigil text,
-  kind text not null,
-  headline text not null,
-  summary text not null,
-  wave_reached int default 0,
-  faction text default 'neutral',
-  season int default 1,
-  date_seed text,
-  created_at timestamptz not null default now()
-);
-
-create index if not exists idx_player_echoes_created_at
-  on player_echoes (created_at desc);
-```
+See `docs/SUPABASE_ACTIVATION_PACK.md` for the full SQL. Run after Block 4.
 
 ## Read these first next session
 

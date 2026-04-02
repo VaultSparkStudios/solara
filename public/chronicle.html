@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Season Chronicle — Solara: Sunfall</title>
+  <meta name="description" content="The living record of Season 1: The Wandering Comet. Top runs, notable graves, echoes from the fallen, and the current state of the sun."/>
+  <meta property="og:title" content="Season Chronicle — Solara: Sunfall"/>
+  <meta property="og:description" content="Top runs, graves, echoes, and sun state for the current season of Solara: Sunfall."/>
+  <meta property="og:type" content="website"/>
+  <style>
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#0d0403;color:#ddd;font-family:'Courier New',monospace;min-height:100vh;}
+    header{background:linear-gradient(180deg,#1e0a06,#0d0403);border-bottom:2px solid #5a1808;padding:20px 24px;text-align:center;}
+    header h1{color:#c8a84e;font-size:22px;letter-spacing:2px;margin-bottom:4px;}
+    header p{color:#666;font-size:12px;margin-bottom:8px;}
+    .sun-bar{background:#120604;border:1px solid #3a1008;border-radius:4px;height:8px;margin:10px auto;max-width:400px;overflow:hidden;}
+    .sun-fill{height:100%;background:linear-gradient(90deg,#c8a84e,#f0c040);transition:width 1s;border-radius:4px;}
+    .sun-label{color:#888;font-size:11px;text-align:center;margin-bottom:4px;}
+    #sun-pct{color:#c8a84e;font-weight:700;}
+    .season-label{color:#7a5090;font-size:11px;text-align:center;margin-bottom:4px;}
+
+    .page{max-width:960px;margin:0 auto;padding:16px 24px;}
+    .section{margin-bottom:28px;}
+    .section-title{color:#c8a84e;font-size:10px;font-weight:700;letter-spacing:2px;margin-bottom:10px;border-bottom:1px solid #2a1008;padding-bottom:6px;}
+
+    /* Sun stats */
+    .sun-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;}
+    .stat-card{background:#120605;border:1px solid #2a1008;border-radius:6px;padding:12px;text-align:center;}
+    .stat-value{color:#f0c040;font-size:22px;font-weight:700;}
+    .stat-label{color:#555;font-size:10px;margin-top:3px;}
+
+    /* Runs / echoes grid */
+    .runs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;}
+    .run-card{background:linear-gradient(180deg,#180705,#100403);border:1px solid #3a1808;border-radius:6px;padding:10px 12px;}
+    .run-rank{color:#7a5020;font-size:9px;font-weight:700;margin-bottom:4px;}
+    .run-name{color:#b4a0dc;font-weight:700;font-size:13px;}
+    .run-wave{color:#f0c040;font-size:18px;font-weight:900;}
+    .run-meta{color:#555;font-size:10px;line-height:1.6;margin-top:4px;}
+    .faction-sk{color:#f0c040;}
+    .faction-ec{color:#8060c0;}
+    .faction-nu{color:#555;}
+
+    .echo-card{background:linear-gradient(180deg,#120a1a,#0c0610);border:1px solid #2a1040;border-radius:6px;padding:10px 12px;}
+    .echo-kind{color:#c8a0ff;font-size:8px;font-weight:700;letter-spacing:1px;margin-bottom:4px;}
+    .echo-headline{color:#ddd;font-size:12px;line-height:1.45;margin-bottom:5px;}
+    .echo-meta{color:#6a5a80;font-size:10px;}
+    .echo-reactions{display:flex;gap:6px;margin-top:6px;}
+    .react-badge{color:#8a7aa0;font-size:9px;}
+
+    .empty{color:#444;font-size:12px;text-align:center;padding:24px;grid-column:1/-1;}
+    .loading{color:#555;font-size:12px;text-align:center;padding:24px;grid-column:1/-1;}
+    #no-supabase{background:#1a0606;border:1px solid #4a1010;border-radius:6px;padding:16px;text-align:center;color:#888;font-size:12px;line-height:1.6;grid-column:1/-1;}
+
+    footer{border-top:1px solid #2a1008;padding:16px 24px;text-align:center;color:#333;font-size:10px;margin-top:16px;}
+    footer a{color:#5a3090;text-decoration:none;}
+    footer a:hover{color:#c8a84e;}
+  </style>
+</head>
+<body>
+<header>
+  <h1>☀ Season Chronicle</h1>
+  <p>The living record of Solara: Sunfall — Season <span id="season-num">1</span></p>
+  <div class="sun-bar"><div class="sun-fill" id="sun-fill" style="width:100%"></div></div>
+  <div class="sun-label">☀ Sun: <span id="sun-pct">—</span>% · <span id="death-count">—</span> fallen this season</div>
+  <div class="season-label" id="season-name-label"></div>
+</header>
+
+<div class="page">
+
+  <div class="section">
+    <div class="section-title">SUN STATE</div>
+    <div class="sun-stats" id="sun-stats">
+      <div class="stat-card"><div class="stat-value" id="stat-brightness">—</div><div class="stat-label">Sun Brightness %</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-deaths">—</div><div class="stat-label">Total Deaths</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-shrines">—</div><div class="stat-label">Active Shrines</div></div>
+      <div class="stat-card"><div class="stat-value" id="stat-today">—</div><div class="stat-label">Runs Today</div></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">TODAY'S TOP RUNS — <span id="today-date"></span></div>
+    <div class="runs-grid" id="today-runs"><div class="loading">Loading today's runs…</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">SEASON RECORDS — ALL-TIME BEST WAVES</div>
+    <div class="runs-grid" id="season-runs"><div class="loading">Loading season records…</div></div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">RECENT ECHOES — STORIES FROM THE FALLEN</div>
+    <div class="runs-grid" id="echoes-list"><div class="loading">Loading echoes…</div></div>
+  </div>
+
+</div>
+
+<footer>
+  <a href="/">← Back to Solara: Sunfall</a> ·
+  <a href="/archive.html">Archive of the Fallen</a> ·
+  <a href="/sun-widget.html">Sun Widget</a> ·
+  VaultSpark Studios · Season <span id="footer-season">1</span>
+</footer>
+
+<script>
+const SB_URL = window.__SUPABASE_URL__ || '';
+const SB_KEY = window.__SUPABASE_KEY__ || '';
+const CURRENT_SEASON = 1;
+
+function getDailySeed() {
+  const d = new Date();
+  return `solara-${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+}
+
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function cap(s) { return s ? s.charAt(0).toUpperCase()+s.slice(1) : s; }
+
+function factionClass(f) {
+  return f === 'sunkeeper' ? 'faction-sk' : f === 'eclipser' ? 'faction-ec' : 'faction-nu';
+}
+
+function factionIcon(f) {
+  return f === 'sunkeeper' ? '☀' : f === 'eclipser' ? '🌑' : '⚖';
+}
+
+function waveBar(w) {
+  const filled = Math.min(5, Math.floor(w / 6));
+  return Array(5).fill('').map((_,i) => i < filled ? '🔥' : '░').join('');
+}
+
+async function fetchJson(url) {
+  const r = await fetch(url, {
+    headers: { 'apikey': SB_KEY, 'Authorization': `Bearer ${SB_KEY}` }
+  });
+  if (!r.ok) throw new Error(r.statusText);
+  return r.json();
+}
+
+function renderRunCard(run, rank) {
+  const fc = factionClass(run.faction);
+  const fi = factionIcon(run.faction);
+  const date = run.date_seed ? run.date_seed.replace('solara-','') : '';
+  return `<div class="run-card">
+    <div class="run-rank">#${rank}</div>
+    <div class="run-name">${escHtml(run.player_name || 'Unknown')}</div>
+    <div class="run-wave">Wave ${run.wave_reached || 0} <span style="font-size:12px">${waveBar(run.wave_reached||0)}</span></div>
+    <div class="run-meta">
+      <span class="${fc}">${fi} ${cap(run.faction||'neutral')}</span>
+      ${date ? ` · ${date}` : ''}
+    </div>
+  </div>`;
+}
+
+function renderEchoCard(echo) {
+  const commend = echo.commend_count || 0;
+  const heed = echo.heed_count || 0;
+  const mourn = echo.mourn_count || 0;
+  const date = echo.created_at ? new Date(echo.created_at).toLocaleDateString() : '';
+  return `<div class="echo-card">
+    <div class="echo-kind">${escHtml((echo.kind||'echo').toUpperCase())} ECHO</div>
+    <div class="echo-headline">${escHtml(echo.headline || echo.summary || '')}</div>
+    <div class="echo-meta">${escHtml(echo.player_name||'Unknown')} ${echo.traveler_sigil?'· '+escHtml(echo.traveler_sigil):''} · <span class="${factionClass(echo.faction)}">${factionIcon(echo.faction)} ${cap(echo.faction||'neutral')}</span>${date?' · '+date:''}</div>
+    ${(commend+heed+mourn) > 0 ? `<div class="echo-reactions">
+      ${commend>0?`<span class="react-badge">✦ ${commend}</span>`:''}
+      ${heed>0?`<span class="react-badge">👁 ${heed}</span>`:''}
+      ${mourn>0?`<span class="react-badge">✝ ${mourn}</span>`:''}
+    </div>` : ''}
+  </div>`;
+}
+
+async function loadSunState() {
+  if (!SB_URL) return;
+  try {
+    const data = await fetchJson(
+      `${SB_URL}/rest/v1/sun_state?select=brightness,total_deaths,season,season_name&limit=1`
+    );
+    if (data && data[0]) {
+      const b = Math.round(data[0].brightness || 100);
+      document.getElementById('sun-pct').textContent = b;
+      document.getElementById('sun-fill').style.width = b + '%';
+      const deaths = (data[0].total_deaths || 0).toLocaleString();
+      document.getElementById('death-count').textContent = deaths;
+      document.getElementById('season-num').textContent = data[0].season || 1;
+      document.getElementById('footer-season').textContent = data[0].season || 1;
+      document.getElementById('stat-brightness').textContent = b + '%';
+      document.getElementById('stat-deaths').textContent = deaths;
+      if (data[0].season_name) {
+        document.getElementById('season-name-label').textContent = 'Season ' + (data[0].season||1) + ': ' + data[0].season_name;
+      }
+    }
+  } catch(e) {}
+}
+
+async function loadShrineCount() {
+  if (!SB_URL) return;
+  try {
+    const data = await fetchJson(
+      `${SB_URL}/rest/v1/graves?select=id&sunstone_offerings=gte.50&season=eq.${CURRENT_SEASON}`
+    );
+    document.getElementById('stat-shrines').textContent = (data||[]).length;
+  } catch(e) {}
+}
+
+async function loadTodayRuns() {
+  const seed = getDailySeed();
+  const today = seed.replace('solara-','');
+  document.getElementById('today-date').textContent = today;
+
+  const el = document.getElementById('today-runs');
+
+  if (!SB_URL) {
+    el.innerHTML = '<div id="no-supabase">Chronicle requires Supabase to be configured.<br/><a href="/" style="color:#7a5090">← Play the game</a></div>';
+    return;
+  }
+
+  try {
+    const data = await fetchJson(
+      `${SB_URL}/rest/v1/daily_scores?select=player_name,wave_reached,faction,date_seed&date_seed=eq.${encodeURIComponent(seed)}&order=wave_reached.desc&limit=10`
+    );
+    const rows = data || [];
+    document.getElementById('stat-today').textContent = rows.length;
+    if (!rows.length) {
+      el.innerHTML = '<div class="empty">No runs recorded today yet — be the first!</div>';
+      return;
+    }
+    el.innerHTML = rows.map((r, i) => renderRunCard(r, i+1)).join('');
+  } catch(e) {
+    el.innerHTML = '<div class="empty">Could not load today\'s runs.</div>';
+  }
+}
+
+async function loadSeasonRuns() {
+  const el = document.getElementById('season-runs');
+  if (!SB_URL) { el.innerHTML = ''; return; }
+  try {
+    const data = await fetchJson(
+      `${SB_URL}/rest/v1/daily_scores?select=player_name,wave_reached,faction,date_seed&season=eq.${CURRENT_SEASON}&order=wave_reached.desc&limit=10`
+    );
+    const rows = data || [];
+    if (!rows.length) {
+      el.innerHTML = '<div class="empty">No season records yet.</div>';
+      return;
+    }
+    el.innerHTML = rows.map((r, i) => renderRunCard(r, i+1)).join('');
+  } catch(e) {
+    el.innerHTML = '<div class="empty">Could not load season records.</div>';
+  }
+}
+
+async function loadEchoes() {
+  const el = document.getElementById('echoes-list');
+  if (!SB_URL) { el.innerHTML = ''; return; }
+  try {
+    // Order by total reactions + recency — sort client-side after fetch
+    const data = await fetchJson(
+      `${SB_URL}/rest/v1/player_echoes?select=id,player_name,traveler_sigil,kind,headline,summary,wave_reached,faction,created_at,commend_count,heed_count,mourn_count&season=eq.${CURRENT_SEASON}&order=created_at.desc&limit=30`
+    );
+    let rows = (data || []);
+    // Surface echoes with most reactions first among the last 30
+    rows.sort((a,b)=>{
+      const ra=(a.commend_count||0)+(a.heed_count||0)+(a.mourn_count||0);
+      const rb=(b.commend_count||0)+(b.heed_count||0)+(b.mourn_count||0);
+      return rb-ra || new Date(b.created_at||0)-new Date(a.created_at||0);
+    });
+    rows = rows.slice(0,12);
+    if (!rows.length) {
+      el.innerHTML = '<div class="empty">No echoes recorded yet.</div>';
+      return;
+    }
+    el.innerHTML = rows.map(e => renderEchoCard(e)).join('');
+  } catch(e) {
+    el.innerHTML = '<div class="empty">Could not load echoes.</div>';
+  }
+}
+
+Promise.all([loadSunState(), loadShrineCount(), loadTodayRuns(), loadSeasonRuns(), loadEchoes()]);
+</script>
+</body>
+</html>

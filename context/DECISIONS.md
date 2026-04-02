@@ -133,3 +133,25 @@ Append new entries. Do not erase historical reasoning unless it is wrong.
 - Alternatives considered: Keep all layout controls in the settings column; stop at presets without custom saves; add more scattered buttons around the runtime HUD.
 - Why this was chosen: It keeps the main settings panel readable while still letting layout customization grow into a first-class system.
 - Follow-up: If layout control grows further, split the manager into overlay visibility vs saved profiles rather than overloading one panel.
+
+---
+
+### 2026-04-01 — Prioritize Prophecy Scroll PNG over Layout export/import
+
+- Status: Accepted
+- Context: With the SIL items (chronicle + echo loop) done, the Next bucket had Layout export/import and Prophecy Scroll PNG both eligible. Engage sits at 2.3/10 (3-session avg) — the single lowest category.
+- Decision: Ship Prophecy Scroll PNG first as the highest-value pick because it creates a shareable image on every death (viral hook), directly addressing the Engage gap. Layout export/import addresses UX polish but not acquisition.
+- Alternatives considered: Layout export/import (high probability, no Engage impact); App.jsx pressure release (internal housekeeping only).
+- Why this was chosen: Viral share surface on every death is the fastest route to raising Engage from 2.3 toward a healthy 5+. The PNG scroll is a concrete deliverable that works offline and doesn't require Supabase.
+- Follow-up: Now that viral tooling is in place, Layout export/import and App.jsx pressure release are the correct next two items.
+
+---
+
+### 2026-04-01 — Echo reactions on player_echoes columns vs separate table
+
+- Status: Accepted
+- Context: The echo response loop needed to store commend/heed/mourn counts. Options were (a) columns on player_echoes or (b) a separate echo_reactions table with per-player rows.
+- Decision: Add columns (`commend_count`, `heed_count`, `mourn_count`) directly to `player_echoes` and use an RPC to increment them.
+- Alternatives considered: Separate `echo_reactions` table with `(echo_id, session_id, reaction)` unique constraint — cleaner anti-spam but more complex, requires another SQL block and an extra fetch join.
+- Why this was chosen: Simpler schema, one fewer fetch, fits the graceful-offline pattern already established. Anti-spam is handled locally via localStorage (one reaction per player per echo). Sufficient for the current player scale.
+- Follow-up: If spam becomes a real problem post-launch, migrate to a separate reactions table with server-side uniqueness enforcement.
