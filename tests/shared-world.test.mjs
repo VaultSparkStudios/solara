@@ -27,6 +27,15 @@ import {
   sanitizeGravePayload,
   sanitizeReaction,
 } from "../src/game/trust.js";
+import {
+  getGuideStepLabel,
+  getObjectiveState,
+  getWorldActionItems,
+} from "../src/game/objectives.js";
+import {
+  offerSunstoneRecord,
+  reactToEchoRecord,
+} from "../src/game/sharedWorldService.js";
 
 test("getSunPhase classifies eclipse thresholds", () => {
   assert.equal(getSunPhase(10).id, "eclipse");
@@ -198,4 +207,104 @@ test("prophecy deck and death memory card are deterministic and shareable", () =
   assert.equal(prophecy.active.id, prophecy.options[0].id);
   assert.match(memory, /SOLARA: DEATH MEMORY/);
   assert.match(memory, /The Field of the Fallen/);
+});
+
+test("objective guidance prioritizes ritual offerings when the player can help the world", () => {
+  const sharedWorld = getSharedWorldSnapshot({
+    sunBrightness: 28,
+    totalDeaths: 1800,
+    leaderboard: [],
+    echoes: [],
+    graves: Array.from({ length: 5 }, (_, index) => ({
+      x: 10 + index,
+      y: 18,
+      sunstone_offerings: 12,
+      epitaph: "ash",
+    })),
+  });
+  const player = {
+    x: 20,
+    y: 28,
+    quests: { cook: 2, rune: 2, relic: 2, awakening: 2 },
+    relicParts: 0,
+    jadKills: 0,
+  };
+  const objective = getObjectiveState({
+    player,
+    isFreshAdventurer: false,
+    dailyRun: null,
+    rogueRun: null,
+    sharedWorld,
+    hasSunstoneShard: true,
+  });
+  assert.match(objective.title, /Support/);
+  assert.equal(objective.tab, "daily");
+
+  const label = getGuideStepLabel({
+    player,
+    isFreshAdventurer: false,
+    dailyRun: null,
+    rogueRun: null,
+    sharedWorld,
+    hasSunstoneShard: true,
+  });
+  assert.match(label, /offer your Sunstone Shard/i);
+});
+
+test("world action items surface crisis, ritual, and rival priorities", () => {
+  const sharedWorld = getSharedWorldSnapshot({
+    sunBrightness: 14,
+    totalDeaths: 4200,
+    leaderboard: [{ faction: "eclipser" }],
+    echoes: [{ id: "echo-rival", player_name: "Other", traveler_sigil: "SIG", kind: "roguelite", wave_reached: 18, commend_count: 3 }],
+    graves: [{ x: 12, y: 12, sunstone_offerings: 30, epitaph: "fall" }],
+    playerName: "Self",
+  });
+  const actions = getWorldActionItems({ sharedWorld, hasSunstoneShard: true });
+  assert.ok(actions.length >= 3);
+  assert.equal(actions[0].title, sharedWorld.crisis.title);
+  assert.match(actions[1].detail, /Sunstone Shard/i);
+  assert.match(actions[2].title, /Rival/);
+});
+
+test("offerSunstoneRecord marks shrine thresholds without requiring live backend", async () => {
+  const shrine = await offerSunstoneRecord({
+    supabase: null,
+    grave: { id: 1, sunstone_offerings: 49, is_shrine: false, is_major_shrine: false },
+  });
+  assert.equal(shrine.newOff, 50);
+  assert.equal(shrine.becameShrine, true);
+  assert.equal(shrine.becameMajorShrine, false);
+
+  const major = await offerSunstoneRecord({
+    supabase: null,
+    grave: { id: 2, sunstone_offerings: 199, is_shrine: true, is_major_shrine: false },
+  });
+  assert.equal(major.newOff, 200);
+  assert.equal(major.becameMajorShrine, true);
+});
+
+test("reactToEchoRecord validates reactions before accepting them", async () => {
+  globalThis.localStorage = {
+    store: new Map(),
+    getItem(key) {
+      return this.store.has(key) ? this.store.get(key) : null;
+    },
+    setItem(key, value) {
+      this.store.set(key, String(value));
+    },
+    removeItem(key) {
+      this.store.delete(key);
+    },
+  };
+
+  const accepted = await reactToEchoRecord({ supabase: null, echoId: "echo-1", reaction: "commend" });
+  assert.equal(accepted.accepted, true);
+  assert.equal(accepted.reaction, "commend");
+
+  const duplicate = await reactToEchoRecord({ supabase: null, echoId: "echo-1", reaction: "commend" });
+  assert.equal(duplicate.accepted, false);
+
+  const invalid = await reactToEchoRecord({ supabase: null, echoId: "echo-2", reaction: "spam" });
+  assert.equal(invalid.accepted, false);
 });

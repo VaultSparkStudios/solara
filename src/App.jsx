@@ -1,15 +1,37 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { supabase } from './supabase.js';
+import { isSupabaseConfigured, loadSupabaseClient } from './supabase.js';
 import { MENU_SECTIONS as MENU_SECTION_ITEMS } from "./game/content.js";
+import {
+  getDailyStreak,
+  hasPlayedDailyToday,
+  loadCustomLayouts as loadStoredCustomLayouts,
+  loadEchoReactions,
+  loadLocalEchoes,
+  loadPreferences as loadStoredPreferences,
+  markDailyPlayedToday,
+  saveCustomLayouts,
+  updateDailyStreak,
+} from "./game/clientStore.js";
+import { getGuideStepLabel, getObjectiveState, getWorldActionItems } from "./game/objectives.js";
+import {
+  fetchDailyLeaderboardRecords,
+  fetchEchoFeed,
+  fetchGraveRecords,
+  fetchSunStateRecord,
+  incrementDeathCounterRecord,
+  offerSunstoneRecord,
+  persistLocalEcho,
+  reactToEchoRecord,
+  submitDailyScoreRecord,
+  submitGraveRecord,
+  submitRemoteEcho,
+} from "./game/sharedWorldService.js";
 import { createSaveSanitizer } from "./game/save.js";
 import { applyRunBlessing, getSharedWorldSnapshot } from "./game/sharedWorld.js";
 import { createDeathMemoryCard, getLandmarkName } from "./game/innovationSystems.js";
 import {
-  sanitizeDailyScorePayload,
   sanitizeEchoPayload,
   sanitizeGravePayload,
-  sanitizeOfferingCount,
-  sanitizeReaction,
 } from "./game/trust.js";
 import {
   applyMonsterWorldState,
@@ -603,36 +625,7 @@ const ONBOARDING_SLIDES=[
 ];
 const DEFAULT_UI_SCALE=1;
 const defaultPanelOpen=()=>typeof window==="undefined"?true:window.innerWidth>=1180;
-const loadPreferences=()=>{
-  const fallback={
-    showGuide:true,
-    panelOpen:defaultPanelOpen(),
-    uiScale:DEFAULT_UI_SCALE,
-    audioOn:false,
-    musicOn:true,
-    showGhostHud:true,
-    ghostPosition:null,
-    showObjectiveTracker:true,
-    objectivePosition:null,
-    tooltipsOn:true,
-    compactHud:false,
-    showMenuReference:true,
-    ambientMotion:true,
-  };
-  try{
-    const raw=JSON.parse(localStorage.getItem("solara_preferences")||"{}");
-    return{
-      ...fallback,
-      ...raw,
-      uiScale:[0.85,1,1.15].includes(raw.uiScale)?raw.uiScale:fallback.uiScale,
-      panelOpen:typeof raw.panelOpen==="boolean"?raw.panelOpen:fallback.panelOpen,
-      ghostPosition:raw.ghostPosition&&Number.isFinite(raw.ghostPosition.x)&&Number.isFinite(raw.ghostPosition.y)?{x:raw.ghostPosition.x,y:raw.ghostPosition.y}:fallback.ghostPosition,
-      objectivePosition:raw.objectivePosition&&Number.isFinite(raw.objectivePosition.x)&&Number.isFinite(raw.objectivePosition.y)?{x:raw.objectivePosition.x,y:raw.objectivePosition.y}:fallback.objectivePosition,
-    };
-  }catch(e){
-    return fallback;
-  }
-};
+const loadPreferences=()=>loadStoredPreferences(defaultPanelOpen());
 const SIDE_PANEL_TABS=[
   {id:"inv",icon:"🎒",label:"Inventory",desc:"Food, materials, tools, and loot you can use right now."},
   {id:"skills",icon:"⚔️",label:"Skills",desc:"Your progression, XP bars, and any prestige-ready skills."},
@@ -672,18 +665,7 @@ const LAYOUT_PRESETS=[
   },
 ];
 const CUSTOM_LAYOUT_SLOTS=["slot1","slot2","slot3"];
-const loadCustomLayouts=()=>{
-  try{
-    const raw=JSON.parse(localStorage.getItem("solara_custom_layouts")||"{}");
-    return CUSTOM_LAYOUT_SLOTS.reduce((acc,slot)=>{
-      const entry=raw?.[slot];
-      acc[slot]=entry&&typeof entry==="object"?entry:null;
-      return acc;
-    },{});
-  }catch(e){
-    return Object.fromEntries(CUSTOM_LAYOUT_SLOTS.map(slot=>[slot,null]));
-  }
-};
+const loadCustomLayouts=()=>loadStoredCustomLayouts(CUSTOM_LAYOUT_SLOTS);
 const getDefaultCustomLayoutLabel=slot=>`Custom ${slot.replace("slot","")}`;
 const LAYOUT_BASE_KEYS=["showGuide","showObjectiveTracker","showGhostHud","tooltipsOn","compactHud","panelOpen","showMenuReference"];
 const layoutBaseMatch=(cfg,state)=>LAYOUT_BASE_KEYS.every(k=>cfg[k]===state[k]);
@@ -702,10 +684,6 @@ const hashSeed=(str)=>{let h=0;for(let i=0;i<str.length;i++){const c=str.charCod
 const getDailySeed=()=>{const d=new Date();return`solara-${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;};
 const getDayNumber=()=>{const start=new Date('2026-03-27');const now=new Date();return Math.max(1,Math.floor((now-start)/86400000)+1);};
 const getDailyBossName=()=>{const h=hashSeed(getDailySeed()+'-boss');const pfx=["Vexar","Solveth","Kael","Morthis","Dravan","Zephon","Ashan","Corrath","Duvak","Elrith","Faeron","Grauth"];const sfx=["the Ash-Born","of the Dim Flame","the Sunless","the Twilight Herald","the Eclipse-Born","the Shadow","of the Final Dark","the Eternal","the Burning","the Doomed","the Forgotten","the Last Light"];return pfx[h%pfx.length]+" "+sfx[Math.floor(h/pfx.length)%sfx.length];};
-const getDailyStreak=()=>{try{const s=JSON.parse(localStorage.getItem('solara_streak')||'{"lastDate":"","count":0}');return s.lastDate===getDailySeed()?s.count:0;}catch(e){return 0;}};
-const updateStreak=()=>{try{const s=JSON.parse(localStorage.getItem('solara_streak')||'{"lastDate":"","count":0}');const today=getDailySeed();const d=new Date();d.setDate(d.getDate()-1);const yesterday=`solara-${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;const c=s.lastDate===yesterday?s.count+1:s.lastDate===today?s.count:1;localStorage.setItem('solara_streak',JSON.stringify({lastDate:today,count:c}));return c;}catch(e){return 1;}};
-const markDailyPlayedToday=()=>{try{localStorage.setItem("solara_last_daily_played",getDailySeed());}catch(e){}};
-const hasPlayedDailyToday=()=>{try{return localStorage.getItem("solara_last_daily_played")===getDailySeed();}catch(e){return false;}};
 const generateDailyRooms=()=>{const rng=mulberry32(hashSeed(getDailySeed()));return Array.from({length:30},(_,i)=>i===29?4:Math.floor(rng()*(DUNGEON_ROOMS.length-1)));};
 const generateShareCard=(playerName,waveReached,faction)=>{const bars=Math.min(5,Math.floor(waveReached/6));const row=Array(5).fill('').map((_,i)=>i<bars?'🔥':'☀️').join('');const fStr=faction?faction.charAt(0).toUpperCase()+faction.slice(1):'No faction';return`☀️ Solara: Sunfall — Day ${getDayNumber()} ${row}\nWave ${waveReached}/30 · ${fStr} · Season ${CURRENT_SEASON}: ${CURRENT_SEASON_NAME}\n\nPlay free → vaultsparkstudios.github.io/solara/\n#SolaraSunfall`;};
 const generateRogueShareCard=(playerName,waveReached,bestWave,relicCount,sunBrightness)=>{const bars=Math.max(1,Math.min(6,Math.floor(waveReached/5)));const row=Array(6).fill('').map((_,i)=>i<bars?'🌒':'⬛').join('');const phase=sunBrightness>80?'Full Dawn':sunBrightness>60?'Amber Warning':sunBrightness>40?'The Twilight':sunBrightness>20?'The Dimming':'The Eclipse';return`🌘 Solara: Sunfall — Roguelite Push\n${playerName||'Adventurer'} · Wave ${waveReached} · Best ${bestWave}\n${row} · Relics ${relicCount} · ${phase} ${Math.round(sunBrightness)}%\n\nEvery death dims the shared sun.\nPlay free → vaultsparkstudios.github.io/solara/\n#SolaraSunfall #Roguelite`;};
@@ -961,6 +939,8 @@ export default function DS(){
   // Innovation #2: Oracle subscription
   const [oracleSubEmail,setOracleSubEmail]=useState("");
   const [oracleSubbed,setOracleSubbed]=useState(()=>{try{return!!localStorage.getItem('solara_oracle_sub');}catch(e){return false;}});
+  const supabaseRef=useRef(null);
+  const [backendConnected,setBackendConnected]=useState(false);
   // Innovation #13: Ambient audio ref
   const ambientAudioR=useRef({ctx:null,osc:null,gainNode:null,active:false});
   const saveHealthRef=useRef({issues:[]});
@@ -998,6 +978,27 @@ export default function DS(){
       fr(n=>n+1);
     }
     return {name:cleanName,sigil:cleanSigil};
+  },[]);
+
+  useEffect(()=>{
+    let cancelled=false;
+    if(!isSupabaseConfigured){
+      supabaseRef.current=null;
+      setBackendConnected(false);
+      return ()=>{cancelled=true;};
+    }
+    loadSupabaseClient()
+      .then(client=>{
+        if(cancelled)return;
+        supabaseRef.current=client;
+        setBackendConnected(!!client);
+      })
+      .catch(()=>{
+        if(cancelled)return;
+        supabaseRef.current=null;
+        setBackendConnected(false);
+      });
+    return ()=>{cancelled=true;};
   },[]);
 
   // Keyboard shortcuts: M=map, ESC=close, R=run
@@ -1115,22 +1116,16 @@ export default function DS(){
     return applyMonsterWorldState(rivalBase,snapshot,"dungeon");
   },[]);
   const fetchEchoes=useCallback(async()=>{
+    const supabase=supabaseRef.current;
     try{
-      const localEchoes=JSON.parse(localStorage.getItem("solara_local_echoes")||"[]");
-      if(!supabase){
-        setEchoes(localEchoes.slice(0,12));
-        return;
-      }
-      const {data}=await supabase.from('player_echoes').select('id,player_name,traveler_sigil,kind,headline,summary,wave_reached,faction,created_at,commend_count,heed_count,mourn_count').order('created_at',{ascending:false}).limit(12);
-      const merged=[...(data||[])];
-      localEchoes.forEach(e=>{if(!merged.some(x=>x.id===e.id))merged.push(e);});
-      merged.sort((a,b)=>new Date(b.created_at||0)-new Date(a.created_at||0));
-      setEchoes(merged.slice(0,12));
+      const merged=await fetchEchoFeed({supabase,limit:12,localLimit:24});
+      setEchoes(merged);
     }catch(e){
-      try{setEchoes(JSON.parse(localStorage.getItem("solara_local_echoes")||"[]").slice(0,12));}catch(e2){setEchoes([]);}
+      try{setEchoes(loadLocalEchoes(12));}catch(e2){setEchoes([]);}
     }
   },[]);
   const submitEcho=useCallback(async(kind,headline,summary,waveReached=0)=>{
+    const supabase=supabaseRef.current;
     const g2=gR.current;if(!g2?.p)return;
     const p2=g2.p;
     const echo=sanitizeEchoPayload({
@@ -1146,50 +1141,38 @@ export default function DS(){
     });
     echo.id=`echo-${Date.now()}-${Math.random().toString(36).slice(2,8)}`;
     echo.created_at=new Date().toISOString();
-    try{
-      const localEchoes=JSON.parse(localStorage.getItem("solara_local_echoes")||"[]");
-      localStorage.setItem("solara_local_echoes",JSON.stringify([echo,...localEchoes].slice(0,24)));
-    }catch(e){}
+    persistLocalEcho(echo,24);
     setEchoes(prev=>[echo,...prev].slice(0,12));
     if(!supabase)return;
     try{
-      await supabase.from('player_echoes').insert({
-        player_name:echo.player_name,
-        traveler_sigil:echo.traveler_sigil,
-        kind:echo.kind,
-        headline:echo.headline,
-        summary:echo.summary,
-        wave_reached:echo.wave_reached,
-        faction:echo.faction,
-        season:CURRENT_SEASON,
-        date_seed:getDailySeed(),
-      });
+      await submitRemoteEcho({supabase,echo,season:CURRENT_SEASON,dateSeed:getDailySeed()});
       setTimeout(()=>fetchEchoes(),800);
     }catch(e){}
   },[fetchEchoes,getPlayerFaction,travelerNameDraft,travelerSigilDraft]);
 
   const reactToEcho=useCallback(async(echoId,reaction)=>{
-    const safeReaction=sanitizeReaction(reaction);
-    if(!safeReaction||!echoId)return;
-    try{const local=JSON.parse(localStorage.getItem("solara_echo_reactions")||"{}");if(local[echoId])return;local[echoId]=safeReaction;localStorage.setItem("solara_echo_reactions",JSON.stringify(local));}catch(e){}
-    setEchoes(prev=>prev.map(e=>e.id===echoId?{...e,[`${safeReaction}_count`]:(e[`${safeReaction}_count`]||0)+1}:e));
-    if(!supabase||String(echoId).startsWith("echo-"))return;
-    try{await supabase.rpc('react_to_echo',{p_echo_id:echoId,p_reaction:safeReaction});}catch(e){}
+    const supabase=supabaseRef.current;
+    try{
+      const result=await reactToEchoRecord({supabase,echoId,reaction});
+      if(!result.accepted||!result.reaction)return;
+      setEchoes(prev=>prev.map(e=>e.id===echoId?{...e,[`${result.reaction}_count`]:(e[`${result.reaction}_count`]||0)+1}:e));
+    }catch(e){}
   },[]);
 
   const fetchDailyLeaderboard=useCallback(async()=>{
+    const supabase=supabaseRef.current;
     if(!supabase){return;}
     try{
-      const {data}=await supabase.from('daily_scores').select('player_name,wave_reached,faction').eq('date_seed',getDailySeed()).order('wave_reached',{ascending:false}).limit(10);
+      const data=await fetchDailyLeaderboardRecords({supabase,dateSeed:getDailySeed(),limit:10});
       dailyLbRef.current=data||[];setDailyTick(n=>n+1);
     }catch(e){console.warn('[Solara] Leaderboard fetch failed:',e);}
   },[]);
 
   const submitDailyScore=useCallback(async(playerName,waveReached,faction)=>{
+    const supabase=supabaseRef.current;
     if(!supabase)return;
-    const score=sanitizeDailyScorePayload({player_name:playerName,wave_reached:waveReached,faction});
     try{
-      await supabase.from('daily_scores').insert({...score,date_seed:getDailySeed(),season:CURRENT_SEASON});
+      await submitDailyScoreRecord({supabase,playerName,waveReached,faction,dateSeed:getDailySeed(),season:CURRENT_SEASON});
       setTimeout(()=>fetchDailyLeaderboard(),1000);
     }catch(e){console.warn('[Solara] Score submit failed:',e);}
   },[fetchDailyLeaderboard]);
@@ -1225,8 +1208,8 @@ export default function DS(){
     if(run.rival)addC(`${run.rival.icon} Rival marked: ${run.rival.playerName} waits beyond the threshold.`);
     if(worldState.crisis)addC(`☀️ Crisis directive: ${worldState.crisis.title}. ${worldState.crisis.detail}`);
     addC(`${worldState.event.icon} ${worldState.event.label}: ${worldState.event.description}`);
-    updateStreak();
-    markDailyPlayedToday();
+    updateDailyStreak(getDailySeed());
+    markDailyPlayedToday(getDailySeed());
     setDailyTick(n=>n+1);setTab("inv");
   },[addC,getWorldSnapshot,grantEchoSupply]);
 
@@ -1307,9 +1290,10 @@ export default function DS(){
 
   // Phase 3: Sun state
   const fetchSunState=useCallback(async()=>{
+    const supabase=supabaseRef.current;
     if(!supabase)return;
     try{
-      const {data}=await supabase.from('sun_state').select('brightness,total_deaths').single();
+      const data=await fetchSunStateRecord({supabase});
       if(data){
         setSunBrightness(Math.max(0,Math.min(100,Number(data.brightness))));
         const newDeaths=Number(data.total_deaths)||0;
@@ -1324,10 +1308,10 @@ export default function DS(){
 
   // Phase 2: Graves
   const fetchGraves=useCallback(async()=>{
+    const supabase=supabaseRef.current;
     if(!supabase)return;
     try{
-      const {data}=await supabase.from('graves').select('id,player_name,epitaph,x,y,faction,wave_reached,season,date_seed,created_at,sunstone_offerings,is_shrine,is_major_shrine').eq('season',CURRENT_SEASON).order('created_at',{ascending:false}).limit(200);
-      const newGraves=data||[];
+      const newGraves=await fetchGraveRecords({supabase,season:CURRENT_SEASON,limit:200});
       // SIL: recent deaths ticker — announce new graves in chat (max 3)
       if(gravesRef.current.length>0){
         const oldIds=new Set(gravesRef.current.map(g=>g.id));
@@ -1339,6 +1323,7 @@ export default function DS(){
   },[addC]);
 
   const submitGrave=useCallback(async(epitaph)=>{
+    const supabase=supabaseRef.current;
     setShowEpitaphModal(false);setEpitaphDraft("");
     if(!pendingGrave){return;}
     const {x,y,wave,faction,playerName}=pendingGrave;
@@ -1352,9 +1337,9 @@ export default function DS(){
       return;
     }
     try{
-      await supabase.from('graves').insert({...grave,season:CURRENT_SEASON,date_seed:getDailySeed()});
+      await submitGraveRecord({supabase,grave,season:CURRENT_SEASON,dateSeed:getDailySeed()});
       // Phase 3: increment global death counter → dims the sun
-      supabase.rpc('increment_death_counter').catch(e=>console.warn('[Solara] Death counter failed:',e));
+      incrementDeathCounterRecord({supabase}).catch(e=>console.warn('[Solara] Death counter failed:',e));
       submitEcho("death_memory",`Death memory - Wave ${grave.wave_reached}`,memoryCard,grave.wave_reached);
       setTimeout(()=>fetchGraves(),1000);
       setTimeout(()=>fetchSunState(),2000);
@@ -1363,6 +1348,7 @@ export default function DS(){
 
   // SIL: Sunstone offering
   const offerSunstone=useCallback(async(grave)=>{
+    const supabase=supabaseRef.current;
     const g2=gR.current;if(!g2)return;
     const p=g2.p;const idx=p.inv.findIndex(x=>x.i==="sunstone_shard");
     if(idx===-1){return;}
@@ -1371,7 +1357,11 @@ export default function DS(){
     fr(n=>n+1);
     setGravePopup(prev=>prev?{...prev,sunstone_offerings:(prev.sunstone_offerings||0)+1}:prev);
     if(supabase){
-      try{const newOff=sanitizeOfferingCount((grave.sunstone_offerings||0)+1);const upd={sunstone_offerings:newOff};if(newOff>=200&&!grave.is_major_shrine){upd.is_major_shrine=true;upd.is_shrine=true;addC("✦ This grave has become a Major Shrine!");}else if(newOff>=50&&!grave.is_shrine){upd.is_shrine=true;addC("✦ This grave has become a Shrine!");}await supabase.from('graves').update(upd).eq('id',grave.id);}
+      try{
+        const result=await offerSunstoneRecord({supabase,grave});
+        if(result.becameMajorShrine){addC("✦ This grave has become a Major Shrine!");}
+        else if(result.becameShrine){addC("✦ This grave has become a Shrine!");}
+      }
       catch(e){console.warn('[Solara] Sunstone offer failed:',e);}
     }
     // Update local graves cache
@@ -2682,30 +2672,26 @@ export default function DS(){
   },[addC,menuOpen,submitEcho,travelerNameDraft,travelerSigilDraft]);
 
   const g=gR.current,p=g?.player||g?.p;
+  const supabase=supabaseRef.current;
   const cLvl=p?Math.floor((lvl(p.sk.Attack)+lvl(p.sk.Strength)+lvl(p.sk.Defence)+lvl(p.sk.Hitpoints))/4):1;
   const totalLvl=p?SKILLS.reduce((a,s)=>a+lvl(p.sk[s]),0):16;
   const hasExistingSave=(()=>{try{return !!localStorage.getItem("solara_save");}catch(e){return false;}})();
-  const backendConnected=!!supabase;
   const isFreshAdventurer=!!p&&(p.totalXp||0)<=0&&Object.values(p.quests||{}).every(v=>!v);
-  const playedDailyToday=hasPlayedDailyToday();
-  const echoReactLocal=(()=>{try{return JSON.parse(localStorage.getItem("solara_echo_reactions")||"{}");}catch(e){return {};}})();
+  const playedDailyToday=hasPlayedDailyToday(getDailySeed());
+  const echoReactLocal=loadEchoReactions();
   const sharedWorld=getWorldSnapshot({sunBrightness,totalDeaths,playerName:p?.playerName||travelerNameDraft});
   const merchantPriceScale=getMerchantPriceScale(sharedWorld,p?.rep?.merchant||0);
+  const hasSunstoneShard=!!p?.inv?.some(x=>x.i==="sunstone_shard");
+  const worldActionItems=getWorldActionItems({sharedWorld,hasSunstoneShard});
   const recentEchoGhosts=echoes.slice(0,3).map((echo,i)=>({id:echo.id||`ghost-${i}`,headline:echo.headline,player:echo.player_name||"Unknown",sigil:echo.traveler_sigil||"??",kind:echo.kind||"echo",offset:i,commend:echo.commend_count||0,heed:echo.heed_count||0,mourn:echo.mourn_count||0,reacted:echoReactLocal[echo.id]||null}));
-  const objectiveState=(()=>{
-    if(!p)return null;
-    let target={title:"Open Daily Rites",detail:"The shared-world loop is strongest when you start the daily dungeon.",x:8,y:55,tab:"daily",accent:"#f0c060"};
-    if(dailyRunRef.current&&!dailyRunRef.current.done)target={title:`Daily Rite · Wave ${dailyRunRef.current.wave+1}`,detail:"Reach the dungeon entrance south of The Mine and clear the next wave.",x:8,y:55,tab:"daily",accent:"#f0c060"};
-    else if(rogueRunRef.current&&!rogueRunRef.current.done)target={title:`Roguelite Push · Wave ${rogueRunRef.current.wave+1}`,detail:"Return to the dungeon entrance to continue your run and secure another relic chance.",x:8,y:55,tab:"daily",accent:"#c8a0ff"};
-    else if(isFreshAdventurer)target={title:"Talk to Mara",detail:"Start Mara's Hearth in Solara's Rest, then cook your first meal and enter the Daily Rite.",x:24,y:28,tab:"quest",accent:"#d8a86a",steps:["Open Gear and equip your sword.","Talk to Mara in Solara's Rest.","Gather egg, milk, and flour.","Finish the quest, then open Daily Rites."]};
-    else if((p.quests?.cook||0)===1)target={title:"Mara's Hearth",detail:"Bring Mara an egg, bucket of milk, and flour to finish your first town quest.",x:24,y:28,tab:"quest",accent:"#d8a86a",steps:["Find the ingredients around Solara's Rest.","Return to Mara for Cooking XP and coins.","Use the reward to start today's shared run."]};
-    else if((p.quests?.rune||0)===1)target={title:"Rune Mystery",detail:"Dark Wizards in the Ashlands hold the air runes Sedridor wants.",x:35,y:3,tab:"quest",accent:"#8aa8ff"};
-    else if((p.quests?.relic||0)===1)target={title:"Lost Relic",detail:`Collect relic parts (${p.relicParts||0}/3) and return to the Archaeologist in The Sanctum.`,x:22,y:12,tab:"quest",accent:"#c8a84e"};
-    else if((p.quests?.awakening||0)===1)target={title:"Final Awakening",detail:`Defeat the Cinderwake Colossus three times (${p.jadKills||0}/3) before the season goes dark.`,x:64,y:90,tab:"quest",accent:"#ff7440"};
-    const dx=target.x-p.x,dy=target.y-p.y;
-    const dir=`${dy<0?"N":dy>0?"S":""}${dx>0?"E":dx<0?"W":""}`||"HERE";
-    return{...target,distance:Math.abs(dx)+Math.abs(dy),dir};
-  })();
+  const objectiveState=getObjectiveState({
+    player:p,
+    isFreshAdventurer,
+    dailyRun:dailyRunRef.current,
+    rogueRun:rogueRunRef.current,
+    sharedWorld,
+    hasSunstoneShard,
+  });
 
   useEffect(()=>{
     if(!p)return;
@@ -2940,7 +2926,14 @@ export default function DS(){
       {s&&<span style={{position:"absolute",bottom:0,right:1,fontSize:6,color:"#aa9",maxWidth:34,overflow:"hidden",whiteSpace:"nowrap"}}>{d.n}</span>}
     </div>);}
 
-  const guideStepLabel=!p?"Booting world...":dailyRunRef.current&&!dailyRunRef.current.done?`Daily Rite active: ${sharedWorld.director.dailyModifier.label} is shaping today's rooms. Head to the dungeon entrance.`:rogueRunRef.current&&!rogueRunRef.current.done?`Roguelite active: ${sharedWorld.director.pressure} sun pressure is changing enemy behavior.`:isFreshAdventurer?"Suggested start: equip your sword, talk to Mara, finish Mara's Hearth, then start the Daily Rite.":`Suggested start: open Daily Rites. Sun Director: ${sharedWorld.director.dailyModifier.label}.`;
+  const guideStepLabel=getGuideStepLabel({
+    player:p,
+    isFreshAdventurer,
+    dailyRun:dailyRunRef.current,
+    rogueRun:rogueRunRef.current,
+    sharedWorld,
+    hasSunstoneShard,
+  });
   const sidePanelWidth=panelOpen?210:0;
   const defaultObjectivePosition=typeof window==="undefined"?{x:12,y:96}:{x:window.innerWidth>900?window.innerWidth-372:12,y:window.innerHeight>760?window.innerHeight-176:96};
   const objectiveStyle=objectivePosition?{left:objectivePosition.x,top:objectivePosition.y}:{left:defaultObjectivePosition.x,top:defaultObjectivePosition.y};
@@ -2985,7 +2978,7 @@ export default function DS(){
     };
     setCustomLayouts(next);
     setCustomLayoutDrafts(prev=>({...prev,[slot]:label}));
-    try{localStorage.setItem("solara_custom_layouts",JSON.stringify(next));}catch(e){}
+    saveCustomLayouts(next);
     setLayoutPreset(slot);
   },[captureLayoutConfig,customLayoutDrafts,customLayouts]);
   const loadCustomLayout=useCallback((slot)=>{
@@ -3004,7 +2997,7 @@ export default function DS(){
       },
     };
     setCustomLayouts(next);
-    try{localStorage.setItem("solara_custom_layouts",JSON.stringify(next));}catch(e){}
+    saveCustomLayouts(next);
   },[customLayouts]);
   const applyLayoutPreset=useCallback((presetId)=>{
     const preset=LAYOUT_PRESETS.find(item=>item.id===presetId);
@@ -3353,7 +3346,7 @@ export default function DS(){
                 <div style={{color:"#c8a84e",fontSize:10,fontWeight:700,letterSpacing:1}}>☀️ DAILY RITE</div>
                 <div style={{color:"#888",fontSize:7}}>Day {getDayNumber()} · {getDailySeed()}</div>
                 <div style={{color:"#555",fontSize:7}}>Season {CURRENT_SEASON}: {CURRENT_SEASON_NAME}</div>
-                {getDailyStreak()>0&&<div style={{color:"#c8a84e",fontSize:8,marginTop:2,fontWeight:600}}>🔥 {getDailyStreak()}-day streak</div>}
+                {getDailyStreak(getDailySeed())>0&&<div style={{color:"#c8a84e",fontSize:8,marginTop:2,fontWeight:600}}>🔥 {getDailyStreak(getDailySeed())}-day streak</div>}
               </div>
               <div style={{background:"rgba(20,10,5,0.55)",border:"1px solid rgba(200,168,78,0.12)",borderRadius:4,padding:6}}>
                 <div style={{color:sharedWorld.phase.accent,fontSize:9,fontWeight:700}}>{sharedWorld.crisis.title}</div>
@@ -3370,6 +3363,13 @@ export default function DS(){
                     <div style={{fontSize:7,color:"#8f7d68",lineHeight:1.4,marginTop:1}}>{card.text}</div>
                   </div>)}
                 </div>}
+              </div>
+              <div style={{background:"rgba(12,6,5,0.55)",border:"1px solid rgba(200,168,78,0.08)",borderRadius:4,padding:6,display:"grid",gap:4}}>
+                <div style={{color:"#f0c060",fontSize:8,fontWeight:700,letterSpacing:1}}>BEST NEXT ACTIONS</div>
+                {worldActionItems.map(item=><div key={item.title} style={{background:"rgba(0,0,0,0.16)",border:"1px solid rgba(200,168,78,0.06)",borderRadius:4,padding:"4px 5px"}}>
+                  <div style={{fontSize:7,color:item.accent,fontWeight:700}}>{item.title}</div>
+                  <div style={{fontSize:7,color:"#8f7d68",lineHeight:1.4,marginTop:1}}>{item.detail}</div>
+                </div>)}
               </div>
               {/* Run state */}
               {!dailyRunRef.current&&<div>

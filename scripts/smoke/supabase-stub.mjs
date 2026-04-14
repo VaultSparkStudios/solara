@@ -1,2 +1,2 @@
-export const supabase = null;
-export const isSupabaseReady = false;
+export const isSupabaseConfigured = false;
+export const loadSupabaseClient = async () => null;

@@ -264,8 +264,8 @@ async function loadComponent() {
       'import React, { useState, useEffect, useRef, useCallback } from "../scripts/smoke/react-stub.mjs";',
     )
     .replace(
-      "import { supabase } from './supabase.js';",
-      'import { supabase } from "../scripts/smoke/supabase-stub.mjs";',
+      "import { isSupabaseConfigured, loadSupabaseClient } from './supabase.js';",
+      'import { isSupabaseConfigured, loadSupabaseClient } from "../scripts/smoke/supabase-stub.mjs";',
     )
     .replaceAll("import.meta.env.VITE_SEASON_NUMBER", "1")
     .replaceAll('import.meta.env.VITE_SEASON_NAME', '"The Wandering Comet"');
