@@ -1,8 +1,152 @@
 {
   "version": "1.0",
-  "entries": [],
+  "entries": [
+    {
+      "id": "pred-iq-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "Next session IQ score",
+      "predictedValue": 40355,
+      "confidenceInterval": [
+        38427,
+        42283
+      ],
+      "confidence": 0.4,
+      "method": "linear_extrapolation"
+    },
+    {
+      "id": "pred-perception-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "perception pillar next score",
+      "predictedValue": 4592,
+      "confidenceInterval": [
+        4497,
+        4688
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-trajectory-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "trajectory pillar next score",
+      "predictedValue": 2776,
+      "confidenceInterval": [
+        2590,
+        2963
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-execution-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "execution pillar next score",
+      "predictedValue": 4032,
+      "confidenceInterval": [
+        3833,
+        4232
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-vitality-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "vitality pillar next score",
+      "predictedValue": 5504,
+      "confidenceInterval": [
+        5262,
+        5745
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-synthesis-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "synthesis pillar next score",
+      "predictedValue": 2615,
+      "confidenceInterval": [
+        2369,
+        2862
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-cognition-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "cognition pillar next score",
+      "predictedValue": 3814,
+      "confidenceInterval": [
+        3623,
+        4004
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-foresight-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "foresight pillar next score",
+      "predictedValue": 3714,
+      "confidenceInterval": [
+        3332,
+        4096
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-creativity-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "creativity pillar next score",
+      "predictedValue": 2691,
+      "confidenceInterval": [
+        2267,
+        3114
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-expression-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "expression pillar next score",
+      "predictedValue": 4510,
+      "confidenceInterval": [
+        4010,
+        5010
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    },
+    {
+      "id": "pred-potential-1776057889509",
+      "createdAt": "2026-04-13T05:24:49.508Z",
+      "horizon": "short",
+      "label": "potential pillar next score",
+      "predictedValue": 4940,
+      "confidenceInterval": [
+        4759,
+        5122
+      ],
+      "confidence": 0.30000000000000004,
+      "method": "pillar_linear_extrapolation"
+    }
+  ],
   "stats": {
-    "totalPredictions": 0,
+    "totalPredictions": 11,
     "validated": 0,
     "accurateCount": 0,
     "intervalHitCount": 0,
