@@ -33,3 +33,23 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Rationale:** Proprietary-first ownership requires a distinctive public identity, especially for flagship threats and first-session quests.
 
 ---
+
+## 2026-04-17 — Browser AI/token cost remains deterministic-first
+
+**Decision:** Browser runtime AI/token cost remains zero by default. Public chronicle, status, world-feed, intelligence digest, and Studio integration outputs are generated deterministically from structured public game state. Paid generation may only be added later as a server-side cached enhancement with hard budgets and deterministic fallback.
+
+**Applies to this project:** Yes — `src/game/intelligencePolicy.js` and `src/game/chronicle.js` encode the public-safe policy.
+
+**Rationale:** Solara's shared-world systems can produce strong player-facing intelligence without exposing private data, increasing latency, or creating recurring browser-side token cost.
+
+---
+
+## 2026-04-17 — Public shared-world writes should be RPC-first
+
+**Decision:** Client shared-world mutations should call validated Supabase RPCs first and only use direct table writes as a temporary compatibility fallback during staged backend rollout.
+
+**Applies to this project:** Yes — `src/game/sharedWorldService.js` now prefers RPC calls, and `docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql` provides the starter hardening script.
+
+**Rationale:** Public graves, scores, echoes, reactions, and offerings are core to Solara's identity and need server-enforced validation, moderation posture, and rate-limit protection before scaled traffic.
+
+---

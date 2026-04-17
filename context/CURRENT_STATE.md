@@ -13,6 +13,24 @@ Public-safe summary:
 - browser storage helper logic now has its own module to reduce duplicated localStorage parsing/writing paths
 - shared-world service I/O now has its own module to reduce direct Supabase/local persistence coupling inside `src/App.jsx`
 - shared-world briefing / run-debrief synthesis now has its own module so the UI can explain pressure, communal impact, and next best actions without more inline conditionals
+- session-delta synthesis now summarizes latest run state, world pressure, ritual progress, rival signal, backend link status, and the next best move
+- deterministic public status/chronicle JSON generation now supports public-safe Studio Hub / Social Dashboard / Sparkfunnel style integration without browser token costs
+- public status/chronicle exports now include a reusable intelligence digest, world feed, telemetry-lite contract, and deterministic AI policy with zero browser token cost by default
+- Supabase activation now has a concrete public-write hardening SQL starter for RPC validation, RLS, constraints, moderation fields, and rate-limit posture
+- runtime Daily Rite and front-door surfaces now show a World Feed card so crisis, ritual, run, rival, constellation, and live-link signals are easier to scan
+- run debriefs now separate personal improvement, communal contribution, and active Director guidance
+- next pass focus is RPC-first shared-world writes, interactive world-feed routing, Director-driven Daily Rite planning, browser-level gameplay smoke coverage, and resolving the dirty/untracked worktree into an intentional baseline
+- constellation objectives now turn grave clusters into routeable map objectives with offering value, shrine progress, urgency, and reward labels
+- first-session planning now exposes the "First Myth" route from gear to Mara to Hearth completion to Daily Rite activation
+- smoke coverage now validates first-session, objective, and actionable world-feed contracts in addition to startup, run initialization, save, and import paths
+- Sun Director mechanics now expose structured encounter, reward, shrine, rival, scaling, and telemetry guidance for later gameplay wiring
+- Sun Director mechanics now drive runtime merchant and monster scaling and active run tuning messages
+- save migration now restores modern fields, normalizes the save version, and reports migration/repair work
+- save payload generation is centralized in `src/game/save.js`, and smoke now covers save/import sanitization
+- high-risk import/reset/prestige/Ironman prompts use in-world modal feedback instead of browser-native alert/confirm
 - Supabase client loading is now deferred behind a lazy loader instead of being eagerly imported at startup
 - automated checks now include explicit test coverage in CI alongside build and smoke validation
-- latest local validation: 19 unit tests passing, production build passing, smoke flow passing
+- smoke harness stubs display-only JSX components during Node-based runtime checks to avoid direct `.jsx` loader failures
+- shared-world writes now prefer Supabase RPCs and fall back to legacy table writes for staged backend rollout
+- Director-derived Daily Rite planning now produces deterministic route segments, encounter/reward bias, shrine chance, rival chance, boss pressure, and share-line data
+- latest local validation: 30 unit tests passing, production build passing, smoke flow passing

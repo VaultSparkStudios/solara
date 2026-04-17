@@ -128,6 +128,7 @@ function installBrowserStubs() {
   };
 
   globalThis.confirm = () => false;
+  globalThis.__reloadCalled = false;
   globalThis.requestAnimationFrame = () => 1;
   globalThis.cancelAnimationFrame = noop;
 }
@@ -267,6 +268,26 @@ async function loadComponent() {
       "import { isSupabaseConfigured, loadSupabaseClient } from './supabase.js';",
       'import { isSupabaseConfigured, loadSupabaseClient } from "../scripts/smoke/supabase-stub.mjs";',
     )
+    .replace(
+      'import SharedWorldStatus from "./components/SharedWorldStatus.jsx";',
+      'function SharedWorldStatus() { return null; }',
+    )
+    .replace(
+      'import RunDebriefCard from "./components/RunDebriefCard.jsx";',
+      'function RunDebriefCard() { return null; }',
+    )
+    .replace(
+      'import SessionDeltaCard from "./components/SessionDeltaCard.jsx";',
+      'function SessionDeltaCard() { return null; }',
+    )
+    .replace(
+      'import WorldFeedCard from "./components/WorldFeedCard.jsx";',
+      'function WorldFeedCard() { return null; }',
+    )
+    .replace(
+      'const MenuLorePanels = React.lazy(() => import("./components/MenuLorePanels.jsx"));',
+      'const MenuLorePanels = () => null;',
+    )
     .replaceAll("import.meta.env.VITE_SEASON_NUMBER", "1")
     .replaceAll('import.meta.env.VITE_SEASON_NAME', '"The Wandering Comet"');
 
@@ -285,6 +306,11 @@ async function loadComponent() {
     `globalThis.__SOLARA_SMOKE_EXPORTS = {
   startDailyRun,
   startRogueRun,
+  saveGame,
+  importSavePayload,
+  firstSessionPlan,
+  objectiveState,
+  worldFeed,
   gR,
   dailyRunRef,
   rogueRunRef,
@@ -339,6 +365,35 @@ async function runScenario(Component, buttonLabel, expectedRefPredicate) {
   cleanup();
 }
 
+async function runSaveScenario(Component) {
+  resetRuntime();
+  render(Component);
+  const hookState = getHookState();
+  if (hookState[0] && hookState[0].current === null) {
+    hookState[0].current = createFakeCanvas();
+  }
+  const cleanup = flushEffects();
+  render(Component);
+
+  const handlers = globalThis.__SOLARA_SMOKE_EXPORTS;
+  assert(typeof handlers.saveGame === "function", "Missing saveGame smoke export.");
+  assert(typeof handlers.importSavePayload === "function", "Missing importSavePayload smoke export.");
+  assert(handlers.firstSessionPlan?.steps?.length >= 4, "First-session plan did not expose the expected route.");
+  assert(handlers.objectiveState?.title, "Objective state was not available for smoke validation.");
+  assert(Array.isArray(handlers.worldFeed) && handlers.worldFeed.length >= 2, "World feed did not expose actionable entries.");
+  assert(handlers.worldFeed.every((entry) => entry.action), "World feed entries should expose action metadata.");
+
+  const saved = handlers.saveGame();
+  assert(saved && saved.ver >= 1, "Save scenario did not return a payload.");
+  assert(globalThis.localStorage.getItem("solara_save"), "Save scenario did not write localStorage.");
+
+  const imported = handlers.importSavePayload({ ver: 1, inv: [{ i: "bread", c: 1 }], hp: 999, mhp: 10 }, { reload: false });
+  assert(imported?.data?.ver >= 1, "Import scenario did not sanitize a payload.");
+  assert(imported.issues.length >= 1, "Import scenario did not report repairs for legacy save.");
+
+  cleanup();
+}
+
 async function main() {
   installBrowserStubs();
   const { module, tempPath } = await loadComponent();
@@ -358,7 +413,9 @@ async function main() {
       (current) => current && current.mode === "roguelite" && current.done === false,
     );
 
-    console.log("Smoke test passed: app mounts and Daily/Roguelite startup flows initialize.");
+    await runSaveScenario(Component);
+
+    console.log("Smoke test passed: app mounts, Daily/Roguelite startup flows initialize, and save/import paths work.");
   } finally {
     try {
       await fs.unlink(tempPath);

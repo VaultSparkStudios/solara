@@ -1,0 +1,398 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-04-17T16:35:57.606Z",
+  "season": 1,
+  "season_name": "The Wandering Comet",
+  "status": {
+    "sun_brightness": 100,
+    "total_deaths": 0,
+    "phase": "Full Dawn",
+    "pressure": "Stable",
+    "faction_counts": {
+      "sunkeeper": 0,
+      "eclipser": 0,
+      "neutral": 0
+    },
+    "grave_count": 0,
+    "shrine_count": 0,
+    "echo_count": 0
+  },
+  "shared_world": {
+    "summary": "☀️ Steady Flame · Full Dawn · 0 fallen",
+    "crisis": {
+      "title": "Build The Chronicle",
+      "detail": "Record runs, deaths, and offerings so the async world has something tangible to react to.",
+      "priority": 5,
+      "reward": "More echoes, better rival selection, stronger communal identity."
+    },
+    "ritual": {
+      "title": "Lantern Tithe",
+      "description": "Offer Sunstone Shards at graves to push a communal ritual meter and unlock stronger world-wide boons.",
+      "target": 100,
+      "totalOfferings": 0,
+      "shrineCount": 0,
+      "majorShrines": 0,
+      "progress": 0,
+      "completed": false,
+      "rewardLabel": "Complete the rite for global relief and stronger blessings."
+    },
+    "director": {
+      "pressure": "Stable",
+      "daily_modifier": {
+        "id": "clear_routes",
+        "label": "Clear Routes",
+        "effect": "Daily Rite rooms favor recovery, scouting, and predictable enemy packs."
+      },
+      "faction_objective": "Faction pressure is tied. One strong Daily Rite can swing today's world tone.",
+      "mechanics": {
+        "id": "clear_routes",
+        "label": "Clear Routes",
+        "objective": "Use the safer route to bank a clean Daily Rite result.",
+        "encounterBias": [
+          "recovery_room",
+          "scout_pack",
+          "low_ambush"
+        ],
+        "rewardBias": [
+          "food",
+          "coins",
+          "starter_relic"
+        ],
+        "shrineBias": "seed",
+        "rivalWeight": 0.75,
+        "rewardMultiplier": 1,
+        "enemyScale": 0.97,
+        "merchantScale": 0.95,
+        "factionPressure": "contested",
+        "telemetryTags": [
+          "modifier:clear_routes",
+          "pressure:Stable",
+          "faction:contested",
+          "rival:none",
+          "graves:sparse"
+        ]
+      }
+    },
+    "briefing": {
+      "headline": "☀️ Steady Flame · Full Dawn · 0 fallen",
+      "detail": "The season is stable. Trade and travel remain predictable.",
+      "blessing": null,
+      "cards": [
+        {
+          "id": "pressure",
+          "accent": "#f0c060",
+          "title": "Build The Chronicle · Stable",
+          "detail": "Daily Rite rooms favor recovery, scouting, and predictable enemy packs."
+        },
+        {
+          "id": "ritual",
+          "accent": "#c8a84e",
+          "title": "Lantern Tithe · 0%",
+          "detail": "0/100 offerings recorded. Complete the rite for global relief and stronger blessings."
+        },
+        {
+          "id": "prophecy",
+          "accent": "#f0c060",
+          "title": "Prophecy: Sun Oath",
+          "detail": "While the sun dims, press deeper. Harsh phases pay out more when endured."
+        },
+        {
+          "id": "best-move",
+          "accent": "#7fd37f",
+          "title": "Live World Link Active",
+          "detail": "Best opening move: Build The Chronicle."
+        }
+      ]
+    },
+    "delta": {
+      "title": "World Delta",
+      "summary": "Next best move: Build The Chronicle.",
+      "cards": [
+        {
+          "id": "opening",
+          "label": "Opening Move",
+          "value": "Daily Rite unplayed",
+          "detail": "A first run gives the day its strongest personal and communal signal.",
+          "accent": "#f0c060"
+        },
+        {
+          "id": "sun",
+          "label": "World Pressure",
+          "value": "Full Dawn / Stable",
+          "detail": "Daily Rite rooms favor recovery, scouting, and predictable enemy packs.",
+          "accent": "#f0c060"
+        },
+        {
+          "id": "ritual",
+          "label": "Ritual Progress",
+          "value": "0%",
+          "detail": "0/100 offerings. Complete the rite for global relief and stronger blessings.",
+          "accent": "#c8a84e"
+        },
+        {
+          "id": "link",
+          "label": "Live Link",
+          "value": "0 graves / 0 echoes",
+          "detail": "Public graves, echoes, scores, and sun pressure are available for this session.",
+          "accent": "#7fd37f"
+        }
+      ]
+    },
+    "feed": [
+      {
+        "id": "ritual",
+        "kind": "ritual",
+        "title": "Lantern Tithe · 0%",
+        "detail": "Complete the rite for global relief and stronger blessings.",
+        "priority": 6,
+        "accent": "#c8a84e",
+        "action": {
+          "type": "map",
+          "tab": "daily",
+          "target": null,
+          "label": "Find Offering Target"
+        }
+      },
+      {
+        "id": "crisis",
+        "kind": "directive",
+        "title": "Build The Chronicle",
+        "detail": "Record runs, deaths, and offerings so the async world has something tangible to react to.",
+        "priority": 5,
+        "accent": "#f0c060",
+        "action": {
+          "type": "tab",
+          "tab": "daily",
+          "label": "Open Daily Rite"
+        }
+      },
+      {
+        "id": "world-link",
+        "kind": "live_link",
+        "title": "Live World Link",
+        "detail": "0 graves and 0 echoes are available to public surfaces.",
+        "priority": 5,
+        "accent": "#7fd37f",
+        "action": {
+          "type": "tab",
+          "tab": "settings",
+          "label": "View Link"
+        }
+      }
+    ],
+    "intelligence": {
+      "headline": "☀️ Steady Flame · Full Dawn · 0 fallen",
+      "read": [
+        "Stable pressure is active.",
+        "Build The Chronicle: Record runs, deaths, and offerings so the async world has something tangible to react to.",
+        "Lantern Tithe is 0% complete.",
+        "No rival echo is active."
+      ],
+      "next_best_action": "Build The Chronicle",
+      "tuning": {
+        "enemy_scale": 0.97,
+        "merchant_scale": 0.95,
+        "reward_multiplier": 1,
+        "tags": [
+          "modifier:clear_routes",
+          "pressure:Stable",
+          "faction:contested",
+          "rival:none",
+          "graves:sparse"
+        ]
+      },
+      "token_policy": {
+        "version": 2,
+        "browser_token_cost": 0,
+        "generation_mode": "deterministic",
+        "paid_generation_allowed": false,
+        "server_generation": {
+          "allowed": false,
+          "max_tokens_per_day": 0,
+          "cache_required": true,
+          "fallback": "deterministic_chronicle",
+          "input_policy": "structured_public_state_only"
+        },
+        "cache_key": "season:1:day:20560:sun:100:deaths:0:runs:0:graves:0:echoes:0"
+      }
+    },
+    "daily_rite_plan": {
+      "id": "clear_routes:day:20560",
+      "label": "Clear Routes",
+      "objective": "Use the safer route to bank a clean Daily Rite result.",
+      "rewardMultiplier": 1,
+      "enemyScale": 0.97,
+      "route": [
+        {
+          "id": "segment_1",
+          "label": "Waves 1-5",
+          "waveStart": 1,
+          "waveEnd": 5,
+          "encounter": "scout_pack",
+          "reward": "coins",
+          "pressure": 0.977,
+          "shrineChance": 0.12,
+          "rivalChance": 0.04
+        },
+        {
+          "id": "segment_2",
+          "label": "Waves 6-10",
+          "waveStart": 6,
+          "waveEnd": 10,
+          "encounter": "low_ambush",
+          "reward": "food",
+          "pressure": 0.992,
+          "shrineChance": 0.12,
+          "rivalChance": 0.09
+        },
+        {
+          "id": "segment_3",
+          "label": "Waves 11-15",
+          "waveStart": 11,
+          "waveEnd": 15,
+          "encounter": "recovery_room",
+          "reward": "starter_relic",
+          "pressure": 1.008,
+          "shrineChance": 0.12,
+          "rivalChance": 0.14
+        },
+        {
+          "id": "segment_4",
+          "label": "Waves 16-20",
+          "waveStart": 16,
+          "waveEnd": 20,
+          "encounter": "scout_pack",
+          "reward": "coins",
+          "pressure": 1.022,
+          "shrineChance": 0.12,
+          "rivalChance": 0.18
+        },
+        {
+          "id": "segment_5",
+          "label": "Waves 21-25",
+          "waveStart": 21,
+          "waveEnd": 25,
+          "encounter": "low_ambush",
+          "reward": "food",
+          "pressure": 1.038,
+          "shrineChance": 0.12,
+          "rivalChance": 0.22
+        },
+        {
+          "id": "segment_6",
+          "label": "Waves 26-30",
+          "waveStart": 26,
+          "waveEnd": 30,
+          "encounter": "recovery_room",
+          "reward": "starter_relic",
+          "pressure": 1.052,
+          "shrineChance": 0.12,
+          "rivalChance": 0.27
+        }
+      ],
+      "boss": {
+        "wave": 30,
+        "pressure": 1,
+        "reward": "coins",
+        "rivalIntrusion": false
+      },
+      "shareLine": "Clear Routes: Use the safer route to bank a clean Daily Rite result."
+    },
+    "constellation_objectives": []
+  },
+  "top_runs": [],
+  "graves": [],
+  "echoes": [],
+  "social_hooks": {
+    "headline": "☀️ Steady Flame · Full Dawn · 0 fallen",
+    "call_to_action": "Record runs, deaths, and offerings so the async world has something tangible to react to.",
+    "share_text": "☀️ Steady Flame · Full Dawn · 0 fallen — Build The Chronicle. Play Solara: Sunfall.",
+    "discord_command_hint": "/sun /leaderboard /graves /prophecy",
+    "twitch_panel_line": "Full Dawn · Stable · 0 graves"
+  },
+  "integrations": {
+    "schema_version": 2,
+    "studio_hub": {
+      "status_path": "/status.json",
+      "chronicle_path": "/chronicle.json",
+      "recommended_refresh_seconds": 300,
+      "card_status": "Full Dawn",
+      "next_action": "Build The Chronicle"
+    },
+    "social_dashboard": {
+      "headline": "☀️ Steady Flame · Full Dawn · 0 fallen",
+      "directive": "Build The Chronicle",
+      "tags": [
+        "modifier:clear_routes",
+        "pressure:Stable",
+        "faction:contested",
+        "rival:none",
+        "graves:sparse"
+      ],
+      "share_prompt": "Record runs, deaths, and offerings so the async world has something tangible to react to."
+    },
+    "sparkfunnel": {
+      "primary_hook": "Record runs, deaths, and offerings so the async world has something tangible to react to.",
+      "conversion_event": "daily_rite_start",
+      "retention_event": "sunstone_offering",
+      "reactivation_event": "share_copy",
+      "audience_state": "stable"
+    },
+    "telemetry": {
+      "schema_version": 1,
+      "privacy": "public-safe aggregates only; no raw saves, private notes, credentials, or internal ops data",
+      "recommended_events": [
+        "daily_rite_start",
+        "daily_rite_end",
+        "sunstone_offering",
+        "share_copy",
+        "backend_write_rejected"
+      ],
+      "funnels": {
+        "activation": [
+          "menu_play",
+          "daily_rite_start",
+          "daily_rite_end"
+        ],
+        "retention": [
+          "daily_rite_start",
+          "sunstone_offering",
+          "share_copy"
+        ],
+        "recovery": [
+          "save_import_repaired",
+          "backend_write_rejected"
+        ]
+      },
+      "dimensions": {
+        "backend_connected": true,
+        "pressure": "Stable",
+        "phase": "full_dawn",
+        "daily_modifier": "clear_routes",
+        "next_best_action": "Build The Chronicle",
+        "tags": [
+          "modifier:clear_routes",
+          "pressure:Stable",
+          "faction:contested",
+          "rival:none",
+          "graves:sparse"
+        ]
+      },
+      "risk_score": 2
+    }
+  },
+  "ai_policy": {
+    "version": 2,
+    "browser_token_cost": 0,
+    "generation_mode": "deterministic",
+    "paid_generation_allowed": false,
+    "server_generation": {
+      "allowed": false,
+      "max_tokens_per_day": 0,
+      "cache_required": true,
+      "fallback": "deterministic_chronicle",
+      "input_policy": "structured_public_state_only"
+    },
+    "cache_key": "season:1:day:20560:sun:100:deaths:0:runs:0:graves:0:echoes:0"
+  }
+}

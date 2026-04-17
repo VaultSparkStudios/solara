@@ -2,14 +2,14 @@
 
 This repo now keeps only a public-safe handoff summary. Detailed handoff history is maintained privately.
 
-## Where We Left Off (2026-04-14)
-- Shipped: identity-safe canon pass, shared-world trust helpers, First Five Minutes route guidance, Sun Director 2.0 foundation, repo context updates, modular extraction slices for storage/objective/service logic, and the world briefing / run debrief feedback pass
-- Tests: 19 passing (unit + smoke/build validation) · delta: +6
-- Deploy: pushed to `origin/main` at `96cd50a`
+## Where We Left Off (2026-04-17)
+- Shipped: audit roadmap memory, deterministic public chronicle/status exports, RPC-first shared-world write path with fallback, Supabase hardening SQL starter, interactive world feed, Director-driven Daily Rite planning, constellation map objectives, First Myth onboarding plan, richer run debriefs, and broader validation coverage
+- Tests: 30 passing (unit) plus smoke runtime and production build passing · delta: +11
+- Deploy: pushed to `origin/main` during closeout
 
 ## Session Intent
 
-Audit the project, capture the full public-safe roadmap in project memory, implement the highest-impact safe subset, and keep the repo deployable.
+Audit the project, capture the full public-safe roadmap in project memory, implement the highest-impact local subset, complete the remaining repo-feasible items, and keep the repo deployable.
 
 ## Public-Safe Summary
 
@@ -26,8 +26,17 @@ Audit the project, capture the full public-safe roadmap in project memory, imple
 - added reusable `SharedWorldStatus` and `RunDebriefCard` components to continue pulling status/debrief UI out of `src/App.jsx`
 - Daily Rite completion/failure and Roguelite failure surfaces now explain communal impact and the next best move instead of only dumping share cards
 - task memory now captures the full audit-derived execution order: backend trust enforcement, monolith extraction, stronger onboarding/debrief loops, world-impact surfacing, Daily Rite depth, accessibility, performance, telemetry, and wider tests
-- closeout status: repo memory updated, local validation passing, and changes pushed on `main`
+- added deterministic `status.json` and `chronicle.json` generation with zero browser token cost by default
+- added Studio Hub / Social Dashboard / Sparkfunnel integration contract data, telemetry-lite schema output, world feed, and intelligence digest exports
+- added a Supabase public-write hardening SQL starter covering RPC validation, RLS posture, constraints, moderation fields, and rate-limit posture
+- switched shared-world writes to RPC-first service calls with legacy table-write fallback for staged backend migration
+- added interactive world-feed actions that route players toward relevant tabs or map intent
+- added Director-derived Daily Rite route planning with encounter, reward, shrine, rival, boss, and share-line data
+- added constellation objectives that turn grave clusters into routeable map objectives with offering value, shrine progress, urgency, and reward labels
+- added first-session "First Myth" planning for gear, Mara, Hearth completion, and Daily Rite activation
+- expanded smoke coverage to validate first-session, objective, and actionable world-feed data contracts
+- closeout status: repo memory updated, 30 unit tests passing, smoke runtime passing, production build passing, and changes pushed on `main`
 
 ## Human Action Required
 
-Before activating public traffic at scale, mirror the client-side trust rules in Supabase RLS / RPC / moderation controls.
+Before activating public traffic at scale, deploy and verify the Supabase RLS / RPC / moderation controls against the live backend. The local repo now contains the starter SQL and RPC-first client path, but live backend verification requires project access.

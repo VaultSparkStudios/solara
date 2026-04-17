@@ -14,6 +14,97 @@ export function sanitizeText(value, maxLen, fallback) {
   return clean || fallback;
 }
 
+export function migrateSaveData(raw, saveVersion) {
+  const issues = [];
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+    return { data: raw, issues };
+  }
+
+  const fromVersion = Number.isFinite(Number(raw.ver)) ? Number(raw.ver) : 0;
+  const migrated = { ...raw };
+
+  if (fromVersion < saveVersion) {
+    issues.push(`Save migrated from v${fromVersion || "unknown"} to v${saveVersion}.`);
+  }
+
+  if (!migrated.rep || typeof migrated.rep !== "object" || Array.isArray(migrated.rep)) {
+    migrated.rep = { guard: 0, merchant: 0, bandit: 0 };
+    issues.push("Missing reputation data was restored.");
+  }
+  if (!migrated.rogueliteStats || typeof migrated.rogueliteStats !== "object" || Array.isArray(migrated.rogueliteStats)) {
+    migrated.rogueliteStats = { bestWave: 0, totalRuns: 0, relics: [] };
+    issues.push("Missing roguelite stats were restored.");
+  }
+  if (!Array.isArray(migrated.activePrayers)) {
+    migrated.activePrayers = [];
+  }
+  if (!Array.isArray(migrated.codex)) {
+    migrated.codex = [];
+  }
+  if (!Array.isArray(migrated.sideQuests)) {
+    migrated.sideQuests = [];
+  }
+
+  migrated.ver = saveVersion;
+  return { data: migrated, issues };
+}
+
+export function buildSavePayload({ player, world, saveVersion, fallbackSigil = "NO-SIGIL" } = {}) {
+  if (!player) {
+    return null;
+  }
+  return {
+    ver: saveVersion,
+    sk: player.sk,
+    inv: player.inv,
+    eq: player.eq,
+    bank: player.bank,
+    hp: player.hp,
+    mhp: player.mhp,
+    prayer: player.prayer,
+    maxPrayer: player.maxPrayer,
+    quests: player.quests,
+    desertKills: player.desertKills,
+    goblinKills: player.goblinKills || 0,
+    totalXp: player.totalXp,
+    x: player.x,
+    y: player.y,
+    runE: player.runE,
+    achievements: player.achievements,
+    autoRetaliate: player.autoRetaliate,
+    slayerTask: player.slayerTask,
+    haunted: player.haunted,
+    jogreKills: player.jogreKills,
+    demonKills: player.demonKills,
+    jadKills: player.jadKills,
+    relicParts: player.relicParts,
+    buffs: player.buffs,
+    ironman: player.ironman,
+    visitedRegions: [...(player.visitedRegions || [])],
+    cookCount: player.cookCount,
+    activePrayers: player.activePrayers || [],
+    shipmentFish: player.shipmentFish || 0,
+    iceWarriorKills: player.iceWarriorKills || 0,
+    monsterKills: player.monsterKills || {},
+    pet: player.pet,
+    questPoints: player.questPoints || 0,
+    unlocks: player.unlocks || [],
+    rep: player.rep || { guard: 0, merchant: 0, bandit: 0 },
+    lastFireTile: player.lastFireTile,
+    prestige: player.prestige || {},
+    farmPatches: world?.objects?.filter((o) => o.t === "farm_patch").map((o) => ({ id: o.id, seed: o.seed, readyAt: o.readyAt, grown: o.grown })),
+    playerName: player.playerName || "Adventurer",
+    travelerSigil: player.travelerSigil || fallbackSigil,
+    camp: player.camp,
+    campBank: player.campBank || [],
+    appearance: player.appearance || { skin: "#f0d8a0", hair: "#333", outfit: "#2266cc" },
+    codex: player.codex || [],
+    sideQuests: player.sideQuests || [],
+    dailyChallengeProgress: player.dailyChallengeProgress || 0,
+    rogueliteStats: player.rogueliteStats || { bestWave: 0, totalRuns: 0, relics: [] },
+  };
+}
+
 export function createSaveSanitizer({ items, saveVersion }) {
   const sanitizeItemStack = (stack) => {
     if (!stack || typeof stack !== "object" || typeof stack.i !== "string" || !items[stack.i]) {
@@ -34,17 +125,21 @@ export function createSaveSanitizer({ items, saveVersion }) {
       };
     }
 
-    const inv = (Array.isArray(raw.inv) ? raw.inv : []).map(sanitizeItemStack).filter(Boolean).slice(0, 64);
-    const bank = (Array.isArray(raw.bank) ? raw.bank : []).map(sanitizeItemStack).filter(Boolean).slice(0, 512);
-    const gear = raw.eq && typeof raw.eq === "object" && !Array.isArray(raw.eq) ? raw.eq : {};
-    const rep = raw.rep && typeof raw.rep === "object" && !Array.isArray(raw.rep) ? raw.rep : {};
+    const migrated = migrateSaveData(raw, saveVersion);
+    issues.push(...migrated.issues);
+    const source = migrated.data;
+
+    const inv = (Array.isArray(source.inv) ? source.inv : []).map(sanitizeItemStack).filter(Boolean).slice(0, 64);
+    const bank = (Array.isArray(source.bank) ? source.bank : []).map(sanitizeItemStack).filter(Boolean).slice(0, 512);
+    const gear = source.eq && typeof source.eq === "object" && !Array.isArray(source.eq) ? source.eq : {};
+    const rep = source.rep && typeof source.rep === "object" && !Array.isArray(source.rep) ? source.rep : {};
     const rogueliteStats =
-      raw.rogueliteStats && typeof raw.rogueliteStats === "object" && !Array.isArray(raw.rogueliteStats)
-        ? raw.rogueliteStats
+      source.rogueliteStats && typeof source.rogueliteStats === "object" && !Array.isArray(source.rogueliteStats)
+        ? source.rogueliteStats
         : {};
     const sanitized = {
-      ver: safeNum(raw.ver, saveVersion, 1, saveVersion),
-      sk: raw.sk && typeof raw.sk === "object" && !Array.isArray(raw.sk) ? raw.sk : {},
+      ver: saveVersion,
+      sk: source.sk && typeof source.sk === "object" && !Array.isArray(source.sk) ? source.sk : {},
       inv,
       eq: {
         weapon: typeof gear.weapon === "string" && items[gear.weapon] ? gear.weapon : null,
@@ -56,52 +151,52 @@ export function createSaveSanitizer({ items, saveVersion }) {
         cape: typeof gear.cape === "string" && items[gear.cape] ? gear.cape : null,
       },
       bank,
-      hp: safeNum(raw.hp, 10, 1, 9999),
-      mhp: safeNum(raw.mhp, 10, 1, 9999),
-      prayer: safeNum(raw.prayer, 1, 0, 9999),
-      maxPrayer: safeNum(raw.maxPrayer, 1, 0, 9999),
-      quests: raw.quests && typeof raw.quests === "object" && !Array.isArray(raw.quests) ? raw.quests : {},
-      desertKills: safeNum(raw.desertKills, 0, 0, 999999),
-      goblinKills: safeNum(raw.goblinKills, 0, 0, 999999),
-      totalXp: safeNum(raw.totalXp, 0, 0, 999999999),
-      x: safeNum(raw.x, 20, 0, 99),
-      y: safeNum(raw.y, 28, 0, 99),
-      runE: safeNum(raw.runE, 100, 0, 100),
-      achievements: Array.isArray(raw.achievements) ? raw.achievements.filter((v) => typeof v === "string").slice(0, 256) : [],
-      autoRetaliate: raw.autoRetaliate !== false,
-      slayerTask: raw.slayerTask && typeof raw.slayerTask === "object" ? raw.slayerTask : null,
-      haunted: safeNum(raw.haunted, 0, 0, 999999),
-      jogreKills: safeNum(raw.jogreKills, 0, 0, 999999),
-      demonKills: safeNum(raw.demonKills, 0, 0, 999999),
-      jadKills: safeNum(raw.jadKills, 0, 0, 999999),
-      relicParts: safeNum(raw.relicParts, 0, 0, 999999),
-      buffs: raw.buffs && typeof raw.buffs === "object" && !Array.isArray(raw.buffs) ? raw.buffs : {},
-      ironman: !!raw.ironman,
-      visitedRegions: Array.isArray(raw.visitedRegions) ? raw.visitedRegions.filter((v) => typeof v === "string").slice(0, 256) : [],
-      cookCount: safeNum(raw.cookCount, 0, 0, 999999),
-      activePrayers: Array.isArray(raw.activePrayers) ? raw.activePrayers.filter((v) => typeof v === "string").slice(0, 32) : [],
-      shipmentFish: safeNum(raw.shipmentFish, 0, 0, 999999),
-      iceWarriorKills: safeNum(raw.iceWarriorKills, 0, 0, 999999),
-      monsterKills: raw.monsterKills && typeof raw.monsterKills === "object" && !Array.isArray(raw.monsterKills) ? raw.monsterKills : {},
-      pet: typeof raw.pet === "string" && items[raw.pet] ? raw.pet : null,
-      questPoints: safeNum(raw.questPoints, 0, 0, 999999),
-      unlocks: Array.isArray(raw.unlocks) ? raw.unlocks.filter((v) => typeof v === "string").slice(0, 64) : [],
+      hp: safeNum(source.hp, 10, 1, 9999),
+      mhp: safeNum(source.mhp, 10, 1, 9999),
+      prayer: safeNum(source.prayer, 1, 0, 9999),
+      maxPrayer: safeNum(source.maxPrayer, 1, 0, 9999),
+      quests: source.quests && typeof source.quests === "object" && !Array.isArray(source.quests) ? source.quests : {},
+      desertKills: safeNum(source.desertKills, 0, 0, 999999),
+      goblinKills: safeNum(source.goblinKills, 0, 0, 999999),
+      totalXp: safeNum(source.totalXp, 0, 0, 999999999),
+      x: safeNum(source.x, 20, 0, 99),
+      y: safeNum(source.y, 28, 0, 99),
+      runE: safeNum(source.runE, 100, 0, 100),
+      achievements: Array.isArray(source.achievements) ? source.achievements.filter((v) => typeof v === "string").slice(0, 256) : [],
+      autoRetaliate: source.autoRetaliate !== false,
+      slayerTask: source.slayerTask && typeof source.slayerTask === "object" ? source.slayerTask : null,
+      haunted: safeNum(source.haunted, 0, 0, 999999),
+      jogreKills: safeNum(source.jogreKills, 0, 0, 999999),
+      demonKills: safeNum(source.demonKills, 0, 0, 999999),
+      jadKills: safeNum(source.jadKills, 0, 0, 999999),
+      relicParts: safeNum(source.relicParts, 0, 0, 999999),
+      buffs: source.buffs && typeof source.buffs === "object" && !Array.isArray(source.buffs) ? source.buffs : {},
+      ironman: !!source.ironman,
+      visitedRegions: Array.isArray(source.visitedRegions) ? source.visitedRegions.filter((v) => typeof v === "string").slice(0, 256) : [],
+      cookCount: safeNum(source.cookCount, 0, 0, 999999),
+      activePrayers: Array.isArray(source.activePrayers) ? source.activePrayers.filter((v) => typeof v === "string").slice(0, 32) : [],
+      shipmentFish: safeNum(source.shipmentFish, 0, 0, 999999),
+      iceWarriorKills: safeNum(source.iceWarriorKills, 0, 0, 999999),
+      monsterKills: source.monsterKills && typeof source.monsterKills === "object" && !Array.isArray(source.monsterKills) ? source.monsterKills : {},
+      pet: typeof source.pet === "string" && items[source.pet] ? source.pet : null,
+      questPoints: safeNum(source.questPoints, 0, 0, 999999),
+      unlocks: Array.isArray(source.unlocks) ? source.unlocks.filter((v) => typeof v === "string").slice(0, 64) : [],
       rep: {
         guard: safeNum(rep.guard, 0, -999999, 999999),
         merchant: safeNum(rep.merchant, 0, -999999, 999999),
         bandit: safeNum(rep.bandit, 0, -999999, 999999),
       },
-      lastFireTile: raw.lastFireTile && typeof raw.lastFireTile === "object" ? raw.lastFireTile : null,
-      prestige: raw.prestige && typeof raw.prestige === "object" && !Array.isArray(raw.prestige) ? raw.prestige : {},
-      farmPatches: Array.isArray(raw.farmPatches) ? raw.farmPatches.filter((v) => v && typeof v === "object").slice(0, 64) : [],
-      playerName: sanitizeText(raw.playerName, 16, fallbackName),
-      travelerSigil: sanitizeText(raw.travelerSigil, 24, fallbackSigil),
-      camp: raw.camp && typeof raw.camp === "object" ? raw.camp : null,
-      campBank: (Array.isArray(raw.campBank) ? raw.campBank : []).map(sanitizeItemStack).filter(Boolean).slice(0, 128),
-      appearance: raw.appearance && typeof raw.appearance === "object" && !Array.isArray(raw.appearance) ? raw.appearance : { skin: "#f0d8a0", hair: "#333", outfit: "#2266cc" },
-      codex: Array.isArray(raw.codex) ? raw.codex.filter((v) => typeof v === "string").slice(0, 256) : [],
-      sideQuests: Array.isArray(raw.sideQuests) ? raw.sideQuests.filter((v) => v && typeof v === "object").slice(0, 128) : [],
-      dailyChallengeProgress: safeNum(raw.dailyChallengeProgress, 0, 0, 999999),
+      lastFireTile: source.lastFireTile && typeof source.lastFireTile === "object" ? source.lastFireTile : null,
+      prestige: source.prestige && typeof source.prestige === "object" && !Array.isArray(source.prestige) ? source.prestige : {},
+      farmPatches: Array.isArray(source.farmPatches) ? source.farmPatches.filter((v) => v && typeof v === "object").slice(0, 64) : [],
+      playerName: sanitizeText(source.playerName, 16, fallbackName),
+      travelerSigil: sanitizeText(source.travelerSigil, 24, fallbackSigil),
+      camp: source.camp && typeof source.camp === "object" ? source.camp : null,
+      campBank: (Array.isArray(source.campBank) ? source.campBank : []).map(sanitizeItemStack).filter(Boolean).slice(0, 128),
+      appearance: source.appearance && typeof source.appearance === "object" && !Array.isArray(source.appearance) ? source.appearance : { skin: "#f0d8a0", hair: "#333", outfit: "#2266cc" },
+      codex: Array.isArray(source.codex) ? source.codex.filter((v) => typeof v === "string").slice(0, 256) : [],
+      sideQuests: Array.isArray(source.sideQuests) ? source.sideQuests.filter((v) => v && typeof v === "object").slice(0, 128) : [],
+      dailyChallengeProgress: safeNum(source.dailyChallengeProgress, 0, 0, 999999),
       rogueliteStats: {
         bestWave: safeNum(rogueliteStats.bestWave, 0, 0, 999999),
         totalRuns: safeNum(rogueliteStats.totalRuns, 0, 0, 999999),
@@ -119,10 +214,10 @@ export function createSaveSanitizer({ items, saveVersion }) {
       sanitized.prayer = sanitized.maxPrayer;
       issues.push("Prayer points were above max and were repaired.");
     }
-    if (inv.length !== (Array.isArray(raw.inv) ? raw.inv.length : 0)) {
+    if (inv.length !== (Array.isArray(source.inv) ? source.inv.length : 0)) {
       issues.push("Some invalid inventory entries were discarded.");
     }
-    if (bank.length !== (Array.isArray(raw.bank) ? raw.bank.length : 0)) {
+    if (bank.length !== (Array.isArray(source.bank) ? source.bank.length : 0)) {
       issues.push("Some invalid bank entries were discarded.");
     }
 

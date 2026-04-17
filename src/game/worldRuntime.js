@@ -1,5 +1,5 @@
 export function getMerchantPriceScale(snapshot, merchantRep = 0) {
-  const base = snapshot?.event?.merchantScale || 1;
+  const base = snapshot?.director?.mechanics?.merchantScale || snapshot?.event?.merchantScale || 1;
   const repDiscount = merchantRep >= 25 ? 0.85 : merchantRep >= 10 ? 0.9 : 1;
   const ritualDiscount = snapshot?.ritual?.completed ? 0.95 : 1;
   return base * repDiscount * ritualDiscount;
@@ -28,7 +28,7 @@ export function applyMonsterWorldState(monster, snapshot, context = "world") {
   if (!monster) {
     return monster;
   }
-  const enemyScale = snapshot?.event?.enemyScale || 1;
+  const enemyScale = snapshot?.director?.mechanics?.enemyScale || snapshot?.event?.enemyScale || 1;
   const phaseSeverity = snapshot?.phase?.severity || 0;
   const dungeonScale = context === "dungeon" ? 1 + phaseSeverity * 0.03 : 1;
   const factionScale =

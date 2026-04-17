@@ -13,7 +13,7 @@ import {
   buildProphecyDeck,
   createDeathMemoryCard,
 } from "../src/game/innovationSystems.js";
-import { createSaveSanitizer } from "../src/game/save.js";
+import { buildSavePayload, createSaveSanitizer, migrateSaveData } from "../src/game/save.js";
 import {
   applyMonsterWorldState,
   getCombatBonuses,
@@ -35,6 +35,9 @@ import {
 import {
   offerSunstoneRecord,
   reactToEchoRecord,
+  submitDailyScoreRecord,
+  submitGraveRecord,
+  submitRemoteEcho,
 } from "../src/game/sharedWorldService.js";
 
 test("getSunPhase classifies eclipse thresholds", () => {
@@ -59,6 +62,8 @@ test("getSharedWorldSnapshot responds to leader control and low sun", () => {
   });
   assert.equal(convoy.event.id, "sunkeeper_convoy");
   assert.equal(convoy.director.dailyModifier.id, "clear_routes");
+  assert.equal(convoy.director.mechanics.id, "clear_routes");
+  assert.ok(convoy.director.mechanics.rewardMultiplier >= 1);
 });
 
 test("sun director turns phase and faction state into actionable pressure", () => {
@@ -116,6 +121,52 @@ test("save sanitizer removes invalid item entries and clamps values", () => {
   assert.ok(result.issues.length >= 2);
 });
 
+test("save migration restores modern fields and reports repair work", () => {
+  const migrated = migrateSaveData({ ver: 2, hp: 5 }, 5);
+  assert.equal(migrated.data.ver, 5);
+  assert.deepEqual(migrated.data.rep, { guard: 0, merchant: 0, bandit: 0 });
+  assert.deepEqual(migrated.data.rogueliteStats, { bestWave: 0, totalRuns: 0, relics: [] });
+  assert.ok(migrated.issues.some((issue) => /migrated/i.test(issue)));
+
+  const sanitizeSaveData = createSaveSanitizer({
+    items: { bread: { n: "Bread" } },
+    saveVersion: 5,
+  });
+  const result = sanitizeSaveData({ ver: 1, inv: [{ i: "bread", c: 1 }] }, "Fallback", "SIGIL-1");
+  assert.equal(result.data.ver, 5);
+  assert.ok(result.issues.some((issue) => /reputation/i.test(issue)));
+});
+
+test("save payload builder captures current player and farm patch state", () => {
+  const payload = buildSavePayload({
+    saveVersion: 5,
+    fallbackSigil: "SIG-2",
+    player: {
+      sk: {},
+      inv: [{ i: "bread", c: 1 }],
+      eq: {},
+      bank: [],
+      hp: 8,
+      mhp: 10,
+      prayer: 1,
+      maxPrayer: 1,
+      quests: {},
+      totalXp: 12,
+      x: 2,
+      y: 3,
+      runE: 90,
+      visitedRegions: new Set(["Solara's Rest"]),
+      playerName: "Sol",
+    },
+    world: { objects: [{ t: "farm_patch", id: "a", seed: "herb_seed", readyAt: 1, grown: false }] },
+  });
+
+  assert.equal(payload.ver, 5);
+  assert.equal(payload.travelerSigil, "SIG-2");
+  assert.deepEqual(payload.visitedRegions, ["Solara's Rest"]);
+  assert.equal(payload.farmPatches.length, 1);
+});
+
 test("shared-world trust helpers clamp public write payloads", () => {
   const echo = sanitizeEchoPayload({
     player_name: "  Bad <b>Name</b>  ",
@@ -156,6 +207,7 @@ test("world runtime scales monsters and merchant prices from snapshot", () => {
   assert.ok(mon.hp > 100);
   assert.ok(getMerchantPriceScale(snapshot, 0) > 1);
   assert.ok(getMerchantPriceScale(snapshot, 25) < getMerchantPriceScale(snapshot, 0));
+  assert.equal(mon.worldScale >= snapshot.director.mechanics.enemyScale, true);
 });
 
 test("world runtime exposes combat bonuses and reset", () => {
@@ -307,4 +359,81 @@ test("reactToEchoRecord validates reactions before accepting them", async () => 
 
   const invalid = await reactToEchoRecord({ supabase: null, echoId: "echo-2", reaction: "spam" });
   assert.equal(invalid.accepted, false);
+});
+
+test("shared-world writes prefer Supabase RPCs before table fallback", async () => {
+  const calls = [];
+  const supabase = {
+    rpc(name, args) {
+      calls.push({ type: "rpc", name, args });
+      return Promise.resolve({ data: { id: 1 }, error: null });
+    },
+    from(table) {
+      calls.push({ type: "from", table });
+      throw new Error("table fallback should not run");
+    },
+  };
+
+  const scoreAccepted = await submitDailyScoreRecord({
+    supabase,
+    playerName: "Sol",
+    waveReached: 99,
+    faction: "eclipser",
+    dateSeed: "solara-test",
+    season: 1,
+  });
+  const graveAccepted = await submitGraveRecord({
+    supabase,
+    grave: { player_name: "Sol", traveler_sigil: "SIG", epitaph: "<b>fall</b>", x: -4, y: 200, faction: "bad", wave_reached: 1000 },
+    season: 1,
+    dateSeed: "solara-test",
+  });
+
+  assert.equal(scoreAccepted, true);
+  assert.equal(graveAccepted, true);
+  assert.equal(calls[0].name, "submit_daily_score");
+  assert.equal(calls[0].args.payload.wave_reached, 30);
+  assert.equal(calls[1].name, "submit_grave");
+  assert.equal(calls[1].args.payload.x, 0);
+  assert.equal(calls[1].args.payload.y, 99);
+});
+
+test("shared-world writes fall back to legacy table writes when RPC is unavailable", async () => {
+  const calls = [];
+  const tableApi = {
+    insert(payload) {
+      calls.push({ type: "insert", payload });
+      return {
+        select() {
+          return {
+            single() {
+              return Promise.resolve({ data: { id: "row-1" }, error: null });
+            },
+          };
+        },
+      };
+    },
+  };
+  const supabase = {
+    rpc(name) {
+      calls.push({ type: "rpc", name });
+      return Promise.resolve({ data: null, error: { message: "missing function" } });
+    },
+    from(table) {
+      calls.push({ type: "from", table });
+      return tableApi;
+    },
+  };
+
+  const accepted = await submitRemoteEcho({
+    supabase,
+    echo: { player_name: "Echo", traveler_sigil: "SIG", kind: "daily", headline: "hello", summary: "world", wave_reached: 8, faction: "sunkeeper" },
+    season: 1,
+    dateSeed: "solara-test",
+  });
+
+  assert.equal(accepted, true);
+  assert.equal(calls[0].name, "submit_player_echo");
+  assert.equal(calls[1].table, "player_echoes");
+  assert.equal(calls[2].payload.wave_reached, 8);
 });

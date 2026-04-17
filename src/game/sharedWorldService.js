@@ -4,10 +4,36 @@ import {
   recordEchoReactionLocal,
 } from "./clientStore.js";
 import {
+  sanitizeEchoPayload,
   sanitizeDailyScorePayload,
+  sanitizeGravePayload,
   sanitizeOfferingCount,
   sanitizeReaction,
 } from "./trust.js";
+
+async function rpcWithTableFallback({ supabase, rpcName, rpcArgs, fallback, onError }) {
+  if (!supabase) {
+    return { ok: false, data: null, mode: "offline", error: null };
+  }
+  try {
+    const { data, error } = await supabase.rpc(rpcName, rpcArgs);
+    if (!error) {
+      return { ok: true, data, mode: "rpc", error: null };
+    }
+    if (onError) {
+      onError(error);
+    }
+  } catch (error) {
+    if (onError) {
+      onError(error);
+    }
+  }
+  if (!fallback) {
+    return { ok: false, data: null, mode: "rpc", error: null };
+  }
+  const data = await fallback();
+  return { ok: true, data, mode: "table_fallback", error: null };
+}
 
 export async function fetchEchoFeed({ supabase, limit = 12, localLimit = 24 }) {
   const localEchoes = loadLocalEchoes(localLimit);
@@ -37,18 +63,21 @@ export async function submitRemoteEcho({ supabase, echo, season, dateSeed }) {
   if (!supabase) {
     return false;
   }
-  await supabase.from("player_echoes").insert({
-    player_name: echo.player_name,
-    traveler_sigil: echo.traveler_sigil,
-    kind: echo.kind,
-    headline: echo.headline,
-    summary: echo.summary,
-    wave_reached: echo.wave_reached,
-    faction: echo.faction,
-    season,
-    date_seed: dateSeed,
+  const safeEcho = sanitizeEchoPayload(echo);
+  const result = await rpcWithTableFallback({
+    supabase,
+    rpcName: "submit_player_echo",
+    rpcArgs: { payload: { ...safeEcho, season, date_seed: dateSeed } },
+    fallback: async () => {
+      const { data } = await supabase.from("player_echoes").insert({
+        ...safeEcho,
+        season,
+        date_seed: dateSeed,
+      }).select().single();
+      return data;
+    },
   });
-  return true;
+  return result.ok;
 }
 
 export async function reactToEchoRecord({ supabase, echoId, reaction }) {
@@ -60,7 +89,27 @@ export async function reactToEchoRecord({ supabase, echoId, reaction }) {
     return { accepted: false, reaction: safeReaction };
   }
   if (supabase && !String(echoId).startsWith("echo-")) {
-    await supabase.rpc("react_to_echo", { p_echo_id: echoId, p_reaction: safeReaction });
+    await rpcWithTableFallback({
+      supabase,
+      rpcName: "react_to_echo",
+      rpcArgs: { p_echo_id: String(echoId), p_reaction: safeReaction },
+      fallback: async () => {
+        const column = `${safeReaction}_count`;
+        const { data: current } = await supabase
+          .from("player_echoes")
+          .select(column)
+          .eq("id", echoId)
+          .single();
+        const next = Number(current?.[column] || 0) + 1;
+        const { data } = await supabase
+          .from("player_echoes")
+          .update({ [column]: next })
+          .eq("id", echoId)
+          .select()
+          .single();
+        return data;
+      },
+    });
   }
   return { accepted: true, reaction: safeReaction };
 }
@@ -87,8 +136,16 @@ export async function submitDailyScoreRecord({ supabase, playerName, waveReached
     wave_reached: waveReached,
     faction,
   });
-  await supabase.from("daily_scores").insert({ ...score, date_seed: dateSeed, season });
-  return true;
+  const result = await rpcWithTableFallback({
+    supabase,
+    rpcName: "submit_daily_score",
+    rpcArgs: { payload: { ...score, date_seed: dateSeed, season } },
+    fallback: async () => {
+      const { data } = await supabase.from("daily_scores").insert({ ...score, date_seed: dateSeed, season }).select().single();
+      return data;
+    },
+  });
+  return result.ok;
 }
 
 export async function fetchSunStateRecord({ supabase }) {
@@ -116,8 +173,22 @@ export async function submitGraveRecord({ supabase, grave, season, dateSeed }) {
   if (!supabase) {
     return false;
   }
-  await supabase.from("graves").insert({ ...grave, season, date_seed: dateSeed });
-  return true;
+  const safeGrave = sanitizeGravePayload(grave);
+  const result = await rpcWithTableFallback({
+    supabase,
+    rpcName: "submit_grave",
+    rpcArgs: { payload: { ...safeGrave, traveler_sigil: grave.traveler_sigil, season, date_seed: dateSeed } },
+    fallback: async () => {
+      const { data } = await supabase.from("graves").insert({
+        ...safeGrave,
+        traveler_sigil: grave.traveler_sigil,
+        season,
+        date_seed: dateSeed,
+      }).select().single();
+      return data;
+    },
+  });
+  return result.ok;
 }
 
 export async function incrementDeathCounterRecord({ supabase }) {
@@ -144,7 +215,15 @@ export async function offerSunstoneRecord({ supabase, grave }) {
   }
 
   if (supabase && grave?.id != null) {
-    await supabase.from("graves").update(update).eq("id", grave.id);
+    await rpcWithTableFallback({
+      supabase,
+      rpcName: "offer_sunstone",
+      rpcArgs: { p_grave_id: String(grave.id), p_traveler_sigil: grave.traveler_sigil || "NO-SIGIL" },
+      fallback: async () => {
+        const { data } = await supabase.from("graves").update(update).eq("id", grave.id).select().single();
+        return data;
+      },
+    });
   }
 
   return {

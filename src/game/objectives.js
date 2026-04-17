@@ -1,3 +1,6 @@
+import { buildConstellationObjectives } from "./constellationObjectives.js";
+import { getFirstSessionPlan } from "./firstSession.js";
+
 function withDirection(player, target) {
   const dx = target.x - player.x;
   const dy = target.y - player.y;
@@ -64,14 +67,16 @@ export function getObjectiveState({ player, isFreshAdventurer, dailyRun, rogueRu
       accent: "#c8a0ff",
     };
   } else if (isFreshAdventurer) {
+    const firstSession = getFirstSessionPlan({ player, isFreshAdventurer, playedDailyToday: false });
+    const next = firstSession?.next;
     target = {
-      title: "Talk to Mara",
-      detail: "Start Mara's Hearth in Solara's Rest, then cook your first meal and enter the Daily Rite.",
-      x: 24,
-      y: 28,
-      tab: "quest",
+      title: next?.label || "Talk to Mara",
+      detail: next?.detail || "Start Mara's Hearth in Solara's Rest, then cook your first meal and enter the Daily Rite.",
+      x: next?.x ?? 24,
+      y: next?.y ?? 28,
+      tab: next?.tab || "quest",
       accent: "#d8a86a",
-      steps: ["Open Gear and equip your sword.", "Talk to Mara in Solara's Rest.", "Gather egg, milk, and flour.", "Finish the quest, then open Daily Rites."],
+      steps: firstSession?.steps?.map((step) => `${step.done ? "Done" : "Next"}: ${step.label}`) || ["Open Gear and equip your sword.", "Talk to Mara in Solara's Rest.", "Gather egg, milk, and flour.", "Finish the quest, then open Daily Rites."],
     };
   } else if ((player.quests?.cook || 0) === 1) {
     target = {
@@ -111,15 +116,16 @@ export function getObjectiveState({ player, isFreshAdventurer, dailyRun, rogueRu
       accent: "#ff7440",
     };
   } else if (hasSunstoneShard && sharedWorld.ritual.progress < 1 && sharedWorld.constellations[0]) {
-    const cluster = sharedWorld.constellations[0];
+    const constellationObjective = buildConstellationObjectives({ sharedWorld, player, hasSunstoneShard })[0];
+    const cluster = constellationObjective || sharedWorld.constellations[0];
     target = {
-      title: `Support ${cluster.name || "the grave cluster"}`,
-      detail: `Offer your Sunstone Shard to push ${sharedWorld.ritual.title}. The world is ${Math.round(sharedWorld.ritual.progress * 100)}% of the way to relief.`,
+      title: `Support ${cluster.title || cluster.name || "the grave cluster"}`,
+      detail: cluster.detail || `Offer your Sunstone Shard to push ${sharedWorld.ritual.title}. The world is ${Math.round(sharedWorld.ritual.progress * 100)}% of the way to relief.`,
       x: cluster.x,
       y: cluster.y,
       tab: "daily",
       accent: "#c8a84e",
-      steps: ["Open the map and locate the marked grave cluster.", "Travel there with a Sunstone Shard in inventory.", "Offer the shard to increase ritual progress and shrine pressure."],
+      steps: cluster.steps || ["Open the map and locate the marked grave cluster.", "Travel there with a Sunstone Shard in inventory.", "Offer the shard to increase ritual progress and shrine pressure."],
     };
   } else if (sharedWorld.rival) {
     target = {
@@ -137,6 +143,7 @@ export function getObjectiveState({ player, isFreshAdventurer, dailyRun, rogueRu
 }
 
 export function getWorldActionItems({ sharedWorld, hasSunstoneShard }) {
+  const constellation = buildConstellationObjectives({ sharedWorld, hasSunstoneShard })[0];
   const actions = [
     {
       title: sharedWorld.crisis.title,
@@ -163,6 +170,14 @@ export function getWorldActionItems({ sharedWorld, hasSunstoneShard }) {
       title: `Prophecy: ${sharedWorld.prophecy.active.title}`,
       detail: sharedWorld.prophecy.active.text,
       accent: sharedWorld.prophecy.active.accent || "#c8a0ff",
+    });
+  }
+
+  if (constellation) {
+    actions.push({
+      title: constellation.title,
+      detail: constellation.detail,
+      accent: constellation.accent,
     });
   }
 

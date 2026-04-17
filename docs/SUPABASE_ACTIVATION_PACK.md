@@ -59,6 +59,38 @@ The client now sanitizes public shared-world writes before sending them, but Sup
 - add per-IP or per-session rate limits before public traffic grows
 - keep moderation scripts for leaderboard rows, graves, and echoes
 
+Concrete SQL starter: [docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql](/C:/Users/p4cka/documents/development/solara/docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql)
+
+## Recommended RPC hardening sequence
+
+Move public mutations behind validated functions before scaled traffic:
+
+1. `submit_daily_score(payload jsonb)` validates name, faction, date seed, season, and clamps `wave_reached` to `0..30`.
+2. `submit_grave(payload jsonb)` validates public text, clamps map coordinates to `0..99`, and records a moderated grave row.
+3. `offer_sunstone(p_grave_id bigint, p_traveler_sigil text)` atomically increments offerings, prevents rapid duplicate offerings, and sets shrine flags at `50` and `200`.
+4. `submit_player_echo(payload jsonb)` validates echo kind, public text, wave range, and per-sigil write limits.
+5. `increment_death_counter()` remains the only way to mutate `sun_state.total_deaths` / brightness.
+
+Each function should return the accepted public row or an explicit rejection reason so the client can show in-world feedback instead of failing silently.
+
+Minimum table controls:
+
+- enable RLS on every public shared-world table
+- allow anonymous reads only for public-safe selected fields
+- deny direct anonymous inserts/updates once RPCs are live
+- add check constraints for faction, reaction kind, coordinate range, wave range, and text lengths
+- add moderation columns: `is_hidden boolean default false`, `moderation_reason text`, `moderated_at timestamptz`
+- add duplicate/rate-limit indexes around `traveler_sigil`, `date_seed`, `created_at`, and target IDs
+
+## Public status exports
+
+The repo now generates deterministic public-safe JSON for Studio Hub / Social Dashboard / Sparkfunnel style consumers:
+
+- `/status.json` — compact current phase, ritual, director, mechanics, and AI policy
+- `/chronicle.json` — richer public chronicle with top runs, graves, echoes, social hooks, and cached deterministic copy
+
+These files deliberately report `browser_token_cost: 0`; paid AI generation should only be added as a server-side cached enhancement with hard budgets and deterministic fallbacks.
+
 ## Surfaces that activate immediately after setup
 
 - Main game daily leaderboard

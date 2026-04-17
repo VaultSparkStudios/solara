@@ -1,4 +1,5 @@
 import { buildSharedWorldSystems } from "./innovationSystems.js";
+import { getDirectorGameplayPlan } from "./directorMechanics.js";
 
 export function getSunPhase(sunBrightness) {
   const value = Math.max(0, Math.min(100, Number(sunBrightness) || 0));
@@ -213,6 +214,17 @@ export function getSharedWorldSnapshot({
   }
 
   const director = getSunDirectorPlan(phase, faction, event);
+  const mechanics = getDirectorGameplayPlan({
+    sharedWorld: {
+      phase,
+      faction,
+      ritual: systems.ritual,
+      rival: systems.rival,
+      constellations: systems.constellations,
+    },
+    director,
+    event,
+  });
   event = {
     ...event,
     director,
@@ -242,7 +254,10 @@ export function getSharedWorldSnapshot({
     rival: systems.rival,
     prophecy: systems.prophecy,
     constellations: systems.constellations,
-    director,
+    director: {
+      ...director,
+      mechanics,
+    },
     summary: summaryParts.join(" · "),
   };
 }
