@@ -108,9 +108,15 @@ These files deliberately report `browser_token_cost: 0`; paid AI generation shou
 1. Start the app and confirm the menu reports live async services detected.
 2. Run `npm run build`.
 3. Run `npm run smoke`.
-4. Start a Daily Rite and confirm scores write to `daily_scores`.
-5. Die once and confirm a grave record plus sun-state update.
-6. Trigger an echo event and confirm `player_echoes` receives the record.
+4. Run `npm run verify:supabase` to confirm public tables are readable and hardened RPCs are visible through the anon API.
+5. Start a Daily Rite and confirm scores write through `submit_daily_score`.
+6. Die once and confirm a grave record plus sun-state update.
+7. Trigger an echo event and confirm `player_echoes` receives the record through `submit_player_echo`.
+
+Current deployment note:
+
+- `npm run verify:supabase` is non-mutating. It probes table reads and checks RPC existence with invalid/no-row inputs.
+- If it reports `PGRST202`, the SQL in [docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql](/C:/Users/p4cka/documents/development/solara/docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql) has not yet been applied to the live Supabase project.
 
 ## Notes
 

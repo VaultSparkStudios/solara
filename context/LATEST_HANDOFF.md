@@ -36,7 +36,8 @@ Audit the project, capture the full public-safe roadmap in project memory, imple
 - added first-session "First Myth" planning for gear, Mara, Hearth completion, and Daily Rite activation
 - expanded smoke coverage to validate first-session, objective, and actionable world-feed data contracts
 - closeout status: repo memory updated, 30 unit tests passing, smoke runtime passing, production build passing, and changes pushed on `main`
+- Supabase deployment status: live anon probe can read the expected public tables, but hardened RPCs are not yet deployed (`PGRST202`); `npm run verify:supabase` now captures this non-mutating verification
 
 ## Human Action Required
 
-Before activating public traffic at scale, deploy and verify the Supabase RLS / RPC / moderation controls against the live backend. The local repo now contains the starter SQL and RPC-first client path, but live backend verification requires project access.
+Before activating public traffic at scale, deploy `docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql` to the live Supabase project with owner/service credentials or a linked Supabase CLI session, then rerun `npm run verify:supabase`. The local repo contains the starter SQL, RPC-first client path, and non-mutating verifier; this workspace does not currently have deploy-capable Supabase credentials/tooling.

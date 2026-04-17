@@ -34,3 +34,4 @@ Public-safe summary:
 - shared-world writes now prefer Supabase RPCs and fall back to legacy table writes for staged backend rollout
 - Director-derived Daily Rite planning now produces deterministic route segments, encounter/reward bias, shrine chance, rival chance, boss pressure, and share-line data
 - latest local validation: 30 unit tests passing, production build passing, smoke flow passing
+- live Supabase anon probe can read expected public tables, but hardened RPCs are not yet deployed; `npm run verify:supabase` now captures this check without mutating public data
