@@ -37,7 +37,8 @@ Audit the project, capture the full public-safe roadmap in project memory, imple
 - expanded smoke coverage to validate first-session, objective, and actionable world-feed data contracts
 - closeout status: repo memory updated, 30 unit tests passing, smoke runtime passing, production build passing, and changes pushed on `main`
 - Supabase deployment status: live anon probe can read the expected public tables, but hardened RPCs are not yet deployed (`PGRST202`); `npm run verify:supabase` now captures this non-mutating verification
+- Supabase workflow attempt: run `24576797263` reached the SQL apply step and failed because required GitHub secrets were blank
 
 ## Human Action Required
 
-Before activating public traffic at scale, deploy `docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql` to the live Supabase project with owner/service credentials or a linked Supabase CLI session, then rerun `npm run verify:supabase`. The local repo contains the starter SQL, RPC-first client path, and non-mutating verifier; this workspace does not currently have deploy-capable Supabase credentials/tooling.
+Before activating public traffic at scale, add GitHub repo secrets `SUPABASE_DB_URL`, `VITE_SUPABASE_URL`, and `VITE_SUPABASE_ANON_KEY`, then rerun the manual **Supabase Hardening** workflow. Alternatively, deploy `docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql` through Supabase SQL Editor with owner credentials and rerun `npm run verify:supabase`.

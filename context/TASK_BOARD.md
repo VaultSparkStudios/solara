@@ -44,6 +44,7 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - continue converting smoke coverage into browser-level validation when a browser runner is added; current smoke now verifies first-session, objective, and world-feed data contracts
 - deploy `docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql` to the live Supabase project with owner/service credentials, then rerun `npm run verify:supabase`
 - add GitHub repo secrets `SUPABASE_DB_URL`, `VITE_SUPABASE_URL`, and `VITE_SUPABASE_ANON_KEY`, then run the manual Supabase Hardening workflow
+- rerun Supabase Hardening workflow after secrets are present; run `24576797263` confirmed the workflow path but failed because secrets were blank
 
 ## Combined Top Recommendations
 
