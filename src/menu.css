@@ -1,0 +1,115 @@
+.solara-menu-layout { grid-template-rows: minmax(0, 1fr) auto; }
+.solara-menu-sidebar {
+  min-height: 0;
+  overflow: auto;
+}
+.solara-menu-appearance { display: flex; gap: 6px; }
+.solara-menu-appearance button {
+  flex: 1;
+  padding: 8px 6px;
+  border: 1px solid #6f5126;
+  border-radius: 8px;
+  background: #170c05;
+  color: #e8cda3;
+  cursor: pointer;
+}
+.solara-menu-appearance button[aria-pressed="true"] { border-color: #f0c060; background: #3a210c; }
+.solara-menu-footer {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 11px;
+  line-height: 1.6;
+  color: #b7a387;
+}
+.solara-menu-footer a { color: #efc678; }
+.solara-menu[data-theme="dark"] { color-scheme: dark; }
+.solara-menu[data-theme="light"] {
+  color-scheme: light;
+  background: radial-gradient(circle at top, #ffe6ae, #f3e7ce 65%) !important;
+  color: #392915;
+}
+.solara-menu[data-theme="light"] [style*="background"] { background: #fff8ea !important; }
+.solara-menu[data-theme="light"] [style*="color"],
+.solara-menu[data-theme="light"] .solara-menu-footer { color: #49341c !important; }
+.solara-menu[data-theme="light"] [style*="border"] { border-color: #c9b28c !important; }
+.solara-menu[data-theme="light"] [style*="box-shadow"] { box-shadow: 0 12px 32px #755c2520 !important; }
+.solara-menu[data-theme="light"] .solara-menu-nav button[aria-pressed="true"],
+.solara-menu[data-theme="light"] .solara-menu-panel button[aria-pressed="true"],
+.solara-menu[data-theme="light"] .solara-menu-appearance button[aria-pressed="true"] {
+  background: #ffe0a1 !important;
+  border-color: #9b681c !important;
+  color: #392915;
+}
+.solara-menu[data-theme="light"] .solara-menu-appearance button { background: #fff8ea; color: #49341c; }
+.solara-menu[data-theme="light"] .solara-menu-footer a { color: #78420a; }
+.solara-menu-panel,
+.solara-menu input {
+  min-width: 0;
+}
+@media (max-width: 760px) {
+  .solara-quickstart { max-width: calc(100% - 24px) !important; box-sizing: border-box; }
+  .solara-quickstart ~ .solara-objective { display: none; }
+  .solara-utility-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 24;
+    max-width: calc(100% - 48px);
+  }
+  .solara-hud {
+    flex-wrap: wrap;
+    gap: 6px !important;
+    min-height: 0 !important;
+  }
+  .solara-hud-brand {
+    min-width: 0 !important;
+    width: 100%;
+  }
+  .solara-hud-brand span:first-child { font-size: 17px !important; }
+  .solara-hud-brand span:last-child:not(:first-child) { display: none; }
+  .solara-hud-stats { flex: 1 1 100%; }
+  .solara-hud-stats > * { white-space: nowrap; }
+  .solara-hud-actions {
+    width: 100%;
+    min-width: 0;
+    margin-left: 0 !important;
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto;
+  }
+  .solara-hud-actions button {
+    flex-shrink: 0;
+    min-width: 40px;
+    min-height: 36px;
+    font-size: 11px !important;
+  }
+  .solara-menu {
+    padding: 12px !important;
+    overflow: auto;
+    overscroll-behavior: contain;
+  }
+  .solara-menu-layout {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: none;
+    grid-auto-rows: auto;
+    align-content: start;
+    gap: 14px !important;
+  }
+  .solara-menu-sidebar {
+    display: contents !important;
+  }
+  .solara-menu-heading { order: 0; }
+  .solara-menu-nav {
+    order: 1;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .solara-menu-panel {
+    order: 3;
+    padding: 14px !important;
+    overflow: visible !important;
+  }
+  .solara-menu-appearance { order: 2; }
+  .solara-menu-world { order: 4; }
+  .solara-menu-footer { order: 5; }
+}

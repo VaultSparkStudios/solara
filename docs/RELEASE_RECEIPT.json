@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "session": "S79",
+  "checkedAt": "2026-10-03T15:57:54.225Z",
+  "status": "staging-verified-production-pending",
+  "staging": {
+    "url": "https://solara.staging.vaultsparkstudios.com/",
+    "bundleSha256": "fcfbc682285ec22fbe390f6262b8cb82c89203cc2d14bec8a746aa6da4139070",
+    "release": "fcfbc682285ec22fbe39",
+    "checkedAt": "2026-10-03T15:54:45.510Z",
+    "remoteApplied": true
+  },
+  "productionUrl": "https://solara.vaultsparkstudios.com/",
+  "assets": [
+    {
+      "file": "assets/index-BWhQzjLc.css",
+      "sha256": "bef52bbb129c2717a3ec5e9417d6330c0f459672e8fbd220390909be6d3ddd6a"
+    },
+    {
+      "file": "assets/index-CHw1RB8d.js",
+      "sha256": "2c646b2ca709f6a4e9ae51b8b1da67e9fc37e530a5173dbf79870e980d8e24b5"
+    },
+    {
+      "file": "assets/menu-lore-BxjDt-bE.js",
+      "sha256": "be576d15ac5b2b18a0944442697ffe77d3fc7808f3862a1706163e7ba25158fb"
+    },
+    {
+      "file": "assets/supabase-CGJ36f6s.js",
+      "sha256": "4906f1890453a107aa43a8d0dd520ec4b844ed9b5723564d985a5bcc42bf0b33"
+    },
+    {
+      "file": "assets/vendor-BHJPxYn2.js",
+      "sha256": "a1e89f7a17a802ddee619e89948b7f6f886296a91e491257d71d4dfff5dffaa9"
+    }
+  ],
+  "migration": {
+    "applied": true,
+    "checkedAt": "2026-10-03T15:25:09.013Z",
+    "sqlSha256": "20d561531b5a8c37f628a2000e4f961b8ccbc68f128f86b5773754d33e7f96b9"
+  },
+  "tests": {
+    "passing": 71,
+    "total": 71,
+    "smoke": true
+  },
+  "backendChecks": {
+    "passing": 9,
+    "total": 9,
+    "bothRoleRehearsal": true
+  },
+  "dependencyAudit": {
+    "vulnerabilities": 0
+  },
+  "limits": [
+    "Frontend staging shares the live backend.",
+    "Obelisk scaffolds are unmounted.",
+    "Aggregate doctor and launch readiness remain unmeasured."
+  ]
+}

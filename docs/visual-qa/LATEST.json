@@ -1,0 +1,379 @@
+{
+  "schemaVersion": 1,
+  "session": "S79",
+  "capturedAt": "2026-10-03T15:42:54.263Z",
+  "url": "https://solara.staging.vaultsparkstudios.com/",
+  "themes": [
+    "dark",
+    "light"
+  ],
+  "themeScope": "Menu appearance; gameplay retains its authored world palette.",
+  "sourceHashes": {
+    "src/App.jsx": "3f55fd306129a72b221e713c368ad9e81ad33bc7e319855d93cac2258f396d25",
+    "src/main.jsx": "71df305adac25f6af0c046a9614df8a0d00cf6baa4ccb743d4822f7c755a1939",
+    "src/menu.css": "e5fe813ca33b0bf76161a7f46a72f1cb6f7c9ce85bcfac2f3393fb3c661e2f11",
+    "vite.config.js": "7088eb2322c605f9e1d4f8eb2cbdb8c0e7558514e156c0209066f6bb52c2b6c9"
+  },
+  "inspection": {
+    "renderedPixelsReviewed": true,
+    "reviewer": "Codex",
+    "findings": [
+      "Mobile menu content and play action were outside the viewport.",
+      "Zoom enlarged the root beyond the physical viewport.",
+      "Mobile toolbar wrapped into most of the game height.",
+      "Opening the utility panel squeezed the mobile canvas."
+    ],
+    "fixesApplied": [
+      "Scrollable mobile menu with reachable actions.",
+      "Root dimensions compensate for UI scale.",
+      "Mobile toolbar scrolls horizontally beneath wrapped stats.",
+      "Mobile utility panel overlays the full-width canvas.",
+      "Persisted dark and light menu palettes with selected-state contrast."
+    ],
+    "blockingDefectsOpen": 0
+  },
+  "captures": [
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-dark-1440-Features.png",
+      "sha256": "d3afcb99b7cc5ea5ad0131024d6e43a1cdf26a3ff47ff9173d29988e69b1a042",
+      "page": "Features",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-dark-1440-How-To-Play.png",
+      "sha256": "1459adda867fb7e307e81caf432ce2f82fa20d2b7c6c56535c6b8e513eaf2b16",
+      "page": "How-To-Play",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-dark-1440-Knowledge-Base.png",
+      "sha256": "de26d14dc5a97f1f62070533a631ba1dde86000158e9a05bbf5006955c84e70a",
+      "page": "Knowledge-Base",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-dark-1440-Play.png",
+      "sha256": "5e8009db75891cd63725c040525f30da4dd7a4796a5f34cea9b38eae6785f517",
+      "page": "Play",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-dark-1440-Settings.png",
+      "sha256": "239923335a0cde49d86d94ed6dace8896e8187e950d569c3e5958a41c09a6f71",
+      "page": "Settings",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-dark-1440-Update-Log.png",
+      "sha256": "7c16142e9f82c06e44fd76ef70e4f844af4c2b5c61e553a311a4614e8b9029b5",
+      "page": "Update-Log",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-dark-390-Features.png",
+      "sha256": "bf4f96962d0bfc310e4d08cd60d07d0dea63acb43bfe79be5e0632502cccdea1",
+      "page": "Features",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-dark-390-How-To-Play.png",
+      "sha256": "5d04a2cc9bc9050666b9c20aac11aa824c039c27b7795c4584490d03eecc3fc2",
+      "page": "How-To-Play",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-dark-390-Knowledge-Base.png",
+      "sha256": "0f055c56d26f0b8671a1024db01dcf55f8cf6e1e9e345150eb1aba988847c43f",
+      "page": "Knowledge-Base",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-dark-390-Play.png",
+      "sha256": "6981430af954f1292d18c37a9bed865eb2ccea759d6bb69ef97f95946b6e8328",
+      "page": "Play",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-dark-390-Settings.png",
+      "sha256": "65cab05c337c429d9c5f3ffe2b846742ef2da3c0d399038e2636481739b312dd",
+      "page": "Settings",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-dark-390-Update-Log.png",
+      "sha256": "4d6cb69ed6fe042103789eba89414e9c083e7bc9d81f91d9e53b9aa68ae64583",
+      "page": "Update-Log",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-drawer-1440.png",
+      "sha256": "56bca3b8f87d47d58dc6b902752e5418d3614da6be76648ed8586d60702e2721",
+      "page": "drawer",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-drawer-390.png",
+      "sha256": "50bbb7c66f969dcdd4a24bc4f644d9af7cb39f72b381175bbdccc459ff223f23",
+      "page": "drawer",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-light-1440-Features.png",
+      "sha256": "355f5e58ddf0370be58cfdbe02bf901ec3a65f243dca28073c6a127544aa3a02",
+      "page": "Features",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-light-1440-How-To-Play.png",
+      "sha256": "cb0fb40854a6c3c0921aa788d7c291b53f00bb8783b7c8de0ba045dfbdc791ef",
+      "page": "How-To-Play",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-light-1440-Knowledge-Base.png",
+      "sha256": "33e89ba73e3715d02334789accfd0c1a4dd3390ef31be5a36519ccd2c0c92d02",
+      "page": "Knowledge-Base",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-light-1440-Play.png",
+      "sha256": "e7d44bbe7510417c6a15b378bc521889dee2e2d9b51f7685924251a0340161a2",
+      "page": "Play",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-light-1440-Settings.png",
+      "sha256": "5418a2e0a699e90b9abb421cbfd2e3ae9af12d26b962289a579daf764f456c4d",
+      "page": "Settings",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-light-1440-Update-Log.png",
+      "sha256": "dd5143a533c8e26e1391badf5bc5b64029de1ae5428ac5e304a69d5c69e47059",
+      "page": "Update-Log",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-light-390-Features.png",
+      "sha256": "1a6319531b19f0b0193c26f82665b5b430b35eb4ada5ada2b2d9aa11600d6fdb",
+      "page": "Features",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-light-390-How-To-Play.png",
+      "sha256": "12949c4eaa65d8fbac56584ed9c6af812a7de9aa4b7aa8785853765eb65a7ae3",
+      "page": "How-To-Play",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-light-390-Knowledge-Base.png",
+      "sha256": "4348e5b9a6d491e0cbb01e96d47222bee69eabe9e496a709862d46c06ab2fafb",
+      "page": "Knowledge-Base",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-light-390-Play.png",
+      "sha256": "e67e2267c7bde7a34cad6b1509b1537eb30b1ccefed9c758b6a1bf5fd69434a8",
+      "page": "Play",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-light-390-Settings.png",
+      "sha256": "d54d5b8969095c1531a088dc64e71ae6b82b4da75e745d26c8c84ec6c0c7bdf3",
+      "page": "Settings",
+      "phase": "after"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-light-390-Update-Log.png",
+      "sha256": "11f3544fae619340d786f822125f9f51292c57abe73f097afaa6a1a96aa61c6f",
+      "page": "Update-Log",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/final-world-1440.png",
+      "sha256": "5fa9213633e456863b3768249265885a62945bd0c0badeed20bac4920f346971",
+      "page": "world",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/final-world-390.png",
+      "sha256": "1a1fb2d8e139017d108e912473716aeed3777fe36309122e11dedfe5db05735b",
+      "page": "world",
+      "phase": "after"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/before-staging-desktop.png",
+      "sha256": "bc9e6e9ba1e0bc412c2ea64e001f3d741a4995b6af58e26a9e95adf639bb6b98",
+      "page": "Play",
+      "phase": "before"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/before-staging-mobile.png",
+      "sha256": "66d26ba47c76fbffda32fe116a8f7dd09af7743cba22e53ab0fbd862102e8771",
+      "page": "Play",
+      "phase": "before"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/before-mobile-world-final.png",
+      "sha256": "0f02601026c5db89c354af69154983b652558d86858d94dc166043a8855f5aaa",
+      "page": "world",
+      "phase": "before"
+    }
+  ],
+  "sourceHashEncoding": "Git staged blob UTF-8 (LF line endings)"
+}

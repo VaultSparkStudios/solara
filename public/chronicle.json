@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "generated_at": "2026-06-13T20:47:04.103Z",
+  "generated_at": "2026-10-03T15:54:09.066Z",
   "season": 1,
   "season_name": "The Wandering Comet",
   "status": {
@@ -18,7 +18,7 @@
     "echo_count": 0
   },
   "shared_world": {
-    "summary": "☀️ Steady Flame · Full Dawn · 0 fallen",
+    "summary": "🔥 Harvest Pyre · Full Dawn · 0 fallen",
     "crisis": {
       "title": "Build The Chronicle",
       "detail": "Record runs, deaths, and offerings so the async world has something tangible to react to.",
@@ -62,8 +62,8 @@
         "shrineBias": "seed",
         "rivalWeight": 0.75,
         "rewardMultiplier": 1,
-        "enemyScale": 0.97,
-        "merchantScale": 0.95,
+        "enemyScale": 1,
+        "merchantScale": 0.92,
         "factionPressure": "contested",
         "telemetryTags": [
           "modifier:clear_routes",
@@ -75,8 +75,8 @@
       }
     },
     "briefing": {
-      "headline": "☀️ Steady Flame · Full Dawn · 0 fallen",
-      "detail": "The season is stable. Trade and travel remain predictable.",
+      "headline": "🔥 Harvest Pyre · Full Dawn · 0 fallen",
+      "detail": "Seasonal pyres draw wanderers and relic-seekers. Crafting routes feel unusually alive.",
       "blessing": null,
       "cards": [
         {
@@ -94,8 +94,8 @@
         {
           "id": "prophecy",
           "accent": "#f0c060",
-          "title": "Prophecy: Rival Claim",
-          "detail": "Answer the strongest echo. A rival waits in the dark room beyond the threshold."
+          "title": "Prophecy: Grave Omen",
+          "detail": "Fight where the graves cluster. The dead will warn or test you."
         },
         {
           "id": "best-move",
@@ -182,7 +182,7 @@
       }
     ],
     "intelligence": {
-      "headline": "☀️ Steady Flame · Full Dawn · 0 fallen",
+      "headline": "🔥 Harvest Pyre · Full Dawn · 0 fallen",
       "read": [
         "Stable pressure is active.",
         "Build The Chronicle: Record runs, deaths, and offerings so the async world has something tangible to react to.",
@@ -191,8 +191,8 @@
       ],
       "next_best_action": "Build The Chronicle",
       "tuning": {
-        "enemy_scale": 0.97,
-        "merchant_scale": 0.95,
+        "enemy_scale": 1,
+        "merchant_scale": 0.92,
         "reward_multiplier": 1,
         "tags": [
           "modifier:clear_routes",
@@ -220,7 +220,7 @@
           "fallback": "deterministic_chronicle",
           "input_policy": "structured_public_state_only"
         },
-        "cache_key": "season:1:day:79:sun:100:deaths:0:runs:0:graves:0:echoes:0"
+        "cache_key": "season:1:day:191:sun:100:deaths:0:runs:0:graves:0:echoes:0"
       },
       "runtime_cost_guardrail": {
         "free_tier_status": "cost-neutral",
@@ -230,192 +230,192 @@
       }
     },
     "daily_rite_plan": {
-      "id": "clear_routes:day:79",
+      "id": "clear_routes:day:191",
       "label": "Clear Routes",
       "objective": "Use the safer route to bank a clean Daily Rite result.",
       "tactic": "Scout, bank food, and avoid taking early unnecessary trades.",
       "rewardMultiplier": 1,
-      "enemyScale": 0.97,
+      "enemyScale": 1,
       "route": [
         {
           "id": "segment_1",
           "label": "Waves 1-5",
           "waveStart": 1,
           "waveEnd": 5,
-          "encounter": "scout_pack",
-          "reward": "coins",
-          "pressure": 0.977,
+          "encounter": "low_ambush",
+          "reward": "starter_relic",
+          "pressure": 1.008,
           "shrineChance": 0.12,
           "rivalChance": 0.04,
-          "danger": "low",
-          "encounterLabel": "Scout pack",
-          "rewardTell": "coins",
-          "goal": "Use Scout pack pacing to secure coins."
+          "danger": "moderate",
+          "encounterLabel": "Low ambush",
+          "rewardTell": "starter relic",
+          "goal": "Use Low ambush pacing to secure starter relic."
         },
         {
           "id": "segment_2",
           "label": "Waves 6-10",
           "waveStart": 6,
           "waveEnd": 10,
-          "encounter": "low_ambush",
-          "reward": "food",
-          "pressure": 0.992,
+          "encounter": "recovery_room",
+          "reward": "coins",
+          "pressure": 1.022,
           "shrineChance": 0.12,
           "rivalChance": 0.09,
           "danger": "moderate",
-          "encounterLabel": "Low ambush",
-          "rewardTell": "food",
-          "goal": "Use Low ambush pacing to secure food."
+          "encounterLabel": "Recovery room",
+          "rewardTell": "coins",
+          "goal": "Use Recovery room pacing to secure coins."
         },
         {
           "id": "segment_3",
           "label": "Waves 11-15",
           "waveStart": 11,
           "waveEnd": 15,
-          "encounter": "recovery_room",
-          "reward": "starter_relic",
-          "pressure": 1.008,
+          "encounter": "scout_pack",
+          "reward": "food",
+          "pressure": 1.038,
           "shrineChance": 0.12,
           "rivalChance": 0.14,
           "danger": "moderate",
-          "encounterLabel": "Recovery room",
-          "rewardTell": "starter relic",
-          "goal": "Use Recovery room pacing to secure starter relic."
+          "encounterLabel": "Scout pack",
+          "rewardTell": "food",
+          "goal": "Use Scout pack pacing to secure food."
         },
         {
           "id": "segment_4",
           "label": "Waves 16-20",
           "waveStart": 16,
           "waveEnd": 20,
-          "encounter": "scout_pack",
-          "reward": "coins",
-          "pressure": 1.022,
+          "encounter": "low_ambush",
+          "reward": "starter_relic",
+          "pressure": 1.052,
           "shrineChance": 0.12,
           "rivalChance": 0.18,
           "danger": "moderate",
-          "encounterLabel": "Scout pack",
-          "rewardTell": "coins",
-          "goal": "Use Scout pack pacing to secure coins."
+          "encounterLabel": "Low ambush",
+          "rewardTell": "starter relic",
+          "goal": "Use Low ambush pacing to secure starter relic."
         },
         {
           "id": "segment_5",
           "label": "Waves 21-25",
           "waveStart": 21,
           "waveEnd": 25,
-          "encounter": "low_ambush",
-          "reward": "food",
-          "pressure": 1.038,
+          "encounter": "recovery_room",
+          "reward": "coins",
+          "pressure": 1.068,
           "shrineChance": 0.12,
           "rivalChance": 0.22,
           "danger": "moderate",
-          "encounterLabel": "Low ambush",
-          "rewardTell": "food",
-          "goal": "Use Low ambush pacing to secure food."
+          "encounterLabel": "Recovery room",
+          "rewardTell": "coins",
+          "goal": "Use Recovery room pacing to secure coins."
         },
         {
           "id": "segment_6",
           "label": "Waves 26-30",
           "waveStart": 26,
           "waveEnd": 30,
-          "encounter": "recovery_room",
-          "reward": "starter_relic",
-          "pressure": 1.052,
+          "encounter": "scout_pack",
+          "reward": "food",
+          "pressure": 1.083,
           "shrineChance": 0.12,
           "rivalChance": 0.27,
-          "danger": "moderate",
-          "encounterLabel": "Recovery room",
-          "rewardTell": "starter relic",
-          "goal": "Use Recovery room pacing to secure starter relic."
+          "danger": "high",
+          "encounterLabel": "Scout pack",
+          "rewardTell": "food",
+          "goal": "Use Scout pack pacing to secure food."
         }
       ],
       "boss": {
         "wave": 30,
-        "pressure": 1,
-        "reward": "coins",
+        "pressure": 1.03,
+        "reward": "starter_relic",
         "rivalIntrusion": false,
         "brief": "The boss wave is the cleanest place to bank the route's main reward."
       },
       "shareLine": "Clear Routes: Use the safer route to bank a clean Daily Rite result.",
-      "routeSummary": "Clear Routes: Scout, bank food, and avoid taking early unnecessary trades. Use Scout pack pacing to secure coins."
+      "routeSummary": "Clear Routes: Scout, bank food, and avoid taking early unnecessary trades. Use Low ambush pacing to secure starter relic."
     },
     "daily_rite_stakes": {
       "version": 1,
       "segment_count": 6,
-      "highest_risk": 3,
-      "total_risk": 12,
+      "highest_risk": 4,
+      "total_risk": 14,
       "primary_stake": {
         "id": "segment_6",
         "label": "Waves 26-30",
-        "encounter": "Recovery room",
-        "reward": "starter relic",
-        "risk": 3,
-        "goal": "Use Recovery room pacing to secure starter relic.",
-        "pledge": "Take one clean reward, then reset tempo.",
-        "consequence": "Waves 26-30 can turn Recovery room into starter relic; Take one clean reward, then reset tempo."
+        "encounter": "Scout pack",
+        "reward": "food",
+        "risk": 4,
+        "goal": "Use Scout pack pacing to secure food.",
+        "pledge": "Spend supplies before pride spends them for you.",
+        "consequence": "Waves 26-30 can turn Scout pack into food; Spend supplies before pride spends them for you."
       },
       "segments": [
         {
           "id": "segment_1",
           "label": "Waves 1-5",
-          "encounter": "Scout pack",
-          "reward": "coins",
-          "risk": 1,
-          "goal": "Use Scout pack pacing to secure coins.",
+          "encounter": "Low ambush",
+          "reward": "starter relic",
+          "risk": 2,
+          "goal": "Use Low ambush pacing to secure starter relic.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 1-5 can turn Scout pack into coins; Bank light efficiently and preserve options."
+          "consequence": "Waves 1-5 can turn Low ambush into starter relic; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_2",
           "label": "Waves 6-10",
-          "encounter": "Low ambush",
-          "reward": "food",
+          "encounter": "Recovery room",
+          "reward": "coins",
           "risk": 2,
-          "goal": "Use Low ambush pacing to secure food.",
+          "goal": "Use Recovery room pacing to secure coins.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 6-10 can turn Low ambush into food; Bank light efficiently and preserve options."
+          "consequence": "Waves 6-10 can turn Recovery room into coins; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_3",
           "label": "Waves 11-15",
-          "encounter": "Recovery room",
-          "reward": "starter relic",
+          "encounter": "Scout pack",
+          "reward": "food",
           "risk": 2,
-          "goal": "Use Recovery room pacing to secure starter relic.",
+          "goal": "Use Scout pack pacing to secure food.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 11-15 can turn Recovery room into starter relic; Bank light efficiently and preserve options."
+          "consequence": "Waves 11-15 can turn Scout pack into food; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_4",
           "label": "Waves 16-20",
-          "encounter": "Scout pack",
-          "reward": "coins",
+          "encounter": "Low ambush",
+          "reward": "starter relic",
           "risk": 2,
-          "goal": "Use Scout pack pacing to secure coins.",
+          "goal": "Use Low ambush pacing to secure starter relic.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 16-20 can turn Scout pack into coins; Bank light efficiently and preserve options."
+          "consequence": "Waves 16-20 can turn Low ambush into starter relic; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_5",
           "label": "Waves 21-25",
-          "encounter": "Low ambush",
-          "reward": "food",
+          "encounter": "Recovery room",
+          "reward": "coins",
           "risk": 2,
-          "goal": "Use Low ambush pacing to secure food.",
+          "goal": "Use Recovery room pacing to secure coins.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 21-25 can turn Low ambush into food; Bank light efficiently and preserve options."
+          "consequence": "Waves 21-25 can turn Recovery room into coins; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_6",
           "label": "Waves 26-30",
-          "encounter": "Recovery room",
-          "reward": "starter relic",
-          "risk": 3,
-          "goal": "Use Recovery room pacing to secure starter relic.",
-          "pledge": "Take one clean reward, then reset tempo.",
-          "consequence": "Waves 26-30 can turn Recovery room into starter relic; Take one clean reward, then reset tempo."
+          "encounter": "Scout pack",
+          "reward": "food",
+          "risk": 4,
+          "goal": "Use Scout pack pacing to secure food.",
+          "pledge": "Spend supplies before pride spends them for you.",
+          "consequence": "Waves 26-30 can turn Scout pack into food; Spend supplies before pride spends them for you."
         }
       ],
-      "summary": "Clear Routes stakes: Waves 26-30 is the pressure point; Take one clean reward, then reset tempo.",
+      "summary": "Clear Routes stakes: Waves 26-30 is the pressure point; Spend supplies before pride spends them for you.",
       "token_cost": 0
     },
     "daily_rite_modifiers": {
@@ -425,40 +425,18 @@
       "highest_risk_segment": {
         "id": "segment_6",
         "label": "Waves 26-30",
-        "risk": 3,
-        "reward_bias": "relic",
-        "enemy_scale": 1.09,
+        "risk": 4,
+        "reward_bias": "xp",
+        "enemy_scale": 1.135,
         "xp_multiplier": 1.14,
-        "coin_multiplier": 1.045,
-        "recovery_pressure": "guarded",
-        "rule": "Risk 3/5: enemies x1.09, relic payout pressure x1.14."
+        "coin_multiplier": 1.06,
+        "recovery_pressure": "scarce",
+        "rule": "Risk 4/5: enemies x1.135, xp payout pressure x1.14."
       },
       "segments": [
         {
           "id": "segment_1",
           "label": "Waves 1-5",
-          "risk": 1,
-          "reward_bias": "coins",
-          "enemy_scale": 1,
-          "xp_multiplier": 1.02,
-          "coin_multiplier": 1.035,
-          "recovery_pressure": "open",
-          "rule": "Risk 1/5: enemies x1, coins payout pressure x1.035."
-        },
-        {
-          "id": "segment_2",
-          "label": "Waves 6-10",
-          "risk": 2,
-          "reward_bias": "xp",
-          "enemy_scale": 1.045,
-          "xp_multiplier": 1.07,
-          "coin_multiplier": 1.03,
-          "recovery_pressure": "open",
-          "rule": "Risk 2/5: enemies x1.045, xp payout pressure x1.07."
-        },
-        {
-          "id": "segment_3",
-          "label": "Waves 11-15",
           "risk": 2,
           "reward_bias": "relic",
           "enemy_scale": 1.045,
@@ -468,8 +446,8 @@
           "rule": "Risk 2/5: enemies x1.045, relic payout pressure x1.105."
         },
         {
-          "id": "segment_4",
-          "label": "Waves 16-20",
+          "id": "segment_2",
+          "label": "Waves 6-10",
           "risk": 2,
           "reward_bias": "coins",
           "enemy_scale": 1.045,
@@ -479,8 +457,8 @@
           "rule": "Risk 2/5: enemies x1.045, coins payout pressure x1.07."
         },
         {
-          "id": "segment_5",
-          "label": "Waves 21-25",
+          "id": "segment_3",
+          "label": "Waves 11-15",
           "risk": 2,
           "reward_bias": "xp",
           "enemy_scale": 1.045,
@@ -490,15 +468,37 @@
           "rule": "Risk 2/5: enemies x1.045, xp payout pressure x1.07."
         },
         {
+          "id": "segment_4",
+          "label": "Waves 16-20",
+          "risk": 2,
+          "reward_bias": "relic",
+          "enemy_scale": 1.045,
+          "xp_multiplier": 1.105,
+          "coin_multiplier": 1.03,
+          "recovery_pressure": "open",
+          "rule": "Risk 2/5: enemies x1.045, relic payout pressure x1.105."
+        },
+        {
+          "id": "segment_5",
+          "label": "Waves 21-25",
+          "risk": 2,
+          "reward_bias": "coins",
+          "enemy_scale": 1.045,
+          "xp_multiplier": 1.04,
+          "coin_multiplier": 1.07,
+          "recovery_pressure": "open",
+          "rule": "Risk 2/5: enemies x1.045, coins payout pressure x1.07."
+        },
+        {
           "id": "segment_6",
           "label": "Waves 26-30",
-          "risk": 3,
-          "reward_bias": "relic",
-          "enemy_scale": 1.09,
+          "risk": 4,
+          "reward_bias": "xp",
+          "enemy_scale": 1.135,
           "xp_multiplier": 1.14,
-          "coin_multiplier": 1.045,
-          "recovery_pressure": "guarded",
-          "rule": "Risk 3/5: enemies x1.09, relic payout pressure x1.14."
+          "coin_multiplier": 1.06,
+          "recovery_pressure": "scarce",
+          "rule": "Risk 4/5: enemies x1.135, xp payout pressure x1.14."
         }
       ],
       "policy": {
@@ -506,8 +506,8 @@
         "token_cost": 0,
         "segment_count": 6,
         "strongest_reward_segment": {
-          "id": "segment_4",
-          "label": "Waves 16-20",
+          "id": "segment_2",
+          "label": "Waves 6-10",
           "risk": 2,
           "reward_bias": "coins",
           "coin_multiplier": 1.07,
@@ -516,51 +516,25 @@
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 16-20: coins rewards x1.125; recovery 21%."
+          "rule": "Waves 6-10: coins rewards x1.125; recovery 21%."
         },
         "scarcest_recovery_segment": {
           "id": "segment_6",
           "label": "Waves 26-30",
-          "risk": 3,
-          "reward_bias": "relic",
-          "coin_multiplier": 1.045,
+          "risk": 4,
+          "reward_bias": "xp",
+          "coin_multiplier": 1.06,
           "xp_multiplier": 1.14,
-          "drop_multiplier": 1.075,
-          "recovery_pressure": "guarded",
-          "recovery_room_chance": 0.175,
-          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 26-30: relic rewards x1.075; recovery 18%."
+          "drop_multiplier": 1.1,
+          "recovery_pressure": "scarce",
+          "recovery_room_chance": 0.14,
+          "shrine_bargain": "Shrines are costly; preserve supplies before bargaining.",
+          "rule": "Waves 26-30: xp rewards x1.1; recovery 14%."
         },
         "segments": [
           {
             "id": "segment_1",
             "label": "Waves 1-5",
-            "risk": 1,
-            "reward_bias": "coins",
-            "coin_multiplier": 1.035,
-            "xp_multiplier": 1.02,
-            "drop_multiplier": 1.1,
-            "recovery_pressure": "open",
-            "recovery_room_chance": 0.245,
-            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 1-5: coins rewards x1.1; recovery 25%."
-          },
-          {
-            "id": "segment_2",
-            "label": "Waves 6-10",
-            "risk": 2,
-            "reward_bias": "xp",
-            "coin_multiplier": 1.03,
-            "xp_multiplier": 1.07,
-            "drop_multiplier": 1.05,
-            "recovery_pressure": "open",
-            "recovery_room_chance": 0.21,
-            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 6-10: xp rewards x1.05; recovery 21%."
-          },
-          {
-            "id": "segment_3",
-            "label": "Waves 11-15",
             "risk": 2,
             "reward_bias": "relic",
             "coin_multiplier": 1.03,
@@ -569,11 +543,11 @@
             "recovery_pressure": "open",
             "recovery_room_chance": 0.21,
             "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 11-15: relic rewards x1.05; recovery 21%."
+            "rule": "Waves 1-5: relic rewards x1.05; recovery 21%."
           },
           {
-            "id": "segment_4",
-            "label": "Waves 16-20",
+            "id": "segment_2",
+            "label": "Waves 6-10",
             "risk": 2,
             "reward_bias": "coins",
             "coin_multiplier": 1.07,
@@ -582,11 +556,11 @@
             "recovery_pressure": "open",
             "recovery_room_chance": 0.21,
             "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 16-20: coins rewards x1.125; recovery 21%."
+            "rule": "Waves 6-10: coins rewards x1.125; recovery 21%."
           },
           {
-            "id": "segment_5",
-            "label": "Waves 21-25",
+            "id": "segment_3",
+            "label": "Waves 11-15",
             "risk": 2,
             "reward_bias": "xp",
             "coin_multiplier": 1.03,
@@ -595,33 +569,59 @@
             "recovery_pressure": "open",
             "recovery_room_chance": 0.21,
             "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 21-25: xp rewards x1.05; recovery 21%."
+            "rule": "Waves 11-15: xp rewards x1.05; recovery 21%."
+          },
+          {
+            "id": "segment_4",
+            "label": "Waves 16-20",
+            "risk": 2,
+            "reward_bias": "relic",
+            "coin_multiplier": 1.03,
+            "xp_multiplier": 1.105,
+            "drop_multiplier": 1.05,
+            "recovery_pressure": "open",
+            "recovery_room_chance": 0.21,
+            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
+            "rule": "Waves 16-20: relic rewards x1.05; recovery 21%."
+          },
+          {
+            "id": "segment_5",
+            "label": "Waves 21-25",
+            "risk": 2,
+            "reward_bias": "coins",
+            "coin_multiplier": 1.07,
+            "xp_multiplier": 1.04,
+            "drop_multiplier": 1.125,
+            "recovery_pressure": "open",
+            "recovery_room_chance": 0.21,
+            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
+            "rule": "Waves 21-25: coins rewards x1.125; recovery 21%."
           },
           {
             "id": "segment_6",
             "label": "Waves 26-30",
-            "risk": 3,
-            "reward_bias": "relic",
-            "coin_multiplier": 1.045,
+            "risk": 4,
+            "reward_bias": "xp",
+            "coin_multiplier": 1.06,
             "xp_multiplier": 1.14,
-            "drop_multiplier": 1.075,
-            "recovery_pressure": "guarded",
-            "recovery_room_chance": 0.175,
-            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 26-30: relic rewards x1.075; recovery 18%."
+            "drop_multiplier": 1.1,
+            "recovery_pressure": "scarce",
+            "recovery_room_chance": 0.14,
+            "shrine_bargain": "Shrines are costly; preserve supplies before bargaining.",
+            "rule": "Waves 26-30: xp rewards x1.1; recovery 14%."
           }
         ],
-        "summary": "Waves 16-20 carries the richest coins pressure; Waves 26-30 has the tightest recovery window."
+        "summary": "Waves 6-10 carries the richest coins pressure; Waves 26-30 has the tightest recovery window."
       },
-      "scale_posture": "Waves 26-30 carries the strongest mechanical pressure at risk 3/5."
+      "scale_posture": "Waves 26-30 carries the strongest mechanical pressure at risk 4/5."
     },
     "daily_rite_policy": {
       "version": 1,
       "token_cost": 0,
       "segment_count": 6,
       "strongest_reward_segment": {
-        "id": "segment_4",
-        "label": "Waves 16-20",
+        "id": "segment_2",
+        "label": "Waves 6-10",
         "risk": 2,
         "reward_bias": "coins",
         "coin_multiplier": 1.07,
@@ -630,51 +630,25 @@
         "recovery_pressure": "open",
         "recovery_room_chance": 0.21,
         "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-        "rule": "Waves 16-20: coins rewards x1.125; recovery 21%."
+        "rule": "Waves 6-10: coins rewards x1.125; recovery 21%."
       },
       "scarcest_recovery_segment": {
         "id": "segment_6",
         "label": "Waves 26-30",
-        "risk": 3,
-        "reward_bias": "relic",
-        "coin_multiplier": 1.045,
+        "risk": 4,
+        "reward_bias": "xp",
+        "coin_multiplier": 1.06,
         "xp_multiplier": 1.14,
-        "drop_multiplier": 1.075,
-        "recovery_pressure": "guarded",
-        "recovery_room_chance": 0.175,
-        "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-        "rule": "Waves 26-30: relic rewards x1.075; recovery 18%."
+        "drop_multiplier": 1.1,
+        "recovery_pressure": "scarce",
+        "recovery_room_chance": 0.14,
+        "shrine_bargain": "Shrines are costly; preserve supplies before bargaining.",
+        "rule": "Waves 26-30: xp rewards x1.1; recovery 14%."
       },
       "segments": [
         {
           "id": "segment_1",
           "label": "Waves 1-5",
-          "risk": 1,
-          "reward_bias": "coins",
-          "coin_multiplier": 1.035,
-          "xp_multiplier": 1.02,
-          "drop_multiplier": 1.1,
-          "recovery_pressure": "open",
-          "recovery_room_chance": 0.245,
-          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 1-5: coins rewards x1.1; recovery 25%."
-        },
-        {
-          "id": "segment_2",
-          "label": "Waves 6-10",
-          "risk": 2,
-          "reward_bias": "xp",
-          "coin_multiplier": 1.03,
-          "xp_multiplier": 1.07,
-          "drop_multiplier": 1.05,
-          "recovery_pressure": "open",
-          "recovery_room_chance": 0.21,
-          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 6-10: xp rewards x1.05; recovery 21%."
-        },
-        {
-          "id": "segment_3",
-          "label": "Waves 11-15",
           "risk": 2,
           "reward_bias": "relic",
           "coin_multiplier": 1.03,
@@ -683,11 +657,11 @@
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 11-15: relic rewards x1.05; recovery 21%."
+          "rule": "Waves 1-5: relic rewards x1.05; recovery 21%."
         },
         {
-          "id": "segment_4",
-          "label": "Waves 16-20",
+          "id": "segment_2",
+          "label": "Waves 6-10",
           "risk": 2,
           "reward_bias": "coins",
           "coin_multiplier": 1.07,
@@ -696,11 +670,11 @@
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 16-20: coins rewards x1.125; recovery 21%."
+          "rule": "Waves 6-10: coins rewards x1.125; recovery 21%."
         },
         {
-          "id": "segment_5",
-          "label": "Waves 21-25",
+          "id": "segment_3",
+          "label": "Waves 11-15",
           "risk": 2,
           "reward_bias": "xp",
           "coin_multiplier": 1.03,
@@ -709,23 +683,49 @@
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 21-25: xp rewards x1.05; recovery 21%."
+          "rule": "Waves 11-15: xp rewards x1.05; recovery 21%."
+        },
+        {
+          "id": "segment_4",
+          "label": "Waves 16-20",
+          "risk": 2,
+          "reward_bias": "relic",
+          "coin_multiplier": 1.03,
+          "xp_multiplier": 1.105,
+          "drop_multiplier": 1.05,
+          "recovery_pressure": "open",
+          "recovery_room_chance": 0.21,
+          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
+          "rule": "Waves 16-20: relic rewards x1.05; recovery 21%."
+        },
+        {
+          "id": "segment_5",
+          "label": "Waves 21-25",
+          "risk": 2,
+          "reward_bias": "coins",
+          "coin_multiplier": 1.07,
+          "xp_multiplier": 1.04,
+          "drop_multiplier": 1.125,
+          "recovery_pressure": "open",
+          "recovery_room_chance": 0.21,
+          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
+          "rule": "Waves 21-25: coins rewards x1.125; recovery 21%."
         },
         {
           "id": "segment_6",
           "label": "Waves 26-30",
-          "risk": 3,
-          "reward_bias": "relic",
-          "coin_multiplier": 1.045,
+          "risk": 4,
+          "reward_bias": "xp",
+          "coin_multiplier": 1.06,
           "xp_multiplier": 1.14,
-          "drop_multiplier": 1.075,
-          "recovery_pressure": "guarded",
-          "recovery_room_chance": 0.175,
-          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 26-30: relic rewards x1.075; recovery 18%."
+          "drop_multiplier": 1.1,
+          "recovery_pressure": "scarce",
+          "recovery_room_chance": 0.14,
+          "shrine_bargain": "Shrines are costly; preserve supplies before bargaining.",
+          "rule": "Waves 26-30: xp rewards x1.1; recovery 14%."
         }
       ],
-      "summary": "Waves 16-20 carries the richest coins pressure; Waves 26-30 has the tightest recovery window."
+      "summary": "Waves 6-10 carries the richest coins pressure; Waves 26-30 has the tightest recovery window."
     },
     "daily_rite_outcomes": {
       "version": 1,
@@ -734,44 +734,44 @@
       "strongest_recovery": {
         "version": 1,
         "token_cost": 0,
-        "wave": 10,
-        "segment_id": "segment_3",
-        "segment_label": "Waves 11-15",
+        "wave": 0,
+        "segment_id": "segment_1",
+        "segment_label": "Waves 1-5",
         "reward_bias": "relic",
         "recovery_pressure": "open",
         "recovery_room_chance": 0.21,
         "shrine_bargain": null,
         "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
         "rewards": {
-          "coins": 58,
+          "coins": 33,
           "heal": 8,
           "prayer": 0,
           "items": []
         },
         "route_choice_adjustment": null,
-        "receipt": "Waves 11-15 clear: relic ash paid 58 coins, restored 8 HP.",
+        "receipt": "Waves 1-5 clear: relic ash paid 33 coins, restored 8 HP.",
         "next_action": "Use the recovery window before the next pressure spike."
       },
       "richest_cache": {
         "version": 1,
         "token_cost": 0,
-        "wave": 15,
-        "segment_id": "segment_4",
-        "segment_label": "Waves 16-20",
-        "reward_bias": "coins",
-        "recovery_pressure": "open",
-        "recovery_room_chance": 0.21,
+        "wave": 25,
+        "segment_id": "segment_6",
+        "segment_label": "Waves 26-30",
+        "reward_bias": "xp",
+        "recovery_pressure": "scarce",
+        "recovery_room_chance": 0.14,
         "shrine_bargain": null,
-        "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
+        "shrine_bargain_hint": "Shrines are costly; preserve supplies before bargaining.",
         "rewards": {
-          "coins": 82,
+          "coins": 68,
           "heal": 0,
           "prayer": 0,
           "items": []
         },
         "route_choice_adjustment": null,
-        "receipt": "Waves 16-20 clear: coin cache paid 82 coins.",
-        "next_action": "Keep tempo clean and bank the route pressure."
+        "receipt": "Waves 26-30 clear: light cache paid 68 coins.",
+        "next_action": "Preserve food; this segment is starving recovery."
       },
       "shrine_bargain": null,
       "decision_windows": [
@@ -783,45 +783,45 @@
           "wave": 0,
           "segment_id": "segment_1",
           "segment_label": "Waves 1-5",
-          "reward_bias": "coins",
-          "reward_line": "Waves 1-5 clear: coin cache paid 36 coins, restored 7 HP.",
+          "reward_bias": "relic",
+          "reward_line": "Waves 1-5 clear: relic ash paid 33 coins, restored 8 HP.",
           "next_action": "Spend food before this clear, then use the receipt to reset tempo."
         },
         {
           "version": 1,
           "token_cost": 0,
-          "id": "cache_window_2",
-          "kind": "cache_window",
+          "id": "recovery_window_2",
+          "kind": "recovery_window",
           "wave": 5,
           "segment_id": "segment_2",
           "segment_label": "Waves 6-10",
-          "reward_bias": "xp",
-          "reward_line": "Waves 6-10 clear: light cache paid 43 coins.",
-          "next_action": "Push this segment if you need coin to stabilize the run."
-        },
-        {
-          "version": 1,
-          "token_cost": 0,
-          "id": "recovery_window_3",
-          "kind": "recovery_window",
-          "wave": 10,
-          "segment_id": "segment_3",
-          "segment_label": "Waves 11-15",
-          "reward_bias": "relic",
-          "reward_line": "Waves 11-15 clear: relic ash paid 58 coins, restored 8 HP.",
+          "reward_bias": "coins",
+          "reward_line": "Waves 6-10 clear: coin cache paid 50 coins, restored 8 HP.",
           "next_action": "Spend food before this clear, then use the receipt to reset tempo."
         },
         {
           "version": 1,
           "token_cost": 0,
-          "id": "cache_window_4",
-          "kind": "cache_window",
+          "id": "tempo_window_3",
+          "kind": "tempo_window",
+          "wave": 10,
+          "segment_id": "segment_3",
+          "segment_label": "Waves 11-15",
+          "reward_bias": "xp",
+          "reward_line": "Waves 11-15 clear: light cache paid 37 coins.",
+          "next_action": "Preserve supplies and keep the route clock clean."
+        },
+        {
+          "version": 1,
+          "token_cost": 0,
+          "id": "recovery_window_4",
+          "kind": "recovery_window",
           "wave": 15,
           "segment_id": "segment_4",
           "segment_label": "Waves 16-20",
-          "reward_bias": "coins",
-          "reward_line": "Waves 16-20 clear: coin cache paid 82 coins.",
-          "next_action": "Push this segment if you need coin to stabilize the run."
+          "reward_bias": "relic",
+          "reward_line": "Waves 16-20 clear: relic ash paid 48 coins, restored 8 HP.",
+          "next_action": "Spend food before this clear, then use the receipt to reset tempo."
         },
         {
           "version": 1,
@@ -831,8 +831,8 @@
           "wave": 20,
           "segment_id": "segment_5",
           "segment_label": "Waves 21-25",
-          "reward_bias": "xp",
-          "reward_line": "Waves 21-25 clear: light cache paid 47 coins, restored 8 HP.",
+          "reward_bias": "coins",
+          "reward_line": "Waves 21-25 clear: coin cache paid 66 coins, restored 8 HP.",
           "next_action": "Spend food before this clear, then use the receipt to reset tempo."
         },
         {
@@ -843,8 +843,8 @@
           "wave": 25,
           "segment_id": "segment_6",
           "segment_label": "Waves 26-30",
-          "reward_bias": "relic",
-          "reward_line": "Waves 26-30 clear: relic ash paid 67 coins.",
+          "reward_bias": "xp",
+          "reward_line": "Waves 26-30 clear: light cache paid 68 coins.",
           "next_action": "Push this segment if you need coin to stabilize the run."
         }
       ],
@@ -855,19 +855,19 @@
           "wave": 0,
           "segment_id": "segment_1",
           "segment_label": "Waves 1-5",
-          "reward_bias": "coins",
+          "reward_bias": "relic",
           "recovery_pressure": "open",
-          "recovery_room_chance": 0.245,
+          "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 36,
-            "heal": 7,
+            "coins": 33,
+            "heal": 8,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 1-5 clear: coin cache paid 36 coins, restored 7 HP.",
+          "receipt": "Waves 1-5 clear: relic ash paid 33 coins, restored 8 HP.",
           "next_action": "Use the recovery window before the next pressure spike."
         },
         {
@@ -876,20 +876,20 @@
           "wave": 5,
           "segment_id": "segment_2",
           "segment_label": "Waves 6-10",
-          "reward_bias": "xp",
+          "reward_bias": "coins",
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 43,
-            "heal": 0,
+            "coins": 50,
+            "heal": 8,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 6-10 clear: light cache paid 43 coins.",
-          "next_action": "Keep tempo clean and bank the route pressure."
+          "receipt": "Waves 6-10 clear: coin cache paid 50 coins, restored 8 HP.",
+          "next_action": "Use the recovery window before the next pressure spike."
         },
         {
           "version": 1,
@@ -897,20 +897,20 @@
           "wave": 10,
           "segment_id": "segment_3",
           "segment_label": "Waves 11-15",
-          "reward_bias": "relic",
+          "reward_bias": "xp",
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 58,
-            "heal": 8,
+            "coins": 37,
+            "heal": 0,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 11-15 clear: relic ash paid 58 coins, restored 8 HP.",
-          "next_action": "Use the recovery window before the next pressure spike."
+          "receipt": "Waves 11-15 clear: light cache paid 37 coins.",
+          "next_action": "Keep tempo clean and bank the route pressure."
         },
         {
           "version": 1,
@@ -918,20 +918,20 @@
           "wave": 15,
           "segment_id": "segment_4",
           "segment_label": "Waves 16-20",
-          "reward_bias": "coins",
+          "reward_bias": "relic",
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 82,
-            "heal": 0,
+            "coins": 48,
+            "heal": 8,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 16-20 clear: coin cache paid 82 coins.",
-          "next_action": "Keep tempo clean and bank the route pressure."
+          "receipt": "Waves 16-20 clear: relic ash paid 48 coins, restored 8 HP.",
+          "next_action": "Use the recovery window before the next pressure spike."
         },
         {
           "version": 1,
@@ -939,19 +939,19 @@
           "wave": 20,
           "segment_id": "segment_5",
           "segment_label": "Waves 21-25",
-          "reward_bias": "xp",
+          "reward_bias": "coins",
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 47,
+            "coins": 66,
             "heal": 8,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 21-25 clear: light cache paid 47 coins, restored 8 HP.",
+          "receipt": "Waves 21-25 clear: coin cache paid 66 coins, restored 8 HP.",
           "next_action": "Use the recovery window before the next pressure spike."
         },
         {
@@ -960,23 +960,23 @@
           "wave": 25,
           "segment_id": "segment_6",
           "segment_label": "Waves 26-30",
-          "reward_bias": "relic",
-          "recovery_pressure": "guarded",
-          "recovery_room_chance": 0.175,
+          "reward_bias": "xp",
+          "recovery_pressure": "scarce",
+          "recovery_room_chance": 0.14,
           "shrine_bargain": null,
-          "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
+          "shrine_bargain_hint": "Shrines are costly; preserve supplies before bargaining.",
           "rewards": {
-            "coins": 67,
+            "coins": 68,
             "heal": 0,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 26-30 clear: relic ash paid 67 coins.",
-          "next_action": "Keep tempo clean and bank the route pressure."
+          "receipt": "Waves 26-30 clear: light cache paid 68 coins.",
+          "next_action": "Preserve food; this segment is starving recovery."
         }
       ],
-      "summary": "Waves 16-20 carries the richest room cache; Waves 11-15 is the safest recovery window."
+      "summary": "Waves 26-30 carries the richest room cache; Waves 1-5 is the safest recovery window."
     },
     "daily_rite_route_choices": {
       "version": 1,
@@ -1044,39 +1044,10 @@
         {
           "version": 1,
           "token_cost": 0,
-          "kind": "cache_window",
+          "kind": "recovery_window",
           "wave": 5,
           "segment_id": "segment_2",
           "segment_label": "Waves 6-10",
-          "headline": "Cache window opened",
-          "recommended_choice_id": "claim_cache",
-          "reason": "Push this segment if you need coin to stabilize the run.",
-          "choices": [
-            {
-              "id": "claim_cache",
-              "label": "Claim the cache",
-              "detail": "Route around Waves 6-10's coin pressure and bank the payout.",
-              "payoff": "Best economy line; stabilizes future merchant choices.",
-              "cost": "May lose a cleaner shrine setup.",
-              "token_cost": 0
-            },
-            {
-              "id": "trade_for_tempo",
-              "label": "Trade for tempo",
-              "detail": "Use the cache as fuel for a faster next room.",
-              "payoff": "Best clear-speed line for challenge-link attempts.",
-              "cost": "Leaves less room for recovery mistakes.",
-              "token_cost": 0
-            }
-          ]
-        },
-        {
-          "version": 1,
-          "token_cost": 0,
-          "kind": "recovery_window",
-          "wave": 10,
-          "segment_id": "segment_3",
-          "segment_label": "Waves 11-15",
           "headline": "Recovery window opened",
           "recommended_choice_id": "stabilize",
           "reason": "Spend food before this clear, then use the receipt to reset tempo.",
@@ -1084,7 +1055,7 @@
             {
               "id": "stabilize",
               "label": "Stabilize",
-              "detail": "Use the recovery from Waves 11-15 before the next spike.",
+              "detail": "Use the recovery from Waves 6-10 before the next spike.",
               "payoff": "Best survival line; preserves food and Prayer.",
               "cost": "Lower immediate tempo.",
               "token_cost": 0
@@ -1102,28 +1073,57 @@
         {
           "version": 1,
           "token_cost": 0,
-          "kind": "cache_window",
-          "wave": 15,
-          "segment_id": "segment_4",
-          "segment_label": "Waves 16-20",
-          "headline": "Cache window opened",
-          "recommended_choice_id": "claim_cache",
-          "reason": "Push this segment if you need coin to stabilize the run.",
+          "kind": "tempo_window",
+          "wave": 10,
+          "segment_id": "segment_3",
+          "segment_label": "Waves 11-15",
+          "headline": "Tempo choice opened",
+          "recommended_choice_id": "hold_tempo",
+          "reason": "Preserve supplies and keep the route clock clean.",
           "choices": [
             {
-              "id": "claim_cache",
-              "label": "Claim the cache",
-              "detail": "Route around Waves 16-20's coin pressure and bank the payout.",
-              "payoff": "Best economy line; stabilizes future merchant choices.",
-              "cost": "May lose a cleaner shrine setup.",
+              "id": "hold_tempo",
+              "label": "Hold tempo",
+              "detail": "Keep Waves 11-15 clean and preserve supplies.",
+              "payoff": "Best default line when the route offers no special bargain.",
+              "cost": "No burst payout.",
               "token_cost": 0
             },
             {
-              "id": "trade_for_tempo",
-              "label": "Trade for tempo",
-              "detail": "Use the cache as fuel for a faster next room.",
-              "payoff": "Best clear-speed line for challenge-link attempts.",
-              "cost": "Leaves less room for recovery mistakes.",
+              "id": "fish_for_window",
+              "label": "Fish for the next window",
+              "detail": "Play conservatively until a recovery, cache, or shrine prompt appears.",
+              "payoff": "Best long-run line for uncertain builds.",
+              "cost": "Slower wave progression.",
+              "token_cost": 0
+            }
+          ]
+        },
+        {
+          "version": 1,
+          "token_cost": 0,
+          "kind": "recovery_window",
+          "wave": 15,
+          "segment_id": "segment_4",
+          "segment_label": "Waves 16-20",
+          "headline": "Recovery window opened",
+          "recommended_choice_id": "stabilize",
+          "reason": "Spend food before this clear, then use the receipt to reset tempo.",
+          "choices": [
+            {
+              "id": "stabilize",
+              "label": "Stabilize",
+              "detail": "Use the recovery from Waves 16-20 before the next spike.",
+              "payoff": "Best survival line; preserves food and Prayer.",
+              "cost": "Lower immediate tempo.",
+              "token_cost": 0
+            },
+            {
+              "id": "overheal_tempo",
+              "label": "Push while restored",
+              "detail": "Treat the recovery receipt as permission to take the next fight faster.",
+              "payoff": "Best score line when HP and Prayer are capped.",
+              "cost": "Punishes missed attacks harder.",
               "token_cost": 0
             }
           ]
@@ -1360,75 +1360,57 @@
     },
     "almanac": {
       "version": 1,
-      "startDay": 79,
+      "startDay": 191,
       "days": 7,
       "forecast": [
         {
           "offset": 0,
-          "dayNumber": 79,
+          "dayNumber": 191,
           "label": "Today",
           "modifier": {
             "id": "clear_routes",
             "label": "Clear Routes"
           },
           "opening": {
-            "encounter": "Scout pack",
-            "reward": "coins",
-            "danger": "low",
+            "encounter": "Low ambush",
+            "reward": "starter relic",
+            "danger": "moderate",
             "shrineChance": 0.12,
             "rivalChance": 0.04
           },
-          "bossReward": "coins",
-          "bestFor": "coins farming"
+          "bossReward": "starter_relic",
+          "bestFor": "starter relic farming"
         },
         {
           "offset": 1,
-          "dayNumber": 80,
+          "dayNumber": 192,
           "label": "Tomorrow",
           "modifier": {
             "id": "clear_routes",
             "label": "Clear Routes"
           },
           "opening": {
-            "encounter": "Low ambush",
-            "reward": "starter relic",
-            "danger": "low",
+            "encounter": "Recovery room",
+            "reward": "food",
+            "danger": "moderate",
             "shrineChance": 0.12,
             "rivalChance": 0.04
           },
-          "bossReward": "starter_relic",
-          "bestFor": "starter relic farming"
+          "bossReward": "food",
+          "bestFor": "food farming"
         },
         {
           "offset": 2,
-          "dayNumber": 81,
+          "dayNumber": 193,
           "label": "In 2 days",
           "modifier": {
             "id": "clear_routes",
             "label": "Clear Routes"
           },
           "opening": {
-            "encounter": "Recovery room",
-            "reward": "food",
-            "danger": "low",
-            "shrineChance": 0.12,
-            "rivalChance": 0.04
-          },
-          "bossReward": "food",
-          "bestFor": "food farming"
-        },
-        {
-          "offset": 3,
-          "dayNumber": 82,
-          "label": "In 3 days",
-          "modifier": {
-            "id": "clear_routes",
-            "label": "Clear Routes"
-          },
-          "opening": {
             "encounter": "Scout pack",
             "reward": "coins",
-            "danger": "low",
+            "danger": "moderate",
             "shrineChance": 0.12,
             "rivalChance": 0.04
           },
@@ -1436,9 +1418,9 @@
           "bestFor": "coins farming"
         },
         {
-          "offset": 4,
-          "dayNumber": 83,
-          "label": "In 4 days",
+          "offset": 3,
+          "dayNumber": 194,
+          "label": "In 3 days",
           "modifier": {
             "id": "clear_routes",
             "label": "Clear Routes"
@@ -1446,7 +1428,7 @@
           "opening": {
             "encounter": "Low ambush",
             "reward": "starter relic",
-            "danger": "low",
+            "danger": "moderate",
             "shrineChance": 0.12,
             "rivalChance": 0.04
           },
@@ -1454,9 +1436,9 @@
           "bestFor": "starter relic farming"
         },
         {
-          "offset": 5,
-          "dayNumber": 84,
-          "label": "In 5 days",
+          "offset": 4,
+          "dayNumber": 195,
+          "label": "In 4 days",
           "modifier": {
             "id": "clear_routes",
             "label": "Clear Routes"
@@ -1464,7 +1446,7 @@
           "opening": {
             "encounter": "Recovery room",
             "reward": "food",
-            "danger": "low",
+            "danger": "moderate",
             "shrineChance": 0.12,
             "rivalChance": 0.04
           },
@@ -1472,9 +1454,9 @@
           "bestFor": "food farming"
         },
         {
-          "offset": 6,
-          "dayNumber": 85,
-          "label": "In 6 days",
+          "offset": 5,
+          "dayNumber": 196,
+          "label": "In 5 days",
           "modifier": {
             "id": "clear_routes",
             "label": "Clear Routes"
@@ -1482,12 +1464,30 @@
           "opening": {
             "encounter": "Scout pack",
             "reward": "coins",
-            "danger": "low",
+            "danger": "moderate",
             "shrineChance": 0.12,
             "rivalChance": 0.04
           },
           "bossReward": "coins",
           "bestFor": "coins farming"
+        },
+        {
+          "offset": 6,
+          "dayNumber": 197,
+          "label": "In 6 days",
+          "modifier": {
+            "id": "clear_routes",
+            "label": "Clear Routes"
+          },
+          "opening": {
+            "encounter": "Low ambush",
+            "reward": "starter relic",
+            "danger": "moderate",
+            "shrineChance": 0.12,
+            "rivalChance": 0.04
+          },
+          "bossReward": "starter_relic",
+          "bestFor": "starter relic farming"
         }
       ],
       "driftWatch": {
@@ -1503,21 +1503,21 @@
         "brighter": null,
         "watchLine": "The world holds in Full Dawn; the modifier will not flip without a real swing in the sun."
       },
-      "planningLine": "Today favors coins farming — plan offerings and deep routes around it.",
+      "planningLine": "Today favors starter relic farming — plan offerings and deep routes around it.",
       "determinism": "All forecast entries derive from the date seed and current world phase. No generation cost."
     },
     "myth_scenes": {
       "version": 1,
-      "seed": "scenes:79:full_dawn",
+      "seed": "scenes:191:full_dawn",
       "title": "The Myth So Far",
       "scenes": [
-        "The chronicle remembers: on the 79th day of the season, light pooled in the valleys, and even the graves seemed to rest easier.",
+        "So it is written in ash: on the 191st day of the season, the sun stood full and generous, and the roads of Solara lay open.",
         "The Sun pressed its directive upon the land — Build The Chronicle. Record runs, deaths, and offerings so the async world has something tangible to react to.",
         "A new ritual gathered its first offerings, slow but unbroken, as rituals begin."
       ],
       "determinism": "Composed from public chronicle state by seeded grammar. Zero token cost."
     },
-    "result_card_shape": "SOLARA: LAST LIGHT\nAdventurer - WAVE 0\nPhase: Full Dawn\nVow: unsworn\nChallenge: open route\nThe chronicle remembers: on the 79th day of the season, light pooled in the valleys, and even the graves seemed to rest \nRoute seed: season-1-day-79",
+    "result_card_shape": "SOLARA: LAST LIGHT\nAdventurer - WAVE 0\nPhase: Full Dawn\nVow: unsworn\nChallenge: open route\nSo it is written in ash: on the 191st day of the season, the sun stood full and generous, and the roads of Solara lay op\nRoute seed: season-1-day-191",
     "feedback_summary": {
       "version": 1,
       "privacy": "local public-safe aggregate events only; no raw save payloads, personal data, private notes, credentials, or cookies",
@@ -1556,9 +1556,9 @@
   "graves": [],
   "echoes": [],
   "social_hooks": {
-    "headline": "☀️ Steady Flame · Full Dawn · 0 fallen",
+    "headline": "🔥 Harvest Pyre · Full Dawn · 0 fallen",
     "call_to_action": "Record runs, deaths, and offerings so the async world has something tangible to react to.",
-    "share_text": "☀️ Steady Flame · Full Dawn · 0 fallen — Build The Chronicle. Play Solara: Sunfall.",
+    "share_text": "🔥 Harvest Pyre · Full Dawn · 0 fallen — Build The Chronicle. Play Solara: Sunfall.",
     "discord_command_hint": "/sun /leaderboard /graves /prophecy",
     "twitch_panel_line": "Full Dawn · Stable · 0 graves"
   },
@@ -1572,7 +1572,7 @@
       "next_action": "Build The Chronicle"
     },
     "social_dashboard": {
-      "headline": "☀️ Steady Flame · Full Dawn · 0 fallen",
+      "headline": "🔥 Harvest Pyre · Full Dawn · 0 fallen",
       "directive": "Build The Chronicle",
       "tags": [
         "modifier:clear_routes",
@@ -1690,40 +1690,18 @@
       "highest_risk_segment": {
         "id": "segment_6",
         "label": "Waves 26-30",
-        "risk": 3,
-        "reward_bias": "relic",
-        "enemy_scale": 1.09,
+        "risk": 4,
+        "reward_bias": "xp",
+        "enemy_scale": 1.135,
         "xp_multiplier": 1.14,
-        "coin_multiplier": 1.045,
-        "recovery_pressure": "guarded",
-        "rule": "Risk 3/5: enemies x1.09, relic payout pressure x1.14."
+        "coin_multiplier": 1.06,
+        "recovery_pressure": "scarce",
+        "rule": "Risk 4/5: enemies x1.135, xp payout pressure x1.14."
       },
       "segments": [
         {
           "id": "segment_1",
           "label": "Waves 1-5",
-          "risk": 1,
-          "reward_bias": "coins",
-          "enemy_scale": 1,
-          "xp_multiplier": 1.02,
-          "coin_multiplier": 1.035,
-          "recovery_pressure": "open",
-          "rule": "Risk 1/5: enemies x1, coins payout pressure x1.035."
-        },
-        {
-          "id": "segment_2",
-          "label": "Waves 6-10",
-          "risk": 2,
-          "reward_bias": "xp",
-          "enemy_scale": 1.045,
-          "xp_multiplier": 1.07,
-          "coin_multiplier": 1.03,
-          "recovery_pressure": "open",
-          "rule": "Risk 2/5: enemies x1.045, xp payout pressure x1.07."
-        },
-        {
-          "id": "segment_3",
-          "label": "Waves 11-15",
           "risk": 2,
           "reward_bias": "relic",
           "enemy_scale": 1.045,
@@ -1733,8 +1711,8 @@
           "rule": "Risk 2/5: enemies x1.045, relic payout pressure x1.105."
         },
         {
-          "id": "segment_4",
-          "label": "Waves 16-20",
+          "id": "segment_2",
+          "label": "Waves 6-10",
           "risk": 2,
           "reward_bias": "coins",
           "enemy_scale": 1.045,
@@ -1744,8 +1722,8 @@
           "rule": "Risk 2/5: enemies x1.045, coins payout pressure x1.07."
         },
         {
-          "id": "segment_5",
-          "label": "Waves 21-25",
+          "id": "segment_3",
+          "label": "Waves 11-15",
           "risk": 2,
           "reward_bias": "xp",
           "enemy_scale": 1.045,
@@ -1755,15 +1733,37 @@
           "rule": "Risk 2/5: enemies x1.045, xp payout pressure x1.07."
         },
         {
+          "id": "segment_4",
+          "label": "Waves 16-20",
+          "risk": 2,
+          "reward_bias": "relic",
+          "enemy_scale": 1.045,
+          "xp_multiplier": 1.105,
+          "coin_multiplier": 1.03,
+          "recovery_pressure": "open",
+          "rule": "Risk 2/5: enemies x1.045, relic payout pressure x1.105."
+        },
+        {
+          "id": "segment_5",
+          "label": "Waves 21-25",
+          "risk": 2,
+          "reward_bias": "coins",
+          "enemy_scale": 1.045,
+          "xp_multiplier": 1.04,
+          "coin_multiplier": 1.07,
+          "recovery_pressure": "open",
+          "rule": "Risk 2/5: enemies x1.045, coins payout pressure x1.07."
+        },
+        {
           "id": "segment_6",
           "label": "Waves 26-30",
-          "risk": 3,
-          "reward_bias": "relic",
-          "enemy_scale": 1.09,
+          "risk": 4,
+          "reward_bias": "xp",
+          "enemy_scale": 1.135,
           "xp_multiplier": 1.14,
-          "coin_multiplier": 1.045,
-          "recovery_pressure": "guarded",
-          "rule": "Risk 3/5: enemies x1.09, relic payout pressure x1.14."
+          "coin_multiplier": 1.06,
+          "recovery_pressure": "scarce",
+          "rule": "Risk 4/5: enemies x1.135, xp payout pressure x1.14."
         }
       ],
       "policy": {
@@ -1771,8 +1771,8 @@
         "token_cost": 0,
         "segment_count": 6,
         "strongest_reward_segment": {
-          "id": "segment_4",
-          "label": "Waves 16-20",
+          "id": "segment_2",
+          "label": "Waves 6-10",
           "risk": 2,
           "reward_bias": "coins",
           "coin_multiplier": 1.07,
@@ -1781,51 +1781,25 @@
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 16-20: coins rewards x1.125; recovery 21%."
+          "rule": "Waves 6-10: coins rewards x1.125; recovery 21%."
         },
         "scarcest_recovery_segment": {
           "id": "segment_6",
           "label": "Waves 26-30",
-          "risk": 3,
-          "reward_bias": "relic",
-          "coin_multiplier": 1.045,
+          "risk": 4,
+          "reward_bias": "xp",
+          "coin_multiplier": 1.06,
           "xp_multiplier": 1.14,
-          "drop_multiplier": 1.075,
-          "recovery_pressure": "guarded",
-          "recovery_room_chance": 0.175,
-          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 26-30: relic rewards x1.075; recovery 18%."
+          "drop_multiplier": 1.1,
+          "recovery_pressure": "scarce",
+          "recovery_room_chance": 0.14,
+          "shrine_bargain": "Shrines are costly; preserve supplies before bargaining.",
+          "rule": "Waves 26-30: xp rewards x1.1; recovery 14%."
         },
         "segments": [
           {
             "id": "segment_1",
             "label": "Waves 1-5",
-            "risk": 1,
-            "reward_bias": "coins",
-            "coin_multiplier": 1.035,
-            "xp_multiplier": 1.02,
-            "drop_multiplier": 1.1,
-            "recovery_pressure": "open",
-            "recovery_room_chance": 0.245,
-            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 1-5: coins rewards x1.1; recovery 25%."
-          },
-          {
-            "id": "segment_2",
-            "label": "Waves 6-10",
-            "risk": 2,
-            "reward_bias": "xp",
-            "coin_multiplier": 1.03,
-            "xp_multiplier": 1.07,
-            "drop_multiplier": 1.05,
-            "recovery_pressure": "open",
-            "recovery_room_chance": 0.21,
-            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 6-10: xp rewards x1.05; recovery 21%."
-          },
-          {
-            "id": "segment_3",
-            "label": "Waves 11-15",
             "risk": 2,
             "reward_bias": "relic",
             "coin_multiplier": 1.03,
@@ -1834,11 +1808,11 @@
             "recovery_pressure": "open",
             "recovery_room_chance": 0.21,
             "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 11-15: relic rewards x1.05; recovery 21%."
+            "rule": "Waves 1-5: relic rewards x1.05; recovery 21%."
           },
           {
-            "id": "segment_4",
-            "label": "Waves 16-20",
+            "id": "segment_2",
+            "label": "Waves 6-10",
             "risk": 2,
             "reward_bias": "coins",
             "coin_multiplier": 1.07,
@@ -1847,11 +1821,11 @@
             "recovery_pressure": "open",
             "recovery_room_chance": 0.21,
             "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 16-20: coins rewards x1.125; recovery 21%."
+            "rule": "Waves 6-10: coins rewards x1.125; recovery 21%."
           },
           {
-            "id": "segment_5",
-            "label": "Waves 21-25",
+            "id": "segment_3",
+            "label": "Waves 11-15",
             "risk": 2,
             "reward_bias": "xp",
             "coin_multiplier": 1.03,
@@ -1860,33 +1834,59 @@
             "recovery_pressure": "open",
             "recovery_room_chance": 0.21,
             "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 21-25: xp rewards x1.05; recovery 21%."
+            "rule": "Waves 11-15: xp rewards x1.05; recovery 21%."
+          },
+          {
+            "id": "segment_4",
+            "label": "Waves 16-20",
+            "risk": 2,
+            "reward_bias": "relic",
+            "coin_multiplier": 1.03,
+            "xp_multiplier": 1.105,
+            "drop_multiplier": 1.05,
+            "recovery_pressure": "open",
+            "recovery_room_chance": 0.21,
+            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
+            "rule": "Waves 16-20: relic rewards x1.05; recovery 21%."
+          },
+          {
+            "id": "segment_5",
+            "label": "Waves 21-25",
+            "risk": 2,
+            "reward_bias": "coins",
+            "coin_multiplier": 1.07,
+            "xp_multiplier": 1.04,
+            "drop_multiplier": 1.125,
+            "recovery_pressure": "open",
+            "recovery_room_chance": 0.21,
+            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
+            "rule": "Waves 21-25: coins rewards x1.125; recovery 21%."
           },
           {
             "id": "segment_6",
             "label": "Waves 26-30",
-            "risk": 3,
-            "reward_bias": "relic",
-            "coin_multiplier": 1.045,
+            "risk": 4,
+            "reward_bias": "xp",
+            "coin_multiplier": 1.06,
             "xp_multiplier": 1.14,
-            "drop_multiplier": 1.075,
-            "recovery_pressure": "guarded",
-            "recovery_room_chance": 0.175,
-            "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-            "rule": "Waves 26-30: relic rewards x1.075; recovery 18%."
+            "drop_multiplier": 1.1,
+            "recovery_pressure": "scarce",
+            "recovery_room_chance": 0.14,
+            "shrine_bargain": "Shrines are costly; preserve supplies before bargaining.",
+            "rule": "Waves 26-30: xp rewards x1.1; recovery 14%."
           }
         ],
-        "summary": "Waves 16-20 carries the richest coins pressure; Waves 26-30 has the tightest recovery window."
+        "summary": "Waves 6-10 carries the richest coins pressure; Waves 26-30 has the tightest recovery window."
       },
-      "scale_posture": "Waves 26-30 carries the strongest mechanical pressure at risk 3/5."
+      "scale_posture": "Waves 26-30 carries the strongest mechanical pressure at risk 4/5."
     },
     "daily_rite_policy": {
       "version": 1,
       "token_cost": 0,
       "segment_count": 6,
       "strongest_reward_segment": {
-        "id": "segment_4",
-        "label": "Waves 16-20",
+        "id": "segment_2",
+        "label": "Waves 6-10",
         "risk": 2,
         "reward_bias": "coins",
         "coin_multiplier": 1.07,
@@ -1895,51 +1895,25 @@
         "recovery_pressure": "open",
         "recovery_room_chance": 0.21,
         "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-        "rule": "Waves 16-20: coins rewards x1.125; recovery 21%."
+        "rule": "Waves 6-10: coins rewards x1.125; recovery 21%."
       },
       "scarcest_recovery_segment": {
         "id": "segment_6",
         "label": "Waves 26-30",
-        "risk": 3,
-        "reward_bias": "relic",
-        "coin_multiplier": 1.045,
+        "risk": 4,
+        "reward_bias": "xp",
+        "coin_multiplier": 1.06,
         "xp_multiplier": 1.14,
-        "drop_multiplier": 1.075,
-        "recovery_pressure": "guarded",
-        "recovery_room_chance": 0.175,
-        "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-        "rule": "Waves 26-30: relic rewards x1.075; recovery 18%."
+        "drop_multiplier": 1.1,
+        "recovery_pressure": "scarce",
+        "recovery_room_chance": 0.14,
+        "shrine_bargain": "Shrines are costly; preserve supplies before bargaining.",
+        "rule": "Waves 26-30: xp rewards x1.1; recovery 14%."
       },
       "segments": [
         {
           "id": "segment_1",
           "label": "Waves 1-5",
-          "risk": 1,
-          "reward_bias": "coins",
-          "coin_multiplier": 1.035,
-          "xp_multiplier": 1.02,
-          "drop_multiplier": 1.1,
-          "recovery_pressure": "open",
-          "recovery_room_chance": 0.245,
-          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 1-5: coins rewards x1.1; recovery 25%."
-        },
-        {
-          "id": "segment_2",
-          "label": "Waves 6-10",
-          "risk": 2,
-          "reward_bias": "xp",
-          "coin_multiplier": 1.03,
-          "xp_multiplier": 1.07,
-          "drop_multiplier": 1.05,
-          "recovery_pressure": "open",
-          "recovery_room_chance": 0.21,
-          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 6-10: xp rewards x1.05; recovery 21%."
-        },
-        {
-          "id": "segment_3",
-          "label": "Waves 11-15",
           "risk": 2,
           "reward_bias": "relic",
           "coin_multiplier": 1.03,
@@ -1948,11 +1922,11 @@
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 11-15: relic rewards x1.05; recovery 21%."
+          "rule": "Waves 1-5: relic rewards x1.05; recovery 21%."
         },
         {
-          "id": "segment_4",
-          "label": "Waves 16-20",
+          "id": "segment_2",
+          "label": "Waves 6-10",
           "risk": 2,
           "reward_bias": "coins",
           "coin_multiplier": 1.07,
@@ -1961,11 +1935,11 @@
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 16-20: coins rewards x1.125; recovery 21%."
+          "rule": "Waves 6-10: coins rewards x1.125; recovery 21%."
         },
         {
-          "id": "segment_5",
-          "label": "Waves 21-25",
+          "id": "segment_3",
+          "label": "Waves 11-15",
           "risk": 2,
           "reward_bias": "xp",
           "coin_multiplier": 1.03,
@@ -1974,23 +1948,49 @@
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 21-25: xp rewards x1.05; recovery 21%."
+          "rule": "Waves 11-15: xp rewards x1.05; recovery 21%."
+        },
+        {
+          "id": "segment_4",
+          "label": "Waves 16-20",
+          "risk": 2,
+          "reward_bias": "relic",
+          "coin_multiplier": 1.03,
+          "xp_multiplier": 1.105,
+          "drop_multiplier": 1.05,
+          "recovery_pressure": "open",
+          "recovery_room_chance": 0.21,
+          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
+          "rule": "Waves 16-20: relic rewards x1.05; recovery 21%."
+        },
+        {
+          "id": "segment_5",
+          "label": "Waves 21-25",
+          "risk": 2,
+          "reward_bias": "coins",
+          "coin_multiplier": 1.07,
+          "xp_multiplier": 1.04,
+          "drop_multiplier": 1.125,
+          "recovery_pressure": "open",
+          "recovery_room_chance": 0.21,
+          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
+          "rule": "Waves 21-25: coins rewards x1.125; recovery 21%."
         },
         {
           "id": "segment_6",
           "label": "Waves 26-30",
-          "risk": 3,
-          "reward_bias": "relic",
-          "coin_multiplier": 1.045,
+          "risk": 4,
+          "reward_bias": "xp",
+          "coin_multiplier": 1.06,
           "xp_multiplier": 1.14,
-          "drop_multiplier": 1.075,
-          "recovery_pressure": "guarded",
-          "recovery_room_chance": 0.175,
-          "shrine_bargain": "Shrine bargains remain open if you keep tempo clean.",
-          "rule": "Waves 26-30: relic rewards x1.075; recovery 18%."
+          "drop_multiplier": 1.1,
+          "recovery_pressure": "scarce",
+          "recovery_room_chance": 0.14,
+          "shrine_bargain": "Shrines are costly; preserve supplies before bargaining.",
+          "rule": "Waves 26-30: xp rewards x1.1; recovery 14%."
         }
       ],
-      "summary": "Waves 16-20 carries the richest coins pressure; Waves 26-30 has the tightest recovery window."
+      "summary": "Waves 6-10 carries the richest coins pressure; Waves 26-30 has the tightest recovery window."
     },
     "daily_rite_outcomes": {
       "version": 1,
@@ -1999,44 +1999,44 @@
       "strongest_recovery": {
         "version": 1,
         "token_cost": 0,
-        "wave": 10,
-        "segment_id": "segment_3",
-        "segment_label": "Waves 11-15",
+        "wave": 0,
+        "segment_id": "segment_1",
+        "segment_label": "Waves 1-5",
         "reward_bias": "relic",
         "recovery_pressure": "open",
         "recovery_room_chance": 0.21,
         "shrine_bargain": null,
         "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
         "rewards": {
-          "coins": 58,
+          "coins": 33,
           "heal": 8,
           "prayer": 0,
           "items": []
         },
         "route_choice_adjustment": null,
-        "receipt": "Waves 11-15 clear: relic ash paid 58 coins, restored 8 HP.",
+        "receipt": "Waves 1-5 clear: relic ash paid 33 coins, restored 8 HP.",
         "next_action": "Use the recovery window before the next pressure spike."
       },
       "richest_cache": {
         "version": 1,
         "token_cost": 0,
-        "wave": 15,
-        "segment_id": "segment_4",
-        "segment_label": "Waves 16-20",
-        "reward_bias": "coins",
-        "recovery_pressure": "open",
-        "recovery_room_chance": 0.21,
+        "wave": 25,
+        "segment_id": "segment_6",
+        "segment_label": "Waves 26-30",
+        "reward_bias": "xp",
+        "recovery_pressure": "scarce",
+        "recovery_room_chance": 0.14,
         "shrine_bargain": null,
-        "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
+        "shrine_bargain_hint": "Shrines are costly; preserve supplies before bargaining.",
         "rewards": {
-          "coins": 82,
+          "coins": 68,
           "heal": 0,
           "prayer": 0,
           "items": []
         },
         "route_choice_adjustment": null,
-        "receipt": "Waves 16-20 clear: coin cache paid 82 coins.",
-        "next_action": "Keep tempo clean and bank the route pressure."
+        "receipt": "Waves 26-30 clear: light cache paid 68 coins.",
+        "next_action": "Preserve food; this segment is starving recovery."
       },
       "shrine_bargain": null,
       "decision_windows": [
@@ -2048,45 +2048,45 @@
           "wave": 0,
           "segment_id": "segment_1",
           "segment_label": "Waves 1-5",
-          "reward_bias": "coins",
-          "reward_line": "Waves 1-5 clear: coin cache paid 36 coins, restored 7 HP.",
+          "reward_bias": "relic",
+          "reward_line": "Waves 1-5 clear: relic ash paid 33 coins, restored 8 HP.",
           "next_action": "Spend food before this clear, then use the receipt to reset tempo."
         },
         {
           "version": 1,
           "token_cost": 0,
-          "id": "cache_window_2",
-          "kind": "cache_window",
+          "id": "recovery_window_2",
+          "kind": "recovery_window",
           "wave": 5,
           "segment_id": "segment_2",
           "segment_label": "Waves 6-10",
-          "reward_bias": "xp",
-          "reward_line": "Waves 6-10 clear: light cache paid 43 coins.",
-          "next_action": "Push this segment if you need coin to stabilize the run."
-        },
-        {
-          "version": 1,
-          "token_cost": 0,
-          "id": "recovery_window_3",
-          "kind": "recovery_window",
-          "wave": 10,
-          "segment_id": "segment_3",
-          "segment_label": "Waves 11-15",
-          "reward_bias": "relic",
-          "reward_line": "Waves 11-15 clear: relic ash paid 58 coins, restored 8 HP.",
+          "reward_bias": "coins",
+          "reward_line": "Waves 6-10 clear: coin cache paid 50 coins, restored 8 HP.",
           "next_action": "Spend food before this clear, then use the receipt to reset tempo."
         },
         {
           "version": 1,
           "token_cost": 0,
-          "id": "cache_window_4",
-          "kind": "cache_window",
+          "id": "tempo_window_3",
+          "kind": "tempo_window",
+          "wave": 10,
+          "segment_id": "segment_3",
+          "segment_label": "Waves 11-15",
+          "reward_bias": "xp",
+          "reward_line": "Waves 11-15 clear: light cache paid 37 coins.",
+          "next_action": "Preserve supplies and keep the route clock clean."
+        },
+        {
+          "version": 1,
+          "token_cost": 0,
+          "id": "recovery_window_4",
+          "kind": "recovery_window",
           "wave": 15,
           "segment_id": "segment_4",
           "segment_label": "Waves 16-20",
-          "reward_bias": "coins",
-          "reward_line": "Waves 16-20 clear: coin cache paid 82 coins.",
-          "next_action": "Push this segment if you need coin to stabilize the run."
+          "reward_bias": "relic",
+          "reward_line": "Waves 16-20 clear: relic ash paid 48 coins, restored 8 HP.",
+          "next_action": "Spend food before this clear, then use the receipt to reset tempo."
         },
         {
           "version": 1,
@@ -2096,8 +2096,8 @@
           "wave": 20,
           "segment_id": "segment_5",
           "segment_label": "Waves 21-25",
-          "reward_bias": "xp",
-          "reward_line": "Waves 21-25 clear: light cache paid 47 coins, restored 8 HP.",
+          "reward_bias": "coins",
+          "reward_line": "Waves 21-25 clear: coin cache paid 66 coins, restored 8 HP.",
           "next_action": "Spend food before this clear, then use the receipt to reset tempo."
         },
         {
@@ -2108,8 +2108,8 @@
           "wave": 25,
           "segment_id": "segment_6",
           "segment_label": "Waves 26-30",
-          "reward_bias": "relic",
-          "reward_line": "Waves 26-30 clear: relic ash paid 67 coins.",
+          "reward_bias": "xp",
+          "reward_line": "Waves 26-30 clear: light cache paid 68 coins.",
           "next_action": "Push this segment if you need coin to stabilize the run."
         }
       ],
@@ -2120,19 +2120,19 @@
           "wave": 0,
           "segment_id": "segment_1",
           "segment_label": "Waves 1-5",
-          "reward_bias": "coins",
+          "reward_bias": "relic",
           "recovery_pressure": "open",
-          "recovery_room_chance": 0.245,
+          "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 36,
-            "heal": 7,
+            "coins": 33,
+            "heal": 8,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 1-5 clear: coin cache paid 36 coins, restored 7 HP.",
+          "receipt": "Waves 1-5 clear: relic ash paid 33 coins, restored 8 HP.",
           "next_action": "Use the recovery window before the next pressure spike."
         },
         {
@@ -2141,20 +2141,20 @@
           "wave": 5,
           "segment_id": "segment_2",
           "segment_label": "Waves 6-10",
-          "reward_bias": "xp",
+          "reward_bias": "coins",
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 43,
-            "heal": 0,
+            "coins": 50,
+            "heal": 8,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 6-10 clear: light cache paid 43 coins.",
-          "next_action": "Keep tempo clean and bank the route pressure."
+          "receipt": "Waves 6-10 clear: coin cache paid 50 coins, restored 8 HP.",
+          "next_action": "Use the recovery window before the next pressure spike."
         },
         {
           "version": 1,
@@ -2162,20 +2162,20 @@
           "wave": 10,
           "segment_id": "segment_3",
           "segment_label": "Waves 11-15",
-          "reward_bias": "relic",
+          "reward_bias": "xp",
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 58,
-            "heal": 8,
+            "coins": 37,
+            "heal": 0,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 11-15 clear: relic ash paid 58 coins, restored 8 HP.",
-          "next_action": "Use the recovery window before the next pressure spike."
+          "receipt": "Waves 11-15 clear: light cache paid 37 coins.",
+          "next_action": "Keep tempo clean and bank the route pressure."
         },
         {
           "version": 1,
@@ -2183,20 +2183,20 @@
           "wave": 15,
           "segment_id": "segment_4",
           "segment_label": "Waves 16-20",
-          "reward_bias": "coins",
+          "reward_bias": "relic",
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 82,
-            "heal": 0,
+            "coins": 48,
+            "heal": 8,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 16-20 clear: coin cache paid 82 coins.",
-          "next_action": "Keep tempo clean and bank the route pressure."
+          "receipt": "Waves 16-20 clear: relic ash paid 48 coins, restored 8 HP.",
+          "next_action": "Use the recovery window before the next pressure spike."
         },
         {
           "version": 1,
@@ -2204,19 +2204,19 @@
           "wave": 20,
           "segment_id": "segment_5",
           "segment_label": "Waves 21-25",
-          "reward_bias": "xp",
+          "reward_bias": "coins",
           "recovery_pressure": "open",
           "recovery_room_chance": 0.21,
           "shrine_bargain": null,
           "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
           "rewards": {
-            "coins": 47,
+            "coins": 66,
             "heal": 8,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 21-25 clear: light cache paid 47 coins, restored 8 HP.",
+          "receipt": "Waves 21-25 clear: coin cache paid 66 coins, restored 8 HP.",
           "next_action": "Use the recovery window before the next pressure spike."
         },
         {
@@ -2225,23 +2225,23 @@
           "wave": 25,
           "segment_id": "segment_6",
           "segment_label": "Waves 26-30",
-          "reward_bias": "relic",
-          "recovery_pressure": "guarded",
-          "recovery_room_chance": 0.175,
+          "reward_bias": "xp",
+          "recovery_pressure": "scarce",
+          "recovery_room_chance": 0.14,
           "shrine_bargain": null,
-          "shrine_bargain_hint": "Shrine bargains remain open if you keep tempo clean.",
+          "shrine_bargain_hint": "Shrines are costly; preserve supplies before bargaining.",
           "rewards": {
-            "coins": 67,
+            "coins": 68,
             "heal": 0,
             "prayer": 0,
             "items": []
           },
           "route_choice_adjustment": null,
-          "receipt": "Waves 26-30 clear: relic ash paid 67 coins.",
-          "next_action": "Keep tempo clean and bank the route pressure."
+          "receipt": "Waves 26-30 clear: light cache paid 68 coins.",
+          "next_action": "Preserve food; this segment is starving recovery."
         }
       ],
-      "summary": "Waves 16-20 carries the richest room cache; Waves 11-15 is the safest recovery window."
+      "summary": "Waves 26-30 carries the richest room cache; Waves 1-5 is the safest recovery window."
     },
     "daily_rite_route_choices": {
       "version": 1,
@@ -2309,39 +2309,10 @@
         {
           "version": 1,
           "token_cost": 0,
-          "kind": "cache_window",
+          "kind": "recovery_window",
           "wave": 5,
           "segment_id": "segment_2",
           "segment_label": "Waves 6-10",
-          "headline": "Cache window opened",
-          "recommended_choice_id": "claim_cache",
-          "reason": "Push this segment if you need coin to stabilize the run.",
-          "choices": [
-            {
-              "id": "claim_cache",
-              "label": "Claim the cache",
-              "detail": "Route around Waves 6-10's coin pressure and bank the payout.",
-              "payoff": "Best economy line; stabilizes future merchant choices.",
-              "cost": "May lose a cleaner shrine setup.",
-              "token_cost": 0
-            },
-            {
-              "id": "trade_for_tempo",
-              "label": "Trade for tempo",
-              "detail": "Use the cache as fuel for a faster next room.",
-              "payoff": "Best clear-speed line for challenge-link attempts.",
-              "cost": "Leaves less room for recovery mistakes.",
-              "token_cost": 0
-            }
-          ]
-        },
-        {
-          "version": 1,
-          "token_cost": 0,
-          "kind": "recovery_window",
-          "wave": 10,
-          "segment_id": "segment_3",
-          "segment_label": "Waves 11-15",
           "headline": "Recovery window opened",
           "recommended_choice_id": "stabilize",
           "reason": "Spend food before this clear, then use the receipt to reset tempo.",
@@ -2349,7 +2320,7 @@
             {
               "id": "stabilize",
               "label": "Stabilize",
-              "detail": "Use the recovery from Waves 11-15 before the next spike.",
+              "detail": "Use the recovery from Waves 6-10 before the next spike.",
               "payoff": "Best survival line; preserves food and Prayer.",
               "cost": "Lower immediate tempo.",
               "token_cost": 0
@@ -2367,28 +2338,57 @@
         {
           "version": 1,
           "token_cost": 0,
-          "kind": "cache_window",
-          "wave": 15,
-          "segment_id": "segment_4",
-          "segment_label": "Waves 16-20",
-          "headline": "Cache window opened",
-          "recommended_choice_id": "claim_cache",
-          "reason": "Push this segment if you need coin to stabilize the run.",
+          "kind": "tempo_window",
+          "wave": 10,
+          "segment_id": "segment_3",
+          "segment_label": "Waves 11-15",
+          "headline": "Tempo choice opened",
+          "recommended_choice_id": "hold_tempo",
+          "reason": "Preserve supplies and keep the route clock clean.",
           "choices": [
             {
-              "id": "claim_cache",
-              "label": "Claim the cache",
-              "detail": "Route around Waves 16-20's coin pressure and bank the payout.",
-              "payoff": "Best economy line; stabilizes future merchant choices.",
-              "cost": "May lose a cleaner shrine setup.",
+              "id": "hold_tempo",
+              "label": "Hold tempo",
+              "detail": "Keep Waves 11-15 clean and preserve supplies.",
+              "payoff": "Best default line when the route offers no special bargain.",
+              "cost": "No burst payout.",
               "token_cost": 0
             },
             {
-              "id": "trade_for_tempo",
-              "label": "Trade for tempo",
-              "detail": "Use the cache as fuel for a faster next room.",
-              "payoff": "Best clear-speed line for challenge-link attempts.",
-              "cost": "Leaves less room for recovery mistakes.",
+              "id": "fish_for_window",
+              "label": "Fish for the next window",
+              "detail": "Play conservatively until a recovery, cache, or shrine prompt appears.",
+              "payoff": "Best long-run line for uncertain builds.",
+              "cost": "Slower wave progression.",
+              "token_cost": 0
+            }
+          ]
+        },
+        {
+          "version": 1,
+          "token_cost": 0,
+          "kind": "recovery_window",
+          "wave": 15,
+          "segment_id": "segment_4",
+          "segment_label": "Waves 16-20",
+          "headline": "Recovery window opened",
+          "recommended_choice_id": "stabilize",
+          "reason": "Spend food before this clear, then use the receipt to reset tempo.",
+          "choices": [
+            {
+              "id": "stabilize",
+              "label": "Stabilize",
+              "detail": "Use the recovery from Waves 16-20 before the next spike.",
+              "payoff": "Best survival line; preserves food and Prayer.",
+              "cost": "Lower immediate tempo.",
+              "token_cost": 0
+            },
+            {
+              "id": "overheal_tempo",
+              "label": "Push while restored",
+              "detail": "Treat the recovery receipt as permission to take the next fight faster.",
+              "payoff": "Best score line when HP and Prayer are capped.",
+              "cost": "Punishes missed attacks harder.",
               "token_cost": 0
             }
           ]
@@ -2463,81 +2463,81 @@
     "daily_rite_stakes": {
       "version": 1,
       "segment_count": 6,
-      "highest_risk": 3,
-      "total_risk": 12,
+      "highest_risk": 4,
+      "total_risk": 14,
       "primary_stake": {
         "id": "segment_6",
         "label": "Waves 26-30",
-        "encounter": "Recovery room",
-        "reward": "starter relic",
-        "risk": 3,
-        "goal": "Use Recovery room pacing to secure starter relic.",
-        "pledge": "Take one clean reward, then reset tempo.",
-        "consequence": "Waves 26-30 can turn Recovery room into starter relic; Take one clean reward, then reset tempo."
+        "encounter": "Scout pack",
+        "reward": "food",
+        "risk": 4,
+        "goal": "Use Scout pack pacing to secure food.",
+        "pledge": "Spend supplies before pride spends them for you.",
+        "consequence": "Waves 26-30 can turn Scout pack into food; Spend supplies before pride spends them for you."
       },
       "segments": [
         {
           "id": "segment_1",
           "label": "Waves 1-5",
-          "encounter": "Scout pack",
-          "reward": "coins",
-          "risk": 1,
-          "goal": "Use Scout pack pacing to secure coins.",
+          "encounter": "Low ambush",
+          "reward": "starter relic",
+          "risk": 2,
+          "goal": "Use Low ambush pacing to secure starter relic.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 1-5 can turn Scout pack into coins; Bank light efficiently and preserve options."
+          "consequence": "Waves 1-5 can turn Low ambush into starter relic; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_2",
           "label": "Waves 6-10",
-          "encounter": "Low ambush",
-          "reward": "food",
+          "encounter": "Recovery room",
+          "reward": "coins",
           "risk": 2,
-          "goal": "Use Low ambush pacing to secure food.",
+          "goal": "Use Recovery room pacing to secure coins.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 6-10 can turn Low ambush into food; Bank light efficiently and preserve options."
+          "consequence": "Waves 6-10 can turn Recovery room into coins; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_3",
           "label": "Waves 11-15",
-          "encounter": "Recovery room",
-          "reward": "starter relic",
+          "encounter": "Scout pack",
+          "reward": "food",
           "risk": 2,
-          "goal": "Use Recovery room pacing to secure starter relic.",
+          "goal": "Use Scout pack pacing to secure food.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 11-15 can turn Recovery room into starter relic; Bank light efficiently and preserve options."
+          "consequence": "Waves 11-15 can turn Scout pack into food; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_4",
           "label": "Waves 16-20",
-          "encounter": "Scout pack",
-          "reward": "coins",
+          "encounter": "Low ambush",
+          "reward": "starter relic",
           "risk": 2,
-          "goal": "Use Scout pack pacing to secure coins.",
+          "goal": "Use Low ambush pacing to secure starter relic.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 16-20 can turn Scout pack into coins; Bank light efficiently and preserve options."
+          "consequence": "Waves 16-20 can turn Low ambush into starter relic; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_5",
           "label": "Waves 21-25",
-          "encounter": "Low ambush",
-          "reward": "food",
+          "encounter": "Recovery room",
+          "reward": "coins",
           "risk": 2,
-          "goal": "Use Low ambush pacing to secure food.",
+          "goal": "Use Recovery room pacing to secure coins.",
           "pledge": "Bank light efficiently and preserve options.",
-          "consequence": "Waves 21-25 can turn Low ambush into food; Bank light efficiently and preserve options."
+          "consequence": "Waves 21-25 can turn Recovery room into coins; Bank light efficiently and preserve options."
         },
         {
           "id": "segment_6",
           "label": "Waves 26-30",
-          "encounter": "Recovery room",
-          "reward": "starter relic",
-          "risk": 3,
-          "goal": "Use Recovery room pacing to secure starter relic.",
-          "pledge": "Take one clean reward, then reset tempo.",
-          "consequence": "Waves 26-30 can turn Recovery room into starter relic; Take one clean reward, then reset tempo."
+          "encounter": "Scout pack",
+          "reward": "food",
+          "risk": 4,
+          "goal": "Use Scout pack pacing to secure food.",
+          "pledge": "Spend supplies before pride spends them for you.",
+          "consequence": "Waves 26-30 can turn Scout pack into food; Spend supplies before pride spends them for you."
         }
       ],
-      "summary": "Clear Routes stakes: Waves 26-30 is the pressure point; Take one clean reward, then reset tempo.",
+      "summary": "Clear Routes stakes: Waves 26-30 is the pressure point; Spend supplies before pride spends them for you.",
       "token_cost": 0
     },
     "backend_readiness": {
@@ -2620,6 +2620,6 @@
       "fallback": "deterministic_chronicle",
       "input_policy": "structured_public_state_only"
     },
-    "cache_key": "season:1:day:79:sun:100:deaths:0:runs:0:graves:0:echoes:0"
+    "cache_key": "season:1:day:191:sun:100:deaths:0:runs:0:graves:0:echoes:0"
   }
 }

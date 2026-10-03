@@ -78,52 +78,70 @@ alter table public.player_echoes enable row level security;
 drop policy if exists "solara_public_daily_scores_read" on public.daily_scores;
 create policy "solara_public_daily_scores_read"
 on public.daily_scores
+as restrictive
 for select
-to anon
+to anon, authenticated
 using (coalesce(is_hidden, false) = false);
 
 drop policy if exists "solara_public_graves_read" on public.graves;
 create policy "solara_public_graves_read"
 on public.graves
+as restrictive
 for select
-to anon
+to anon, authenticated
 using (coalesce(is_hidden, false) = false);
 
 drop policy if exists "solara_public_sun_state_read" on public.sun_state;
 create policy "solara_public_sun_state_read"
 on public.sun_state
 for select
-to anon
+to anon, authenticated
 using (true);
 
 drop policy if exists "solara_public_player_echoes_read" on public.player_echoes;
 create policy "solara_public_player_echoes_read"
 on public.player_echoes
+as restrictive
 for select
-to anon
+to anon, authenticated
 using (coalesce(is_hidden, false) = false);
 
 -- Once RPCs below are deployed, anonymous direct writes should be denied.
 drop policy if exists "solara_deny_anon_daily_scores_write" on public.daily_scores;
 create policy "solara_deny_anon_daily_scores_write"
 on public.daily_scores
+as restrictive
 for insert
-to anon
+to anon, authenticated
 with check (false);
 
 drop policy if exists "solara_deny_anon_graves_write" on public.graves;
 create policy "solara_deny_anon_graves_write"
 on public.graves
+as restrictive
 for insert
-to anon
+to anon, authenticated
 with check (false);
 
 drop policy if exists "solara_deny_anon_player_echoes_write" on public.player_echoes;
 create policy "solara_deny_anon_player_echoes_write"
 on public.player_echoes
+as restrictive
 for insert
-to anon
+to anon, authenticated
 with check (false);
+
+-- Existing permissive update policies must not allow anonymous clients to bypass
+-- offering/reaction RPCs or rewrite shared sun totals.
+drop policy if exists "solara_deny_anon_graves_update" on public.graves;
+create policy "solara_deny_anon_graves_update"
+on public.graves as restrictive for update to anon, authenticated
+using (false) with check (false);
+
+drop policy if exists "solara_deny_anon_sun_state_update" on public.sun_state;
+create policy "solara_deny_anon_sun_state_update"
+on public.sun_state as restrictive for update to anon, authenticated
+using (false) with check (false);
 
 do $$
 begin
@@ -167,6 +185,30 @@ create index if not exists graves_sigil_recent_idx on public.graves (traveler_si
 create index if not exists player_echoes_recent_idx on public.player_echoes (created_at desc);
 create index if not exists player_echoes_sigil_recent_idx on public.player_echoes (traveler_sigil, created_at desc);
 
+-- Reject malformed submissions before any insert. Verifiers can safely exercise
+-- these errors without creating public test records.
+create or replace function public.solara_validate_submission(payload jsonb, p_max_wave int)
+returns void
+language plpgsql
+immutable
+set search_path = public
+as $$
+begin
+  if payload is null or jsonb_typeof(payload) <> 'object' then
+    raise exception 'Invalid submission payload';
+  end if;
+  if coalesce(payload->>'faction', '') not in ('sunkeeper', 'eclipser', 'neutral') then
+    raise exception 'Invalid submission faction';
+  end if;
+  if coalesce(payload->>'wave_reached', '') !~ '^[0-9]+$' then
+    raise exception 'Invalid submission wave';
+  end if;
+  if (payload->>'wave_reached')::numeric > p_max_wave then
+    raise exception 'Invalid submission wave';
+  end if;
+end;
+$$;
+
 create or replace function public.submit_daily_score(payload jsonb)
 returns public.daily_scores
 language plpgsql
@@ -175,9 +217,10 @@ set search_path = public
 as $$
 declare
   accepted public.daily_scores;
-  v_sigil text := solara_clean_public_text(payload->>'traveler_sigil', 24, 'NO-SIGIL');
+  v_sigil text := upper(solara_clean_public_text(payload->>'traveler_sigil', 24, 'NO-SIGIL'));
   v_recent_count int;
 begin
+  perform solara_validate_submission(payload, 30);
   select count(*)
     into v_recent_count
   from public.daily_scores
@@ -219,9 +262,17 @@ set search_path = public
 as $$
 declare
   accepted public.graves;
-  v_sigil text := solara_clean_public_text(payload->>'traveler_sigil', 24, 'NO-SIGIL');
+  v_sigil text := upper(solara_clean_public_text(payload->>'traveler_sigil', 24, 'NO-SIGIL'));
   v_recent_count int;
 begin
+  perform solara_validate_submission(payload, 999);
+  if coalesce(payload->>'x', '') !~ '^[0-9]+$'
+    or coalesce(payload->>'y', '') !~ '^[0-9]+$' then
+    raise exception 'Invalid grave coordinate';
+  end if;
+  if (payload->>'x')::numeric > 99 or (payload->>'y')::numeric > 99 then
+    raise exception 'Invalid grave coordinate';
+  end if;
   select count(*)
     into v_recent_count
   from public.graves
@@ -268,12 +319,13 @@ set search_path = public
 as $$
 declare
   accepted public.player_echoes;
-  v_sigil text := solara_clean_public_text(payload->>'traveler_sigil', 24, 'NO-SIGIL');
+  v_sigil text := upper(solara_clean_public_text(payload->>'traveler_sigil', 24, 'NO-SIGIL'));
   v_kind text := coalesce(payload->>'kind', 'oracle');
   v_recent_count int;
 begin
+  perform solara_validate_submission(payload, 999);
   if v_kind not in ('death', 'death_memory', 'roguelite', 'daily', 'oracle', 'milestone') then
-    v_kind := 'oracle';
+    raise exception 'Invalid echo kind';
   end if;
 
   select count(*)

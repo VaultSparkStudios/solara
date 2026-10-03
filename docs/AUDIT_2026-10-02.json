@@ -1,0 +1,122 @@
+{
+  "schemaVersion": "1.3",
+  "generatedAt": "2026-10-02",
+  "project": "Solara",
+  "type": "game",
+  "session": "S79",
+  "items": [
+    {
+      "id": "S79-001",
+      "title": "Validate the bundle before Pages publication and rebuild all deployment inputs",
+      "axis": "automation",
+      "tier": "high",
+      "impact": 9,
+      "innovation": 4,
+      "status": "verified",
+      "premises": [
+        {
+          "claim": "Pages deployment workflow exists",
+          "adapter": "file-exists",
+          "target": ".github/workflows/deploy-pages.yml",
+          "operator": "eq",
+          "expected": true
+        }
+      ],
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Add missing public and lockfile triggers."
+        },
+        "L2": {
+          "effortHours": 1,
+          "recipe": "Add unit and gameplay checks before artifact upload and regression tests."
+        },
+        "L3": {
+          "effortHours": 3,
+          "recipe": "Bind deployment to browser-tested staging artifact hashes."
+        }
+      }
+    },
+    {
+      "id": "S79-002",
+      "title": "Verify live backend hardening through the credential gateway",
+      "axis": "security",
+      "tier": "high",
+      "impact": 9,
+      "innovation": 5,
+      "status": "verified",
+      "premises": [
+        {
+          "claim": "Reviewed hardening SQL is available",
+          "adapter": "file-exists",
+          "target": "docs/SUPABASE_PUBLIC_WRITE_HARDENING.sql",
+          "operator": "eq",
+          "expected": true
+        }
+      ],
+      "ladder": {
+        "L1": {
+          "effortHours": 0.5,
+          "recipe": "Replace direct dotenv loading with gateway resolution."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Inspect schema and policies, apply compatible hardening transaction, verify RPC behavior and denied direct writes."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add transactional live negative tests and repeatable migration receipts."
+        }
+      }
+    },
+    {
+      "id": "S79-003",
+      "title": "Recover release records and verify staging before authorized main deployment",
+      "axis": "release integrity",
+      "tier": "high",
+      "impact": 9,
+      "innovation": 4,
+      "status": "in-progress",
+      "premises": [
+        {
+          "claim": "Session ledger is available for recovery",
+          "adapter": "file-exists",
+          "target": "context/SELF_IMPROVEMENT_LOOP.md",
+          "operator": "eq",
+          "expected": true
+        }
+      ],
+      "ladder": {
+        "L1": {
+          "effortHours": 1,
+          "recipe": "Recover public-safe records for committed auth scaffolds."
+        },
+        "L2": {
+          "effortHours": 2,
+          "recipe": "Verify Solara staging, sanitize selected product changes, close out, push main and verify production."
+        },
+        "L3": {
+          "effortHours": 4,
+          "recipe": "Add immutable bundle parity receipts and repeatable browser deployment proof."
+        }
+      }
+    }
+  ],
+  "executionLog": [
+    {
+      "id": "S79-001",
+      "status": "verification-pending",
+      "evidence": "Workflow edits and tests/deployment.test.mjs added; baseline 69 tests, smoke and Pages build passed before edits."
+    },
+    {
+      "id": "S79-002",
+      "status": "in-progress",
+      "evidence": "Gateway verifier implemented. Management API project and schema queries succeeded. Four tables have RLS; no solara_% helper functions found."
+    },
+    {
+      "id": "S79-003",
+      "status": "in-progress",
+      "evidence": "Fast-forwarded main to 139c4fb preserving local changes; identified unrelated registered staging URL and actual GitHub Pages production URL."
+    }
+  ]
+}

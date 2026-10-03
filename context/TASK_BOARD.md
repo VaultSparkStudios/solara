@@ -182,3 +182,14 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 ## Deferred to Project Agents
 
 - cross-repo item owned by another repo agent:
+
+
+## S79 release waves
+
+- Wave 1 complete: recovered the three committed auth-scaffold changes after S78 and synchronized main without losing local work.
+- Wave 2 complete: deployment checks, database validation/policies, responsive menus and gameplay layout.
+- Wave 3 in progress: production domain, sanitized main commit, verified deployment and release receipt.
+- [SIL] Completed: deployment regression tests prove validation precedes artifact publication.
+- [SIL] Completed: hash-bound rendered-pixel evidence covers menu palettes and gameplay layouts.
+
+Next product work: authenticated identity integration and separate backend staging, followed by the public launch readiness review.

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "Solara: Sunfall — A browser roguelite RPG where every player death dims a shared sun. Run the daily dungeon, leave your grave on the living map, and fight to keep the light alive.",
-  "homepage": "https://vaultsparkstudios.github.io/solara/",
+  "homepage": "https://solara.vaultsparkstudios.com/",
   "type": "module",
   "scripts": {
     "dev": "vite",

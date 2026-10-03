@@ -935,6 +935,8 @@ export default function DS(){
   const [tab,setTab]=useState("inv");
   const [mapOpen,setMapOpen]=useState(false);
   const [menuOpen,setMenuOpen]=useState(true);
+  const [menuTheme,setMenuTheme]=useState(()=>{try{return localStorage.getItem("solara_menu_theme")==="light"?"light":"dark";}catch{return "dark";}});
+  useEffect(()=>{try{localStorage.setItem("solara_menu_theme",menuTheme);}catch{/* Storage may be unavailable in private browsing. */}},[menuTheme]);
   const [onboardingStep,setOnboardingStep]=useState(null);
   const [menuSection,setMenuSection]=useState("play");
   const [panelOpen,setPanelOpen]=useState(initialPrefs.panelOpen);
@@ -3205,10 +3207,13 @@ export default function DS(){
   // positions must be divided by the scale or they land off-screen at scale>1.
   const vpW=typeof window==="undefined"?1024:window.innerWidth/(uiScale||1);
   const vpH=typeof window==="undefined"?768:window.innerHeight/(uiScale||1);
-  const defaultObjectivePosition=typeof window==="undefined"?{x:12,y:96}:{x:vpW>900?vpW-372:12,y:vpH>760?vpH-176:96};
+  const narrowViewport=typeof window!=="undefined"&&window.innerWidth<=760;
+  const worldViewportWidth=Math.max(1,vpW-(narrowViewport?0:sidePanelWidth));
+  const objectiveWidth=Math.min(340,Math.max(120,worldViewportWidth-24));
+  const defaultObjectivePosition=typeof window==="undefined"?{x:12,y:96}:{x:worldViewportWidth>900?worldViewportWidth-objectiveWidth-18:12,y:vpH>760?vpH-176:96};
   const objectiveStyle=objectivePosition?{left:objectivePosition.x,top:objectivePosition.y}:{left:defaultObjectivePosition.x,top:defaultObjectivePosition.y};
   const resetObjectivePosition=()=>setObjectivePosition(null);
-  const defaultGhostPosition=typeof window==="undefined"?{x:12,y:96}:{x:vpW>900?vpW-244:12,y:Math.max(hudHeight+18,96)};
+  const defaultGhostPosition=typeof window==="undefined"?{x:12,y:96}:{x:worldViewportWidth>900?worldViewportWidth-244:12,y:Math.max(hudHeight+18,96)};
   const ghostStyle=ghostPosition?{left:ghostPosition.x,top:ghostPosition.y}:{left:defaultGhostPosition.x,top:defaultGhostPosition.y};
   const resetGhostPosition=()=>setGhostPosition(null);
   const captureLayoutConfig=useCallback(()=>({
@@ -3335,16 +3340,16 @@ export default function DS(){
   };
 
   return (
-    <div style={{width:"100vw",height:"100vh",background:"#120604",display:"flex",flexDirection:"column",overflow:"hidden",fontFamily:"'Segoe UI',sans-serif",userSelect:"none",zoom:uiScale}}>
+    <div style={{width:`calc(100vw / ${uiScale||1})`,height:`calc(100dvh / ${uiScale||1})`,background:"#120604",display:"flex",flexDirection:"column",overflow:"hidden",fontFamily:"'Segoe UI',sans-serif",userSelect:"none",zoom:uiScale}}>
       <style>{`@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}@keyframes sunPulse{0%,100%{opacity:1;text-shadow:0 0 4px currentColor}50%{opacity:0.55;text-shadow:none}}`}</style>
       {/* HUD */}
-      <div style={{minHeight:hudHeight,background:"linear-gradient(180deg,#341209,#1c0804)",borderBottom:"2px solid #7a2010",display:"flex",alignItems:"center",padding:compactHud?"4px 10px":"6px 12px",gap:12,flexShrink:0,overflow:"hidden"}}>
-        <div style={{display:"flex",flexDirection:"column",minWidth:compactHud?160:220}}>
+      <div className="solara-hud" style={{minHeight:hudHeight,background:"linear-gradient(180deg,#341209,#1c0804)",borderBottom:"2px solid #7a2010",display:"flex",alignItems:"center",padding:compactHud?"4px 10px":"6px 12px",gap:12,flexShrink:0,overflow:"hidden"}}>
+        <div className="solara-hud-brand" style={{display:"flex",flexDirection:"column",minWidth:compactHud?160:220}}>
           <span style={{color:"#d4a030",fontWeight:900,fontSize:compactHud?17:20,letterSpacing:compactHud?2:3,fontFamily:"'Courier New',monospace",textShadow:"1px 1px 0 #7a2808,2px 2px 0 #2a0804",textTransform:"uppercase",lineHeight:1}}>Solara: Sunfall</span>
           {!compactHud&&<span style={{color:"#8f765c",fontSize:9,letterSpacing:1.2,textTransform:"uppercase"}}>Shared-sun roguelite chronicle</span>}
         </div>
         {p&&<>
-          <div style={{display:"flex",alignItems:"center",gap:compactHud?6:8,flexWrap:"wrap"}}>
+          <div className="solara-hud-stats" style={{display:"flex",alignItems:"center",gap:compactHud?6:8,flexWrap:"wrap"}}>
             <span style={{color:"#0c0",fontSize:compactHud?11:13}} title="Current health and max health">❤️{p.hp}/{p.mhp}</span>
             <span style={{color:"#4af",fontSize:compactHud?11:13}} title="Prayer points and max prayer">🙏{p.prayer}/{p.maxPrayer}</span>
             <button onClick={()=>{if(p)p.run=!p.run;fr(n=>n+1);}} style={{...hudButtonStyle,color:p.run?"#8cff88":"#aaa"}} title="Toggle run mode for faster movement at the cost of run energy" onMouseEnter={e=>showUiTooltip(e,"Run Mode","Sprint across the world faster while draining run energy.","Current: "+(p.run?"Enabled":"Disabled"))} onMouseLeave={clearUiTooltip}>{p.run?"🏃":"🚶"} {Math.floor(p.runE)}%</button>
@@ -3356,7 +3361,7 @@ export default function DS(){
             {deathMilestone&&<span style={{fontSize:8,color:"#f84",fontWeight:700,animation:"pulse 1s ease-in-out infinite",textShadow:"0 0 6px #f40"}}>☀ {deathMilestone.toLocaleString()} lives claimed</span>}
             {p.slayerTask&&<span style={{color:"#8a2020",fontSize:9}} title="Current Slayer assignment">🗡️{p.slayerTask.monster} {p.slayerTask.remaining}/{p.slayerTask.count}</span>}
           </div>
-          <div style={{marginLeft:"auto",display:"flex",gap:compactHud?4:6,alignItems:"center",flexWrap:"wrap",justifyContent:"flex-end"}}>
+          <div className="solara-hud-actions" style={{marginLeft:"auto",display:"flex",gap:compactHud?4:6,alignItems:"center",flexWrap:"wrap",justifyContent:"flex-end"}}>
             <button onClick={()=>setMenuOpen(true)} style={hudButtonStyle} title="Open the main menu and reference pages" onMouseEnter={e=>showUiTooltip(e,"Main Menu","Jump back to Play, How To Play, Knowledge Base, Features, Update Log, and front-door settings.","No progress is lost.")} onMouseLeave={clearUiTooltip}>⌂</button>
             <button onClick={()=>setShowGuide(v=>!v)} style={{...hudButtonStyle,background:showGuide?"#3a2208":"rgba(20,10,8,0.95)"}} title="Show or hide the quickstart guidance overlay" onMouseEnter={e=>showUiTooltip(e,"Quickstart Overlay","Toggles the starter coaching card while you play.","Current: "+(showGuide?"Visible":"Hidden"))} onMouseLeave={clearUiTooltip}>?</button>
             <button onClick={()=>setPanelOpen(v=>!v)} style={{...hudButtonStyle,color:panelOpen?"#f0c060":"#8a755d"}} title="Toggle utility panel (Tab)" onMouseEnter={e=>showUiTooltip(e,"Utility Panel","Collapse or reopen the right-side interface tabs.","Shortcut: Tab")} onMouseLeave={clearUiTooltip}>☰</button>
@@ -3375,7 +3380,7 @@ export default function DS(){
       <div style={{flex:1,display:"flex",overflow:"hidden",minHeight:0,position:"relative"}}>
         <div ref={viewportHostR} style={{flex:1,display:"flex",alignItems:"stretch",justifyContent:"stretch",background:"#0d0403",position:"relative",minWidth:0,overflow:"hidden"}}>
           <canvas ref={cvR} width={CW} height={CH} style={{imageRendering:"pixelated",cursor:"crosshair",width:"100%",height:"100%",display:"block",border:"2px solid #5a1808",touchAction:"none",background:"#0d0403"}} />
-          {showGuide&&p&&<div style={{position:"absolute",top:12,left:12,maxWidth:320,background:"rgba(10,4,3,0.92)",border:"1px solid rgba(200,168,78,0.35)",borderRadius:10,padding:"12px 14px",boxShadow:"0 12px 28px rgba(0,0,0,0.45)",zIndex:20}}>
+          {showGuide&&p&&<div className="solara-quickstart" style={{position:"absolute",top:12,left:12,maxWidth:320,background:"rgba(10,4,3,0.92)",border:"1px solid rgba(200,168,78,0.35)",borderRadius:10,padding:"12px 14px",boxShadow:"0 12px 28px rgba(0,0,0,0.45)",zIndex:20}}>
             <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:6,gap:12}}>
               <div>
                 <div style={{color:"#f0c060",fontSize:12,fontWeight:800,letterSpacing:1}}>QUICKSTART</div>
@@ -3400,7 +3405,7 @@ export default function DS(){
             <span style={{fontSize:8,color:"#f0c060",fontWeight:700}}>Next:</span>
             <span style={{fontSize:8,color:"#c0b3a0"}}>{guideStepLabel}</span>
           </div>}
-          {p&&objectiveState&&showObjectiveTracker&&<div onPointerDown={startObjectiveDrag} style={{position:"absolute",width:340,maxWidth:340,background:"rgba(10,4,3,0.9)",border:`1px solid ${objectiveState.accent}55`,borderRadius:12,padding:"10px 12px",boxShadow:"0 10px 26px rgba(0,0,0,0.35)",zIndex:16,cursor:"grab",touchAction:"none",...objectiveStyle}}>
+          {p&&objectiveState&&showObjectiveTracker&&<div className="solara-objective" onPointerDown={startObjectiveDrag} style={{position:"absolute",width:objectiveWidth,maxWidth:objectiveWidth,boxSizing:"border-box",background:"rgba(10,4,3,0.9)",border:`1px solid ${objectiveState.accent}55`,borderRadius:12,padding:"10px 12px",boxShadow:"0 10px 26px rgba(0,0,0,0.35)",zIndex:16,cursor:"grab",touchAction:"none",...objectiveStyle}}>
             <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",gap:10,marginBottom:4}}>
               <div style={{fontSize:9,color:objectiveState.accent,fontWeight:800,letterSpacing:1}}>OBJECTIVE TRACKER</div>
               <div style={{display:"flex",alignItems:"center",gap:6}}>
@@ -3457,7 +3462,7 @@ export default function DS(){
           </div>;})()}
         </div>
         {/* Side panel */}
-        <div style={{width:sidePanelWidth,background:"linear-gradient(180deg,#1e0a06,#180804)",borderLeft:panelOpen?"2px solid #5a1808":"none",display:"flex",flexDirection:"column",flexShrink:0,transition:"width 0.2s ease",overflow:"hidden"}}>
+        <div className="solara-utility-panel" data-open={panelOpen} style={{width:sidePanelWidth,background:"linear-gradient(180deg,#1e0a06,#180804)",borderLeft:panelOpen?"2px solid #5a1808":"none",display:"flex",flexDirection:"column",flexShrink:0,transition:"width 0.2s ease",overflow:"hidden"}}>
           <div style={{display:"flex",borderBottom:"1px solid #5a1808"}}>
             {SIDE_PANEL_TABS.map(item=>{
               const pulse=item.id==="daily"&&!playedDailyToday&&(!dailyRunRef.current||dailyRunRef.current.done);
@@ -4231,17 +4236,21 @@ export default function DS(){
           </div>
         </div>
       </div>}
-      {menuOpen&&<div style={{position:"fixed",inset:0,zIndex:400,background:"radial-gradient(circle at top, rgba(180,110,40,0.18), transparent 32%), linear-gradient(180deg, rgba(8,4,3,0.96), rgba(4,2,2,0.98))",display:"flex",alignItems:"stretch",justifyContent:"center",padding:24,boxSizing:"border-box"}}>
-        <div style={{width:"min(1160px,100%)",display:"grid",gridTemplateColumns:"260px 1fr",gap:18,minHeight:0}}>
-          <div style={{background:"rgba(18,8,6,0.92)",border:"1px solid rgba(200,168,78,0.22)",borderRadius:18,padding:18,display:"flex",flexDirection:"column",gap:12,boxShadow:"0 24px 60px rgba(0,0,0,0.35)"}}>
-            <div>
+      {menuOpen&&<div className="solara-menu" data-theme={menuTheme} style={{position:"fixed",inset:0,zIndex:400,background:"radial-gradient(circle at top, rgba(180,110,40,0.18), transparent 32%), linear-gradient(180deg, rgba(8,4,3,0.96), rgba(4,2,2,0.98))",display:"flex",alignItems:"stretch",justifyContent:"center",padding:24,boxSizing:"border-box"}}>
+        <div className="solara-menu-layout" style={{width:"min(1160px,100%)",display:"grid",gridTemplateColumns:"260px minmax(0,1fr)",gap:18,minHeight:0}}>
+          <div className="solara-menu-sidebar" style={{background:"rgba(18,8,6,0.92)",border:"1px solid rgba(200,168,78,0.22)",borderRadius:18,padding:18,display:"flex",flexDirection:"column",gap:12,boxShadow:"0 24px 60px rgba(0,0,0,0.35)"}}>
+            <div className="solara-menu-heading">
               <div style={{color:"#f0c060",fontSize:12,letterSpacing:3,fontWeight:800}}>SOLARA: SUNFALL</div>
               <div style={{color:"#ddd",fontSize:24,fontWeight:900,lineHeight:1.05,marginTop:6}}>Shared-world roguelite RPG</div>
               <div style={{color:"#8f7d68",fontSize:11,lineHeight:1.55,marginTop:8}}>Every death should matter to everyone. This front door frames the async communal version of that idea.</div>
             </div>
-            <div style={{display:"grid",gap:6}}>
-              {MENU_SECTION_ITEMS.map(sec=><button key={sec.id} onClick={()=>setMenuSection(sec.id)} style={{textAlign:"left",background:menuSection===sec.id?"linear-gradient(90deg,#3a1808,#231006)":"rgba(0,0,0,0.16)",border:"1px solid "+(menuSection===sec.id?"#c8a84e":"rgba(200,168,78,0.08)"),color:menuSection===sec.id?"#f0c060":"#b7a387",padding:"10px 12px",cursor:"pointer",borderRadius:10,fontSize:12,fontWeight:700}}>{sec.label}</button>)}
+            <div className="solara-menu-nav" style={{display:"grid",gap:6}}>
+              {MENU_SECTION_ITEMS.map(sec=><button key={sec.id} aria-pressed={menuSection===sec.id} onClick={()=>setMenuSection(sec.id)} style={{textAlign:"left",background:menuSection===sec.id?"linear-gradient(90deg,#3a1808,#231006)":"rgba(0,0,0,0.16)",border:"1px solid "+(menuSection===sec.id?"#c8a84e":"rgba(200,168,78,0.08)"),color:menuSection===sec.id?"#f0c060":"#b7a387",padding:"10px 12px",cursor:"pointer",borderRadius:10,fontSize:12,fontWeight:700}}>{sec.label}</button>)}
             </div>
+            <div className="solara-menu-appearance" role="group" aria-label="Menu appearance">
+              {['dark','light'].map(theme=><button key={theme} aria-pressed={menuTheme===theme} onClick={()=>setMenuTheme(theme)}>{theme==='dark'?'Dark menu':'Light menu'}</button>)}
+            </div>
+            <div className="solara-menu-world" style={{display:"grid",gap:12}}>
             <SharedWorldStatus title="Shared World Status" briefing={sharedWorldBriefing} compact />
             <SessionDeltaCard delta={sessionDelta} compact />
             <WorldFeedCard feed={worldFeed} compact onAction={handleWorldFeedAction} />
@@ -4255,7 +4264,8 @@ export default function DS(){
               </button>}
             </div>}
           </div>
-          <div style={{background:"rgba(10,4,3,0.9)",border:"1px solid rgba(200,168,78,0.18)",borderRadius:18,padding:22,overflow:"auto",boxShadow:"0 24px 60px rgba(0,0,0,0.35)"}}>
+            </div>
+          <div className="solara-menu-panel" style={{background:"rgba(10,4,3,0.9)",border:"1px solid rgba(200,168,78,0.18)",borderRadius:18,padding:22,overflow:"auto",boxShadow:"0 24px 60px rgba(0,0,0,0.35)"}}>
             {menuSection==="play"&&<div style={{display:"grid",gap:18}}>
               <div>
                 <div style={{color:"#f0c060",fontSize:11,letterSpacing:2,fontWeight:800}}>PLAY</div>
@@ -4323,11 +4333,16 @@ export default function DS(){
                 Show touch movement controls
               </label>
               <div style={{fontSize:12,color:"#ddd"}}>UI Scale:
-                {["S","M","L","XL"].map((sz,i)=><button key={sz} onClick={()=>{setUiScale([0.85,1,1.15,1.3][i]);}} style={{marginLeft:6,background:uiScale===[0.85,1,1.15,1.3][i]?"#5a1808":"transparent",border:"1px solid #5a2010",color:"#da0",fontSize:10,padding:"2px 6px",cursor:"pointer",borderRadius:6}}>{sz}</button>)}
+                {["S","M","L","XL"].map((sz,i)=><button key={sz} aria-pressed={uiScale===[0.85,1,1.15,1.3][i]} onClick={()=>{setUiScale([0.85,1,1.15,1.3][i]);}} style={{marginLeft:6,background:uiScale===[0.85,1,1.15,1.3][i]?"#5a1808":"transparent",border:"1px solid #5a2010",color:"#da0",fontSize:10,padding:"2px 6px",cursor:"pointer",borderRadius:6}}>{sz}</button>)}
               </div>
               <div style={{fontSize:10,color:"#8f7d68",lineHeight:1.6}}>In-world settings remain available after you enter. This screen exists so the game finally has a proper front door before runtime begins.</div>
             </div>}
           </div>
+          <footer className="solara-menu-footer">
+            <a href="https://vaultsparkstudios.com/" target="_blank" rel="noopener noreferrer">VaultSpark Studios</a>
+            <span> · © {new Date().getFullYear()} VaultSpark Studios LLC. All rights reserved.</span>
+            <div><a href="https://vaultsparkstudios.com/privacy/" target="_blank" rel="noopener noreferrer">Privacy</a> · <a href="https://vaultsparkstudios.com/terms/" target="_blank" rel="noopener noreferrer">Terms</a> · <a href="https://vaultsparkstudios.com/contact/" target="_blank" rel="noopener noreferrer">Contact</a></div>
+          </footer>
         </div>
       </div>}
       {/* Chat */}

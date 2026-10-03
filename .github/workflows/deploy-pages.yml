@@ -9,6 +9,12 @@ on:
       - ".github/workflows/deploy-pages.yml"
       - "index.html"
       - "package.json"
+      - "package-lock.json"
+      - "public/**"
+      - "tests/**"
+      - "scripts/generate-public-status.mjs"
+      - "scripts/smoke-runtime.mjs"
+      - "scripts/smoke/**"
       - "scripts/postbuild-pages.mjs"
       - "src/**"
       - "vite.config.js"
@@ -30,10 +36,12 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     env:
-      VITE_APP_BASE_PATH: /solara/
-      VITE_CANONICAL_URL: https://vaultsparkstudios.github.io/solara/
-      VITE_OG_IMAGE_URL: https://vaultsparkstudios.github.io/solara/images/cover.png
-      VITE_DOMAIN: vaultsparkstudios.github.io
+      VITE_APP_BASE_PATH: /
+      VITE_CANONICAL_URL: https://solara.vaultsparkstudios.com/
+      VITE_OG_IMAGE_URL: https://solara.vaultsparkstudios.com/images/cover.png
+      VITE_DOMAIN: solara.vaultsparkstudios.com
+      VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
       GAME_ENV: prod
     steps:
       - uses: actions/checkout@v4
@@ -48,6 +56,12 @@ jobs:
 
       - name: Build Pages bundle
         run: npm run build:pages
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Gameplay smoke test
+        run: npm run smoke
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

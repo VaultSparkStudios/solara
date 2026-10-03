@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   plugins: [react()],
-  base: "/solara/",
+  base: process.env.VITE_APP_BASE_PATH || "/",
   build: {
     target: "esnext",
     minify: "esbuild",

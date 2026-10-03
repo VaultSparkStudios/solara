@@ -1,24 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
-import { existsSync, readFileSync } from "node:fs";
+import { getSecret } from "./lib/secrets.mjs";
 import { SHARED_WORLD_RPC_CONTRACTS, SHARED_WORLD_TABLES } from "../src/game/backendContract.js";
-
-function readDotEnv(path = ".env.local") {
-  if (!existsSync(path)) {
-    return {};
-  }
-  return Object.fromEntries(
-    readFileSync(path, "utf8")
-      .split(/\r?\n/)
-      .map((line) => line.trim())
-      .filter((line) => line && !line.startsWith("#") && line.includes("="))
-      .map((line) => {
-        const index = line.indexOf("=");
-        const key = line.slice(0, index);
-        const value = line.slice(index + 1).trim().replace(/^['"]|['"]$/g, "");
-        return [key, value];
-      }),
-  );
-}
 
 function getSupabaseUrl(value) {
   if (!value) {
@@ -50,9 +32,8 @@ async function rpcExistsCheck(supabase, name, args, expectedExistingMessage) {
   };
 }
 
-const env = { ...readDotEnv(), ...process.env };
-const url = getSupabaseUrl(env.VITE_SUPABASE_URL);
-const anonKey = env.VITE_SUPABASE_ANON_KEY;
+const url = getSupabaseUrl(await getSecret("VITE_SUPABASE_URL", "solara.supabase.verify"));
+const anonKey = await getSecret("VITE_SUPABASE_ANON_KEY", "solara.supabase.verify");
 
 if (!url || !anonKey) {
   console.error("Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY.");

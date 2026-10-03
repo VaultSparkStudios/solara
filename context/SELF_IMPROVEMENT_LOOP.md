@@ -265,3 +265,25 @@ Detailed internal scoring, audit trends, and brainstorming are maintained privat
 | 8 | Ecosystem Integration | 100 | 0 | Generated public status/chronicle remains deterministic and deployable. |
 | 9 | Capital Efficiency | 97 | +1 | Touch affordances are local deterministic UI and keep browser runtime token cost at zero. |
 | 10 | Automation Coverage | 100 | 0 | Preference regression coverage was added, keeping the suite at the automation cap. |
+
+
+## 2026-10-03 — Session 79 — Total: 841/1000
+
+| Category | Score | Evidence / limits |
+|---|---:|---|
+| devHealth | 94 | Bounded runtime outcome verified on staging; full public launch readiness is not claimed. |
+| creativeAlignment | 93 | Bounded runtime outcome verified on staging; full public launch readiness is not claimed. |
+| momentum | 65 | Release took substantially longer than planned. |
+| engagement | 88 | Bounded runtime outcome verified on staging; full public launch readiness is not claimed. |
+| processQuality | 76 | Recovery and public-safe evidence complete; aggregate doctor is unmeasured. |
+| crossRepoCoherence | 80 | Bounded runtime outcome verified on staging; full public launch readiness is not claimed. |
+| securityPosture | 91 | Both-role rollback rehearsal and nine live checks; submissions still rely on bounded sigils, not authenticated identity. |
+| ecosystemIntegration | 78 | Bounded runtime outcome verified on staging; full public launch readiness is not claimed. |
+| capitalEfficiency | 85 | Bounded runtime outcome verified on staging; full public launch readiness is not claimed. |
+| automationCoverage | 91 | 71 tests, gameplay smoke, deployment-order regression coverage and pixel receipts. |
+
+Prior S78 score 994 is historical self-assessment, not evidence of launch readiness. This recalibration explicitly retains the unresolved integration and measurement work.
+
+[SIL] Delivered deployment-order regression tests and source-bound visual evidence. Next hypotheses: preserve deployment artifact parity automatically; isolate backend staging before account integration.
+
+S79 game review: Loop Tightness 82/100 (opening route, deterministic Daily Rite and saved movement verified); Retention Hook 80/100 (shared-world graves/rites present, long-term retention unmeasured); Soul Fidelity 93/100 (Solara-owned names and world palette preserved); Velocity 65/100 (release work exceeded the planned duration).

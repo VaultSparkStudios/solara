@@ -19,3 +19,6 @@ docs/cache-ledger.ndjson
 
 # Unassigned work surface — keep untracked until separately assigned (S77)
 obelisk-passport/
+
+# Local browser verification artifacts
+.playwright-cli/

@@ -102,3 +102,15 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 **Rationale:** The Hetzner/Vorn database is a different shared backend. Repointing Solara there would risk cross-project drift; a Solara-scoped Postgres connection keeps hardening precise without disturbing other projects that share Studio infrastructure.
 
 ---
+
+
+## S79 — 2026-10-03
+
+- Use a dedicated root origin for the playable runtime because the inherited /solara/ URL redirects to the Studio marketing page. Keep GitHub Pages production and a stable independent frontend staging origin.
+- Menu appearance uses explicit Dark menu/Light menu labels; it does not recolor the authored game world.
+- Restrictive policies cover both anon and authenticated roles because legacy PUBLIC permissive policies otherwise allow signed-in clients to bypass direct-write restrictions.
+- Existing account scaffolds do not constitute Obelisk adoption. No account rollout, public launch announcement or lifecycle promotion is claimed.
+- Frontend staging shares the existing shared-world backend; SQL rehearsal uses a rollback transaction. A physically separate backend staging environment remains future work.
+- Legacy public-launch and Studio-tooling checks remain separate from this bounded runtime deployment; missing project-scoped doctor tooling is unmeasured, never reported as green.
+
+S79 verification tooling note: the propagated Windows-hide checker targets Studio infrastructure roots absent from this game repo; its default scope exits unscanned, not green. Solara deployment helpers explicitly hide spawned windows. Restored the repository-local pre-push hook path after finding it pointed to a nonexistent sibling directory.

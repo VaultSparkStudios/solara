@@ -199,3 +199,8 @@ This public repo no longer carries the detailed internal work log. Internal sess
 - follow-up: added `src/game/sprites.js` terrain tile atlas (pre-rendered textured tiles blitted via drawImage with procedural fallback) + `tests/sprites.test.mjs`, DPR-scaled the full-screen world map canvas, and made the grave popup responsive (`width:min(280px,86vw)`, scrollable)
 - repo hygiene: untracked + gitignored the unassigned `obelisk-passport/` surface (preserved on disk) and added a public-safe `scripts/gmail-closeout-digest.mjs` no-op shim
 - documented in `docs/AUDIT_2026-06-12-visual-playability.md`; verified 67 unit tests, production build, and smoke runtime
+
+
+## S79 — 2026-10-03
+
+Recovered the public record for commits 836a441, d1b6923 and a1920c6: auth scaffold only, without a mounted account flow. Added deploy-before-publish validation and two regression tests, enforced bounded shared-world RPC inputs and restrictive writes for both client roles, and repaired mobile menu/HUD/viewport/panel layouts. Verified 71 tests, gameplay smoke, staging browser captures and nine live backend checks. Production promotion remains pending its exact workflow and HTTPS proof.

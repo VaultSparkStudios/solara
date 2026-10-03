@@ -137,3 +137,8 @@ Public-safe summary:
 - 2026-06-13 Session 78 audit/implement pass shipped first-class touch movement controls for Solara's browser runtime
 - touch movement controls now auto-surface on coarse-pointer devices, can be enabled from front-door and in-world settings, persist through `solara_preferences`, and move through the same walkability/path logic as keyboard input instead of a mobile user-agent-only synthetic key path
 - latest local validation: 69 unit tests passing, production build passing, smoke flow passing
+
+
+## S79 — 2026-10-03 release candidate
+
+Mobile menus, scaled viewport sizing, HUD actions, and utility-panel layout were verified in Chrome at 390×844 and 1440×1000. Dark and light menu appearance persists. Touch movement changes saved coordinates and the chronicle survives reload. Staging is https://solara.staging.vaultsparkstudios.com/. Production promotion is pending verification. Shared-world validation and restrictive write policies are deployed for anonymous and authenticated clients; nine live checks pass. Obelisk Passport remains an unmounted scaffold, not a live account flow.

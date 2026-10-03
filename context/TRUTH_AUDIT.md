@@ -141,3 +141,8 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 - active/completed Daily Rite status surfaces show offering-opened guidance without storing raw private player payloads, credentials, private Studio context, or paid generation output.
 - public shrine bargain digests include offering-intent previews only for deterministic shrine windows; spend/oath bargain postures intentionally do not create offering targets.
 - local validation passed: 64 unit tests, production build, and smoke runtime.
+
+
+## S79 — 2026-10-03
+
+Corrected stale claims: PG_CONNECTION_SOLARA absence did not prevent migration through the management API; hardening is now applied and verified. The inherited production path was a marketing redirect, not a verified game runtime. Obelisk Passport is scaffolding only. Local audience is corrected to public-unlaunched. Frontend staging isolation does not imply separate backend isolation. Aggregate doctor, Core Web Vitals, cost audit and launch readiness remain unmeasured/pending rather than green.
