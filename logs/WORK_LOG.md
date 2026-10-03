@@ -204,3 +204,8 @@ This public repo no longer carries the detailed internal work log. Internal sess
 ## S79 — 2026-10-03
 
 Recovered the public record for commits 836a441, d1b6923 and a1920c6: auth scaffold only, without a mounted account flow. Added deploy-before-publish validation and two regression tests, enforced bounded shared-world RPC inputs and restrictive writes for both client roles, and repaired mobile menu/HUD/viewport/panel layouts. Verified 71 tests, gameplay smoke, staging browser captures and nine live backend checks. Production promotion remains pending its exact workflow and HTTPS proof.
+
+
+### S79 deployment outcome
+
+Published release 7c4c379 to main and verified successful CI/Pages runs. Mirrored the exact CI artifact to stable staging and verified five served asset hashes at both origins. Recovered custom-domain HTTPS with an isolated Caddy proxy that verifies GitHub upstream TLS. Production browser checks passed both menu palettes, mobile world entry, touch action and save/reload. Native Git completion signals were unreliable; remote SHA and successful deployment runs established publication directly.

@@ -1,60 +1,68 @@
-<!-- generated-by: /closeout skill v1.3 -->
-<!-- generated-at: 2026-06-13 (Session 78 closeout) -->
+<!-- generated-by: scripts/render-closeout-board.mjs v1.1 -->
+<!-- generated-at: 2026-10-03 (Session 79 closeout) -->
 
 # Closeout Status Board — Solara
 
 ```
-╔══ SESSION CLOSEOUT · Solara · S78 ═════════════════════════════╗
-║  Date: 2026-06-13  ·  SIL: 994/1000  ·  Velocity: 1 ->           ║
+╔══ SESSION CLOSEOUT · Solara · S79 ═════════════════════════════╗
+║  Date: 2026-10-03  ·  SIL: 841/1000  ·  Velocity: 1 ->           ║
 ║  Mode: FOUNDER  ·  Agent: codex                                  ║
+║  Autopilot: unknown (S79) — receipt ledger unreadable, NOT chec  ║
+║  Live:  preview  →  https://solara.vaultsparkstudios.com/        ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WHAT SHIPPED ════════════════════════════════════════════════╗
-║  ✓ Touch movement controls are now first-class browser UI         ║
-║  ✓ Coarse-pointer devices auto-surface the D-pad                  ║
-║  ✓ Front-door + in-world settings persist the preference          ║
-║  ✓ Movement uses existing walkability/path rules                  ║
-║  ✓ Preference regression coverage added                           ║
+║  ✓ Live game: https://solara.vaultsparkstudios.com/              ║
+║  ✓ Verified staging: https://solara.staging.vaultsparkstudios.c  ║
+║  ✓ Release commit 7c4c379; CI run 37136188724 and Deploy Solara  ║
+║  ✓ All five served runtime assets match the exact CI artifact o  ║
+║  ✓ 71 tests, gameplay smoke and nine live backend checks passed  ║
 ╚════════════════════════════════════════════════════════════════╝
-╔══ SCORES · SIL 994/1000 ═══════════════════════════════════════╗
-║    Dev Health         100  ██████████                            ║
-║    Alignment          100  ██████████                            ║
-║    Momentum           100  ██████████                            ║
-║    Engagement         100  ██████████                            ║
-║    Process Qual       100  ██████████                            ║
-║    Coherence          97   ██████████                            ║
-║    Security           100  ██████████                            ║
-║    Ecosystem          100  ██████████                            ║
-║    Capital            97   ██████████                            ║
-║    Automation         100  ██████████                            ║
+╔══ SCORES · SIL 841/1000 ═══════════════════════════════════════╗
+║    Dev Health         94   █████████░                            ║
+║    Alignment          93   █████████░                            ║
+║    Momentum           65   ███████░░░                            ║
+║    Engagement         88   █████████░                            ║
+║    Process Qual       76   ████████░░                            ║
+║    Coherence          80   ████████░░                            ║
+║    Security           91   █████████░                            ║
+║    Ecosystem          78   ████████░░                            ║
+║    Capital            85   █████████░                            ║
+║    Automation         91   █████████░                            ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ WRITE-BACK STATUS ═══════════════════════════════════════════╗
 ║  ✓ context/CURRENT_STATE.md                                      ║
 ║  ✓ context/TASK_BOARD.md                                         ║
 ║  ✓ context/LATEST_HANDOFF.md                                     ║
 ║  ✓ logs/WORK_LOG.md                                              ║
-║  · context/DECISIONS.md                                          ║
+║  ✓ context/DECISIONS.md                                          ║
 ║  ✓ context/SELF_IMPROVEMENT_LOOP.md                              ║
-║  ✓ docs/CREATIVE_DIRECTION_RECORD.md                             ║
+║  · docs/CREATIVE_DIRECTION_RECORD.md                             ║
 ║  ✓ context/TRUTH_AUDIT.md                                        ║
-║  · context/PROJECT_STATUS.json                                   ║
+║  ✓ context/PROJECT_STATUS.json                                   ║
 ║  · agent memory (~/.claude/projects/<slug>/memory/)              ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ GIT STATUS ══════════════════════════════════════════════════╗
-║  Changes: pending closeout commit                                 ║
+║  Changes: 138 files  ·  M:42 A:0 D:0 ?:96                        ║
 ║  Ahead: 0  ·  Behind: 0                                          ║
 ║  Branch: main                                                    ║
+╚════════════════════════════════════════════════════════════════╝
+╔══ DEPLOYMENT ══════════════════════════════════════════════════╗
+║  Staging:  https://solara.staging.vaultsparkstudios.com/  ·  st  ║
+║  Live:     https://solara.vaultsparkstudios.com/  ·  preview/FO  ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ POST-SESSION SIGNALS ════════════════════════════════════════╗
 ║  Doctor:        —                                                ║
 ║  Compliance:    —                                                ║
-║  Tests:         69/69                                            ║
-║  IGNIS:         9d ago                                           ║
-║  Truth:         green                                            ║
+║  Tests:         71/71                                            ║
+║  Validation:    unknown                                          ║
+║  IGNIS:         107d ago                                         ║
+║  Truth:         qualified                                        ║
 ║  Sanitization:  —                                                ║
+║  shells:        unknown · missing/stale enumeration              ║
 ╚════════════════════════════════════════════════════════════════╝
 ╔══ NEXT SESSION ════════════════════════════════════════════════╗
-║  Add browser-level mobile viewport validation for touch input     ║
+║  (no genius cache — run `node scripts/cache-genius-list.mjs`)    ║
 ╚════════════════════════════════════════════════════════════════╝
 ```
 
-*Generated by `scripts/render-closeout-board.mjs v1.0`*
+*Generated by `scripts/render-closeout-board.mjs v1.1`*

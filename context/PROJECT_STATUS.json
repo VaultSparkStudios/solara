@@ -4,8 +4,8 @@
   "name": "Solara",
   "status": "active",
   "health": "amber",
-  "currentFocus": "S79: verified responsive release candidate and live shared-world hardening; production verification pending.",
-  "nextMilestone": "Verify dedicated production origin, then complete public launch readiness and Obelisk identity integration.",
+  "currentFocus": "S79: runtime deployed and verified with responsive UI, live backend enforcement, HTTPS and exact staging/production asset parity.",
+  "nextMilestone": "Complete public launch readiness, isolate backend staging, and integrate Obelisk identity before account rollout.",
   "blockers": [],
   "lastUpdated": "2026-10-03",
   "currentSession": 79,
@@ -67,6 +67,14 @@
   "stagingUrl": "https://solara.staging.vaultsparkstudios.com/",
   "productionUrl": "https://solara.vaultsparkstudios.com/",
   "launchStatus": "unannounced",
-  "releaseVerification": "pending",
-  "obeliskArchitecture": "external"
+  "releaseVerification": "verified",
+  "obeliskArchitecture": "external",
+  "runtimeUrl": "https://solara.vaultsparkstudios.com/",
+  "lastDeployment": {
+    "commit": "7c4c3793dc83870f34cf4b6b177400381c6e1d04",
+    "workflowRun": 37136188680,
+    "checkedAt": "2026-10-03T16:40:59.001Z",
+    "https": true,
+    "assetParity": true
+  }
 }

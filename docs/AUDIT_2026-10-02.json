@@ -76,7 +76,7 @@
       "tier": "high",
       "impact": 9,
       "innovation": 4,
-      "status": "in-progress",
+      "status": "verified",
       "premises": [
         {
           "claim": "Session ledger is available for recovery",
@@ -117,6 +117,11 @@
       "id": "S79-003",
       "status": "in-progress",
       "evidence": "Fast-forwarded main to 139c4fb preserving local changes; identified unrelated registered staging URL and actual GitHub Pages production URL."
+    },
+    {
+      "id": "S79-003",
+      "status": "verified",
+      "evidence": "Main 7c4c379; CI/Deploy success; exact CI artifact and all five served asset hashes match both HTTPS origins; production browser entry/touch/save checks pass."
     }
   ]
 }

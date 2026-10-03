@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "session": "S79",
-  "checkedAt": "2026-10-03T15:57:54.225Z",
-  "status": "staging-verified-production-pending",
+  "checkedAt": "2026-10-03T16:49:31.974Z",
+  "status": "runtime-deployed-verified",
   "staging": {
     "url": "https://solara.staging.vaultsparkstudios.com/",
-    "bundleSha256": "fcfbc682285ec22fbe390f6262b8cb82c89203cc2d14bec8a746aa6da4139070",
-    "release": "fcfbc682285ec22fbe39",
-    "checkedAt": "2026-10-03T15:54:45.510Z",
+    "bundleSha256": "89e20a01a91a669062c9d61a7ec04b5f744b5575cb65d1ed640cfe61e6b17a9a",
+    "release": "89e20a01a91a669062c9",
+    "checkedAt": "2026-10-03T16:36:11.717Z",
     "remoteApplied": true
   },
   "productionUrl": "https://solara.vaultsparkstudios.com/",
@@ -17,8 +17,8 @@
       "sha256": "bef52bbb129c2717a3ec5e9417d6330c0f459672e8fbd220390909be6d3ddd6a"
     },
     {
-      "file": "assets/index-CHw1RB8d.js",
-      "sha256": "2c646b2ca709f6a4e9ae51b8b1da67e9fc37e530a5173dbf79870e980d8e24b5"
+      "file": "assets/index-D88z-gc7.js",
+      "sha256": "7e6b0bfc4553a265248b3440b696c101d45b08fcf8d3f92edbe1fc0839c2e0fa"
     },
     {
       "file": "assets/menu-lore-BxjDt-bE.js",
@@ -55,5 +55,124 @@
     "Frontend staging shares the live backend.",
     "Obelisk scaffolds are unmounted.",
     "Aggregate doctor and launch readiness remain unmeasured."
-  ]
+  ],
+  "workflow": {
+    "headSha": "7c4c3793dc83870f34cf4b6b177400381c6e1d04",
+    "ciRun": 37136188724,
+    "deploymentRun": 37136188680,
+    "conclusion": "success",
+    "artifact": "github-pages"
+  },
+  "backendConfigParity": "Same normalized Supabase URL and same public key SHA-256; staging now mirrors the exact CI artifact.",
+  "production": {
+    "checkedAt": "2026-10-03T16:40:59.001Z",
+    "origin": "https://solara.vaultsparkstudios.com/",
+    "https": true,
+    "index": {
+      "status": 200,
+      "rootMounted": true,
+      "assetsReferenced": true
+    },
+    "checks": [
+      {
+        "file": "assets/index-BWhQzjLc.css",
+        "status": 200,
+        "sha256": "bef52bbb129c2717a3ec5e9417d6330c0f459672e8fbd220390909be6d3ddd6a",
+        "match": true
+      },
+      {
+        "file": "assets/index-D88z-gc7.js",
+        "status": 200,
+        "sha256": "7e6b0bfc4553a265248b3440b696c101d45b08fcf8d3f92edbe1fc0839c2e0fa",
+        "match": true
+      },
+      {
+        "file": "assets/menu-lore-BxjDt-bE.js",
+        "status": 200,
+        "sha256": "be576d15ac5b2b18a0944442697ffe77d3fc7808f3862a1706163e7ba25158fb",
+        "match": true
+      },
+      {
+        "file": "assets/supabase-CGJ36f6s.js",
+        "status": 200,
+        "sha256": "4906f1890453a107aa43a8d0dd520ec4b844ed9b5723564d985a5bcc42bf0b33",
+        "match": true
+      },
+      {
+        "file": "assets/vendor-BHJPxYn2.js",
+        "status": 200,
+        "sha256": "a1e89f7a17a802ddee619e89948b7f6f886296a91e491257d71d4dfff5dffaa9",
+        "match": true
+      }
+    ],
+    "ok": true
+  },
+  "stagingVerification": {
+    "checkedAt": "2026-10-03T16:39:04.540Z",
+    "origin": "https://solara.staging.vaultsparkstudios.com/",
+    "https": true,
+    "index": {
+      "status": 200,
+      "rootMounted": true,
+      "assetsReferenced": true
+    },
+    "checks": [
+      {
+        "file": "assets/index-BWhQzjLc.css",
+        "status": 200,
+        "sha256": "bef52bbb129c2717a3ec5e9417d6330c0f459672e8fbd220390909be6d3ddd6a",
+        "match": true
+      },
+      {
+        "file": "assets/index-D88z-gc7.js",
+        "status": 200,
+        "sha256": "7e6b0bfc4553a265248b3440b696c101d45b08fcf8d3f92edbe1fc0839c2e0fa",
+        "match": true
+      },
+      {
+        "file": "assets/menu-lore-BxjDt-bE.js",
+        "status": 200,
+        "sha256": "be576d15ac5b2b18a0944442697ffe77d3fc7808f3862a1706163e7ba25158fb",
+        "match": true
+      },
+      {
+        "file": "assets/supabase-CGJ36f6s.js",
+        "status": 200,
+        "sha256": "4906f1890453a107aa43a8d0dd520ec4b844ed9b5723564d985a5bcc42bf0b33",
+        "match": true
+      },
+      {
+        "file": "assets/vendor-BHJPxYn2.js",
+        "status": 200,
+        "sha256": "a1e89f7a17a802ddee619e89948b7f6f886296a91e491257d71d4dfff5dffaa9",
+        "match": true
+      }
+    ],
+    "ok": true
+  },
+  "productionArchitecture": {
+    "artifactOrigin": "GitHub Pages",
+    "httpsEdge": "isolated Caddy proxy on existing Studio host",
+    "upstreamTlsVerified": true
+  },
+  "browser": {
+    "desktop": true,
+    "mobile": true,
+    "darkMenu": true,
+    "lightMenu": true,
+    "worldEntry": true,
+    "touchControlAction": true,
+    "saveReload": true,
+    "consoleNotes": [
+      "Optional favicon.ico is absent (404); no runtime or CSP errors observed."
+    ]
+  },
+  "arkCargo": "01K41AAP4M31D55895A5101344",
+  "closeout": {
+    "mode": "manual public-safe writeback and scoped publication",
+    "aggregateDoctor": "unmeasured: no project-scoped local runner",
+    "creativeDirectionRecord": "unchanged: no new human creative direction",
+    "agentMemory": "updated",
+    "shellEnumeration": "total history unmeasured; known Solara Git transports ended and browser closed at closeout"
+  }
 }

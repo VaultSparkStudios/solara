@@ -146,3 +146,8 @@ Public-safe summary only. Sensitive verification notes are maintained privately.
 ## S79 — 2026-10-03
 
 Corrected stale claims: PG_CONNECTION_SOLARA absence did not prevent migration through the management API; hardening is now applied and verified. The inherited production path was a marketing redirect, not a verified game runtime. Obelisk Passport is scaffolding only. Local audience is corrected to public-unlaunched. Frontend staging isolation does not imply separate backend isolation. Aggregate doctor, Core Web Vitals, cost audit and launch readiness remain unmeasured/pending rather than green.
+
+
+### S79 final evidence
+
+Runtime deployment is now verified independently of the original push wrapper exit code. Native GitHub custom-domain certificate remains failed; the actual client HTTPS edge is the verified Caddy proxy. Production and staging now serve identical CI runtime assets. Browser checks show live async services and saved progress. Optional favicon 404 and unmeasured launch/doctor checks remain explicit.

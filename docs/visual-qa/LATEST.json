@@ -373,7 +373,68 @@
       "sha256": "0f02601026c5db89c354af69154983b652558d86858d94dc166043a8855f5aaa",
       "page": "world",
       "phase": "before"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/production-dark-1440-Play.png",
+      "sha256": "d481de1b847295cd61fbb73c1204556a3db999fb379db91ec413154a860ef5b9",
+      "page": "Play",
+      "phase": "production",
+      "url": "https://solara.vaultsparkstudios.com/"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/production-dark-390-Play.png",
+      "sha256": "407f4c19dbbe3b26ed52d35ce7d73bd3d252de5500c9bdbdc237d8c636bcad41",
+      "page": "Play",
+      "phase": "production",
+      "url": "https://solara.vaultsparkstudios.com/"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "file": "S79/production-light-1440-Play.png",
+      "sha256": "9825ea12c52206a2371175ebdfad86aae8a4a808c1a04746625e035c02a5879d",
+      "page": "Play",
+      "phase": "production",
+      "url": "https://solara.vaultsparkstudios.com/"
+    },
+    {
+      "theme": "light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/production-light-390-Play.png",
+      "sha256": "b2f25c3ee7df0dc6d4a21dcb47bbf60956dfdadb6da538c4e33cb2c486bf5e18",
+      "page": "Play",
+      "phase": "production",
+      "url": "https://solara.vaultsparkstudios.com/"
+    },
+    {
+      "theme": "dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "file": "S79/production-world-390.png",
+      "sha256": "921c3263a8fb92a425a36e048c2daa12de5f8320c5177843daeb794e3bf3e0e0",
+      "page": "world",
+      "phase": "production",
+      "url": "https://solara.vaultsparkstudios.com/"
     }
   ],
-  "sourceHashEncoding": "Git staged blob UTF-8 (LF line endings)"
+  "sourceHashEncoding": "Git staged blob UTF-8 (LF line endings)",
+  "productionReviewedAt": "2026-10-03T16:49:31.974Z"
 }

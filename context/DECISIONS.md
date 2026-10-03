@@ -114,3 +114,8 @@ Public-safe decisions only. Detailed internal decision history is maintained pri
 - Legacy public-launch and Studio-tooling checks remain separate from this bounded runtime deployment; missing project-scoped doctor tooling is unmeasured, never reported as green.
 
 S79 verification tooling note: the propagated Windows-hide checker targets Studio infrastructure roots absent from this game repo; its default scope exits unscanned, not green. Solara deployment helpers explicitly hide spawned windows. Restored the repository-local pre-push hook path after finding it pointed to a nonexistent sibling directory.
+
+
+### S79 production routing
+
+Keep GitHub Pages as the artifact publisher. Its custom-domain certificate remained in bad_authz after documented retries, so an isolated Caddy edge on the existing Studio host serves the domain with normal certificate validation and encrypted, authenticated GitHub upstream TLS. Frontend staging now mirrors the exact CI artifact. The production Supabase project-reference string and staging full URL normalize to the same endpoint, and public-key hashes match. No secret rotation was required.

@@ -193,3 +193,8 @@ Public-safe roadmap only. Detailed backlog sequencing is maintained privately.
 - [SIL] Completed: hash-bound rendered-pixel evidence covers menu palettes and gameplay layouts.
 
 Next product work: authenticated identity integration and separate backend staging, followed by the public launch readiness review.
+
+
+### S79 wave reconciliation
+
+All selected release waves complete: recovery, implementation, staging evidence, main publication, production verification and closeout. Delivered deployment regression coverage, live backend enforcement, responsive menu/gameplay fixes and runtime parity evidence. Future public-launch and account work remains roadmap work outside this deployment tranche.

@@ -142,3 +142,8 @@ Public-safe summary:
 ## S79 — 2026-10-03 release candidate
 
 Mobile menus, scaled viewport sizing, HUD actions, and utility-panel layout were verified in Chrome at 390×844 and 1440×1000. Dark and light menu appearance persists. Touch movement changes saved coordinates and the chronicle survives reload. Staging is https://solara.staging.vaultsparkstudios.com/. Production promotion is pending verification. Shared-world validation and restrictive write policies are deployed for anonymous and authenticated clients; nine live checks pass. Obelisk Passport remains an unmounted scaffold, not a live account flow.
+
+
+### S79 production verified
+
+Release 7c4c379 is on main. CI and Deploy Solara both passed. Production HTTPS, mounted app and all five runtime asset hashes match the exact CI artifact mirrored to staging. Production browser checks passed desktop/mobile menus in both palettes, world entry, touch action and saved-chronicle reload. An isolated Caddy proxy terminates domain TLS and verifies encrypted upstream GitHub Pages connections. The optional favicon is absent; full public launch readiness remains pending.
